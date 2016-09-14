@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude" status="WARN">
+
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5p %l - %m%n"/>
+      <Filters>
+      	<ThresholdFilter level="info"/>
+      </Filters>
+    </Console>
+    <RollingFile name="rmsLog" fileName="trsrms_log.txt"
+                 filePattern="$${date:yyyy-MM}/trsrms_log-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+<!--         <Pattern>%d{yyyyMMdd HH:mm:ss.SSS} %c [%t] %-5p %l - %m%n</Pattern> -->
+        <Pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%t] %-5p %l - %m%n</Pattern>
+        <!-- <Pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5p %l - %m%n</Pattern> -->
+      </PatternLayout>
+      <Filters>
+      	<ThresholdFilter level="info"/>
+      </Filters>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="20 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="20" />
+    </RollingFile>
+    
+    <RollingFile name="zxb" fileName="trsrms_zxb.txt"
+                 filePattern="$${date:yyyy-MM}/trsrms_log-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+<!--         <Pattern>%d{yyyyMMdd HH:mm:ss.SSS} %c [%t] %-5p %l - %m%n</Pattern> -->
+        <Pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%t] %-5p %l - %m%n</Pattern>
+        <!-- <Pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%t] %-5p %l - %m%n</Pattern> -->
+      </PatternLayout>
+      <Filters>
+      	<ThresholdFilter level="info"/>
+      </Filters>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="20 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="20" />
+    </RollingFile>
+    
+    <RollingFile name="errLog" fileName="trsrms_err.txt"
+                 filePattern="$${date:yyyy-MM}/trsrms_err-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+        <Pattern>%d{HH:mm:ss.SSS} [%t] %l - %m%n</Pattern>
+      </PatternLayout>
+      <Filters>
+      	<ThresholdFilter level="error"/>
+      </Filters>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10" />
+    </RollingFile>
+    
+    <RollingFile name="tempDebugLog" fileName="tempDebug_log.txt"
+                 filePattern="$${date:yyyy-MM}/tempDebug_log-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+        <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %l - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+      	<SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10" />
+    </RollingFile>
+    
+    <RollingFile name="dbcpLog" fileName="trsdbcp_log.txt"
+                 filePattern="$${date:yyyy-MM}/trsdbcp_log-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+        <Pattern>%d{HH:mm:ss.SSS} [%t] %-5p %c{1.} %M - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy />
+    </RollingFile>
+    
+    <RollingFile name="fileForSlowQuery" fileName="trsrmsslowhql_log.txt"
+                 filePattern="$${date:yyyy-MM}/trsrmsslowhql_log-%d{MM-dd-yyyy}-%i.txt">
+      <PatternLayout>
+        <Pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%t] %-5p %l - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+      	<OnStartupTriggeringPolicy />
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy max="20" />
+    </RollingFile>
+    
+    
+    <RollingFile name="EventMousedown" fileName="trsmousedown_log.txt"
+                 filePattern="heatmaplog/$${date:yyyy-MM}/trsmousedown_log-%d{yyyyMMdd}.txt">
+      <PatternLayout>
+        <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy fileIndex="max"/>
+    </RollingFile>
+  </Appenders>
+  
+  <Loggers>
+    <Logger name="com.trs.rms" level="info">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="errLog" />
+    </Logger>
+ 
+    <Root level="warn">
+      <AppenderRef ref="rmsLog"/>
+    </Root>
+  </Loggers>
+</Configuration>
