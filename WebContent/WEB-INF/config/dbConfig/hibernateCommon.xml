@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<!-- Don't edit the file! because there is common setting of Production Environment. -->
+<entry key="hibernate.hbm2ddl.auto">update</entry>
+<entry key="hibernate.bytecode.use_reflection_optimizer">true</entry>
+<entry key="hibernate.show_sql">false</entry>
+<entry key="hibernate.format_sql">true</entry>
+</properties>

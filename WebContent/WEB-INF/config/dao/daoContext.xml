@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="../spring/dbDruid.xml" />
+
+	<!-- ========================= End of DATA SOURCE ========================= -->
+	
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		
+<!-- 		<property name="packagesToScan"> -->
+<!-- 			<list> -->
+<!-- 				<value>com.trs.bas.bo.core</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+
+         <property name="mappingResources">
+            <list>
+            <value>com/trs/rms/test/bean/RmsTest.hbm.xml</value>
+            </list>
+         </property>
+
+		<property name="hibernateProperties" ref="hibernateProperties" />
+		<property name="dataSource" ref="dataSourceManager" />
+	</bean>
+	
+	   <bean id="dao" class="com.trs.rms.test.dao.RmsTestDao"></bean>
+	   <bean id="rmsTestService" class="com.trs.rms.test.service.RmsTestService">
+	      <property name="dao" ref="dao"></property>
+	   </bean>
+
+	<!--======================= 已废弃待清理的 end ===========================-->
+	
+</beans>
