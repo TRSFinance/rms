@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	 	http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	 
 
-	<context:component-scan base-package="com.trs.rms" />
-
-	<!-- creates a java.util.Properties instance hibernateProperties -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations" value="WEB-INF/config/dbConfig/rmsDB.xml" />
@@ -23,7 +28,7 @@
 		</property>
 	</bean>
 
-<bean id="dataSourceManager" class="com.alibaba.druid.pool.DruidDataSource"
+ <bean id="dataSourceManager" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="url" value="${hibernate.connection.manager.url}" />
 		<property name="username" value="${hibernate.connection.username}" />
@@ -65,29 +70,37 @@
 		<property name="hibernateProperties" ref="hibernateProperties" />
 		<property name="dataSource" ref="dataSourceManager" />
 	</bean>
-	
-	   <bean id="dao" class="com.trs.rms.test.dao.RmsTestDao"></bean>
-	   <bean id="rmsTestService" class="com.trs.rms.test.service.RmsTestService">
-	      <property name="dao" ref="dao"></property>
-	   </bean>
-		
 	  <!--  定义事务管理  --> 
 	    <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-	    <property name="sessionFactory" ref="sessionFactory">
+	    <property name="sessionFactory">
+	    	<ref local="sessionFactory"/>
 	    </property>
 	    </bean>
 	  
     <!-- 定义事务管理拦截器 --> 
-	<bean id="baseTransactionProxyBean" lazy-init="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"> 
-      <property name="transactionManager"> 
-      	<ref bean="hibernateTransactionManager" />
-      </property>
-      <property name="transactionAttributes"> 
-         <props> 
-            <prop key="*">PROPAGATION_REQUIRED</prop>
-         </props> 
-      </property> 
-   	</bean>
+<!-- 	<bean id="baseTransactionProxyBean" lazy-init="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">  -->
+<!--       <property name="transactionManager">  -->
+<!--       	<ref bean="hibernateTransactionManager" /> -->
+<!--       </property> -->
+<!--       <property name="transactionAttributes">  -->
+<!--          <props>  -->
+<!--             <prop key="*">PROPAGATION_REQUIRED</prop> -->
+<!--          </props>  -->
+<!--       </property>  -->
+<!--    	</bean> -->
+   	 <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->  
+   	 <bean id="publicDao" class="com.trs.rms.base.page.BasicDaoImpl">
+		<property name="sessionFactory">
+			<ref local="sessionFactory"/>
+		</property>
+	</bean>
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"  /> 
+   	 <!-- 扫描基本DAO层 -->  
+    <context:component-scan base-package="com.trs.rms.base.dao">
+	</context:component-scan>
+	  
+	<import resource="../service/testService.xml"/>
+   	
 	
 
 </beans>
