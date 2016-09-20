@@ -1,6 +1,6 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,12 +18,12 @@ public class RmsRole implements java.io.Serializable {
 	private static final long serialVersionUID = -471571840409868355L;
 	private Long roleId;
 	private String roleName;
-	private Timestamp createTime;
-	private Timestamp updateTime;
+	private Date createTime;
+	private Date updateTime;
 	private Integer isAllPerm;
 	private String description;
 	private Integer priority;
-	private Set rmsRolePerms = new HashSet(0);
+	private RmsRolePerm rmsRolePerm;
 	private Set rmsUserRoles = new HashSet(0);
 
 	// Constructors
@@ -33,7 +33,7 @@ public class RmsRole implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public RmsRole(String roleName, Timestamp createTime, Timestamp updateTime,
+	public RmsRole(String roleName, Date createTime, Date updateTime,
 			Integer isAllPerm) {
 		this.roleName = roleName;
 		this.createTime = createTime;
@@ -42,16 +42,16 @@ public class RmsRole implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public RmsRole(String roleName, Timestamp createTime, Timestamp updateTime,
+	public RmsRole(String roleName, Date createTime, Date updateTime,
 			Integer isAllPerm, String description, Integer priority,
-			Set rmsRolePerms, Set rmsUserRoles) {
+			RmsRolePerm rmsRolePerm, Set rmsUserRoles) {
 		this.roleName = roleName;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.isAllPerm = isAllPerm;
 		this.description = description;
 		this.priority = priority;
-		this.rmsRolePerms = rmsRolePerms;
+		this.rmsRolePerm = rmsRolePerm;
 		this.rmsUserRoles = rmsUserRoles;
 	}
 
@@ -73,19 +73,19 @@ public class RmsRole implements java.io.Serializable {
 		this.roleName = roleName;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 
@@ -113,12 +113,14 @@ public class RmsRole implements java.io.Serializable {
 		this.priority = priority;
 	}
 
-	public Set getRmsRolePerms() {
-		return this.rmsRolePerms;
+	
+
+	public RmsRolePerm getRmsRolePerm() {
+		return rmsRolePerm;
 	}
 
-	public void setRmsRolePerms(Set rmsRolePerms) {
-		this.rmsRolePerms = rmsRolePerms;
+	public void setRmsRolePerm(RmsRolePerm rmsRolePerm) {
+		this.rmsRolePerm = rmsRolePerm;
 	}
 
 	public Set getRmsUserRoles() {

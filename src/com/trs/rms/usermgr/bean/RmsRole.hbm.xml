@@ -34,12 +34,8 @@
                 <comment>优先排序</comment>
             </column>
         </property>
-        <set name="rmsRolePerms" inverse="true">
-            <key>
-                <column name="ROLE_ID" not-null="true" />
-            </key>
-            <one-to-many class="com.trs.rms.usermgr.bean.RmsRolePerm" />
-        </set>
+         <one-to-one name="rmsRolePerm" class="com.trs.rms.usermgr.bean.RmsRolePerm" cascade="all" />  
+        
         <set name="rmsUserRoles" inverse="true">
             <key>
                 <column name="ROLE_ID">

@@ -1,6 +1,6 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * RmsRolePerm entity. @author MyEclipse Persistence Tools
@@ -17,8 +17,8 @@ public class RmsRolePerm implements java.io.Serializable {
 	private Long rolePermId;
 	private RmsRole rmsRole;
 	private String rolePerms;
-	private Timestamp createTime;
-	private Timestamp updateTime;
+	private Date createTime;
+	private Date updateTime;
 
 	// Constructors
 
@@ -32,8 +32,8 @@ public class RmsRolePerm implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public RmsRolePerm(RmsRole rmsRole, String rolePerms, Timestamp createTime,
-			Timestamp updateTime) {
+	public RmsRolePerm(RmsRole rmsRole, String rolePerms, Date createTime,
+			Date updateTime) {
 		this.rmsRole = rmsRole;
 		this.rolePerms = rolePerms;
 		this.createTime = createTime;
@@ -66,19 +66,19 @@ public class RmsRolePerm implements java.io.Serializable {
 		this.rolePerms = rolePerms;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

@@ -6,13 +6,21 @@
 -->
 <hibernate-mapping>
     <class name="com.trs.rms.usermgr.bean.RmsRolePerm" table="rms_role_perm" >
-        <id name="rolePermId" type="java.lang.Long">
-            <column name="ROLE_PERM_ID" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="rmsRole" class="com.trs.rms.usermgr.bean.RmsRole" fetch="select">
-            <column name="ROLE_ID" not-null="true" />
-        </many-to-one>
+<!--         <id name="rolePermId" type="java.lang.Long"> -->
+<!--             <column name="ROLE_PERM_ID" /> -->
+<!--             <generator class="native" /> -->
+<!--         </id> -->
+      <id name="rolePermId" column="ROLE_ID" type="java.lang.Long">  
+            <generator class="foreign">  
+                <param name="property">rmsRole</param>  
+            </generator>  
+        </id>  
+
+<!--         <many-to-one name="rmsRole" class="com.trs.rms.usermgr.bean.RmsRole" fetch="select"> -->
+<!--             <column name="ROLE_ID" not-null="true" /> -->
+<!--         </many-to-one> -->
+
+        <one-to-one name="rmsRole" class="com.trs.rms.usermgr.bean.RmsRole"/>  
         <property name="rolePerms" type="java.lang.String">
             <column name="ROLE_PERMS">
                 <comment>权限列表</comment>

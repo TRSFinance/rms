@@ -1,6 +1,5 @@
 package com.trs.rms.usermgr.bean;
-
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,65 +18,52 @@ public class RmsGroup implements java.io.Serializable {
 	private Long groupId;
 	private String groupName;
 	private Integer isAllPerm;
-	private Timestamp createTime;
-	private Timestamp updateTime;
+	private Date createTime;
+	private Date updateTime;
 	private Set rmsGroupUsers = new HashSet(0);
-
 	// Constructors
-
 	/** default constructor */
 	public RmsGroup() {
 	}
-
 	/** full constructor */
-	public RmsGroup(String groupName, Integer isAllPerm, Timestamp createTime,
-			Timestamp updateTime, Set rmsGroupUsers) {
+	public RmsGroup(String groupName, Integer isAllPerm, Date createTime,
+			Date updateTime, Set rmsGroupUsers) {
 		this.groupName = groupName;
 		this.isAllPerm = isAllPerm;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 		this.rmsGroupUsers = rmsGroupUsers;
 	}
-
 	// Property accessors
-
 	public Long getGroupId() {
 		return this.groupId;
 	}
-
 	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
 	}
-
 	public String getGroupName() {
 		return this.groupName;
 	}
-
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-
 	public Integer getIsAllPerm() {
 		return this.isAllPerm;
 	}
-
 	public void setIsAllPerm(Integer isAllPerm) {
 		this.isAllPerm = isAllPerm;
 	}
-
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
-
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

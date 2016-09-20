@@ -1,13 +1,19 @@
 package com.trs.rms.usermgr.bean;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-/**
- * RmsUser entity. @author MyEclipse Persistence Tools
- */
+import org.apache.commons.lang.StringUtils;
 
+/**
+ * 用户信息
+ * @author zxh
+ * @date 2016/09/20
+ *
+ */
 public class RmsUser implements java.io.Serializable {
 
 	// Fields
@@ -22,8 +28,8 @@ public class RmsUser implements java.io.Serializable {
 	private String nickName;
 	private Integer userState;
 	private String userInfo;
-	private Timestamp createTime;
-	private Timestamp updateTime;
+	private Date createTime;
+	private Date updateTime;
 	private String createUser;
 	private String updateUser;
 	private String email;
@@ -31,8 +37,45 @@ public class RmsUser implements java.io.Serializable {
 	private Integer failCount;
 	private Set rmsUserRoles = new HashSet(0);
 	private Set rmsGroupUsers = new HashSet(0);
-
+	
+	private Set  rolePerms=new HashSet();
+    
+	
+	
+	
 	// Constructors
+
+	public Set getRolePerms() {
+		rmsUserRoles=getRmsUserRoles();
+		if(rmsUserRoles!=null&&rmsUserRoles.size()>0){
+			for (Iterator iterator = rmsGroupUsers.iterator(); iterator
+					.hasNext();) {
+				RmsUserRole rmsUserRole = (RmsUserRole) iterator.next();
+				
+				if(rmsUserRole.getRmsRole()!=null){
+					if(rmsUserRole.getRmsRole().getIsAllPerm()==1){
+						rolePerms.add("*");
+						break;
+					}
+					RmsRolePerm perm=rmsUserRole.getRmsRole().getRmsRolePerm();
+					if(perm!=null){
+						String perms=perm.getRolePerms();
+						if(StringUtils.isNotBlank(perms)){
+							String[] permsArrs = perms.split(",");
+							for (int i = 0; i < permsArrs.length; i++) {
+								rolePerms.add(permsArrs[i]);
+							}
+						}
+					}
+				}
+			}
+			
+			
+			
+		}
+		
+		return rolePerms;
+	}
 
 	/** default constructor */
 	public RmsUser() {
@@ -40,7 +83,7 @@ public class RmsUser implements java.io.Serializable {
 
 	/** minimal constructor */
 	public RmsUser(String loginName, String userPawd, Integer userState,
-			Timestamp createTime, Timestamp updateTime) {
+			Date createTime, Date updateTime) {
 		this.loginName = loginName;
 		this.userPawd = userPawd;
 		this.userState = userState;
@@ -50,8 +93,8 @@ public class RmsUser implements java.io.Serializable {
 
 	/** full constructor */
 	public RmsUser(String loginName, String userPawd, String nickName,
-			Integer userState, String userInfo, Timestamp createTime,
-			Timestamp updateTime, String createUser, String updateUser,
+			Integer userState, String userInfo, Date createTime,
+			Date updateTime, String createUser, String updateUser,
 			String email, String mobile, Integer failCount, Set rmsUserRoles,
 			Set rmsGroupUsers) {
 		this.loginName = loginName;
@@ -120,19 +163,19 @@ public class RmsUser implements java.io.Serializable {
 		this.userInfo = userInfo;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

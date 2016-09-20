@@ -54,16 +54,17 @@
 	
 	<!-- Hibernate SessionFactory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		
-<!-- 		<property name="packagesToScan"> -->
-<!-- 			<list> -->
-<!-- 				<value>com.trs.bas.bo.core</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-
          <property name="mappingResources">
             <list>
             <value>com/trs/rms/test/bean/RmsTest.hbm.xml</value>
+                          <!-- 用户权限 -->
+             <value>com/trs/rms/usermgr/bean/RmsGroup.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsGroupUser.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsRole.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsRolePerm.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsUser.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsUserRole.hbm.xml</value>
+                  
             </list>
          </property>
 
@@ -76,22 +77,31 @@
 	    	<ref local="sessionFactory"/>
 	    </property>
 	    </bean>
-	  
-    <!-- 定义事务管理拦截器 --> 
-<!-- 	<bean id="baseTransactionProxyBean" lazy-init="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">  -->
-<!--       <property name="transactionManager">  -->
-<!--       	<ref bean="hibernateTransactionManager" /> -->
-<!--       </property> -->
-<!--       <property name="transactionAttributes">  -->
-<!--          <props>  -->
-<!--             <prop key="*">PROPAGATION_REQUIRED</prop> -->
-<!--          </props>  -->
-<!--       </property>  -->
-<!--    	</bean> -->
    	 <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->  
    	 <bean id="publicDao" class="com.trs.rms.base.page.BasicDaoImpl">
 		<property name="sessionFactory">
 			<ref local="sessionFactory"/>
+		</property>
+	</bean>
+   <bean id="pwdEncoder" class="com.trs.rms.base.security.encoder.Md5PwdEncoder" />
+   <!-- google 验证码 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.border.color">105,179,90</prop>
+						<prop key="kaptcha.textproducer.font.color">red</prop>
+						<prop key="kaptcha.image.width">250</prop>
+						<prop key="kaptcha.textproducer.font.size">90</prop>
+						<prop key="kaptcha.image.height">90</prop>
+						<prop key="kaptcha.session.key">SPRING_MVC_KAPTCHA</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+					</props>
+				</constructor-arg>
+			</bean>
 		</property>
 	</bean>
     <tx:annotation-driven transaction-manager="hibernateTransactionManager"  /> 
@@ -100,7 +110,5 @@
 	</context:component-scan>
 	  
 	<import resource="../service/testService.xml"/>
-   	
-	
-
+	<import resource="../shiro/spring-shiro.xml"/>
 </beans>

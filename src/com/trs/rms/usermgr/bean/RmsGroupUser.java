@@ -1,6 +1,7 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
 
 /**
  * RmsGroupUser entity. @author MyEclipse Persistence Tools
@@ -17,7 +18,7 @@ public class RmsGroupUser implements java.io.Serializable {
 	private Long groupUserId;
 	private RmsUser rmsUser;
 	private RmsGroup rmsGroup;
-	private Timestamp createTime;
+	private Date createTime;
 
 	// Constructors
 
@@ -26,7 +27,7 @@ public class RmsGroupUser implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public RmsGroupUser(RmsUser rmsUser, RmsGroup rmsGroup, Timestamp createTime) {
+	public RmsGroupUser(RmsUser rmsUser, RmsGroup rmsGroup, Date createTime) {
 		this.rmsUser = rmsUser;
 		this.rmsGroup = rmsGroup;
 		this.createTime = createTime;
@@ -58,11 +59,11 @@ public class RmsGroupUser implements java.io.Serializable {
 		this.rmsGroup = rmsGroup;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

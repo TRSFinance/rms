@@ -47,15 +47,15 @@
 		<url-pattern>*.jsp</url-pattern>
 	</filter-mapping>
 	
-	<filter>
-		<filter-name>antiXSSFilter</filter-name>
-		<filter-class>com.trs.dev4.jdk16.filter.XSSSecurityFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>antiXSSFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-		<url-pattern>*.jsp</url-pattern>
-	</filter-mapping>
+<!-- 	<filter> -->
+<!-- 		<filter-name>antiXSSFilter</filter-name> -->
+<!-- 		<filter-class>com.trs.dev4.jdk16.filter.XSSSecurityFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>antiXSSFilter</filter-name> -->
+<!-- 		<url-pattern>*.do</url-pattern> -->
+<!-- 		<url-pattern>*.jsp</url-pattern> -->
+<!-- 	</filter-mapping> -->
    <filter-mapping>
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>*.act</url-pattern>
@@ -93,6 +93,20 @@
 		<servlet-name>test</servlet-name>
 		<url-pattern>*.act</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Admin</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/springMVC/dispatcher-admin.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Admin</servlet-name>
+		<url-pattern>/admin/*</url-pattern>
+	</servlet-mapping>
+	
 <!-- druid连接池信息查看 Begin -->
 	<filter>
 	    <filter-name>DruidWebStatFilter</filter-name>
@@ -121,39 +135,59 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 <!-- druid连接池信息查看 End -->	
-
+   <!-- 验证码开始 -->
 	<servlet>
-		<servlet-name>CodeVerifyServlet</servlet-name>
-		<servlet-class>com.trs.dev4.jdk16.verifycode.MixVerifyCodeServlet</servlet-class>
-		<init-param> <!-- 验证码长度 -->
-			<param-name>length</param-name>
+		<servlet-name>Kaptchalogin</servlet-name>
+		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+		<init-param>
+			<param-name>kaptcha.image.width</param-name>
+			<param-value>70</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.image.height</param-name>
+			<param-value>30</param-value>
+		</init-param>
+		<init-param>
+			<param-name>kaptcha.textproducer.char.length</param-name>
 			<param-value>4</param-value>
 		</init-param>
-		<init-param> <!-- 验证码类型 -->
-			<param-name>verifyCodeType</param-name>
-			<param-value>1</param-value>
+		<init-param>
+			<param-name>kaptcha.textproducer.font.size</param-name>
+			<param-value>22</param-value>
 		</init-param>
-		<init-param><!-- 验证码噪音级别 -->
-			<param-name>noiseLevel</param-name>
-			<param-value>low</param-value>
+		<init-param>       
+		    <param-name>kaptcha.textproducer.char.string</param-name>       
+		    <param-value>0123456789</param-value>       
 		</init-param>
-		<init-param> <!-- 验证码扭曲度 -->
-			<param-name>torsionResistance</param-name>
-			<param-value>low</param-value>
+	  <init-param>
+	   <param-name>kaptcha.obscurificator.impl</param-name>
+	   <param-value>com.google.code.kaptcha.impl.ShadowGimpy</param-value>
+	  </init-param>
+	    <init-param>  
+	        <param-name>kaptcha.noise.impl</param-name>  
+	        <param-value>com.google.code.kaptcha.impl.NoNoise </param-value>  
+	    </init-param>  
+		<init-param>
+			<param-name>kaptcha.session.key</param-name>
+			<param-value>CAPTCHA_SESSION_KEY</param-value>
 		</init-param>
-		<init-param> <!-- 验证码背景图片高度 -->
-			<param-name>pictureHeight</param-name>
-			<param-value>40</param-value>
+		<init-param>
+			<param-name>kaptcha.session.date</param-name>
+			<param-value>CAPTCHA_SESSION_DATE</param-value>
 		</init-param>
-		<init-param> <!-- 验证码背景图片宽度 -->
-			<param-name>pictureWidth</param-name>
-			<param-value>80</param-value>
-		</init-param>
+		
+        <init-param>  
+            <param-name>kaptcha.textproducer.font.names</param-name>  
+            <param-value>宋体,楷体,微软雅黑</param-value>  
+        </init-param>  
+		<load-on-startup>3</load-on-startup>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>CodeVerifyServlet</servlet-name>
-		<url-pattern>*.code</url-pattern>
-	</servlet-mapping>
+   
+	 <servlet-mapping>
+	  <servlet-name>Kaptchalogin</servlet-name>
+	  <url-pattern>/kaptcha/kaptchalogin.jpg</url-pattern>
+	 </servlet-mapping>
+   
    
 	 <filter-mapping>
 		<filter-name>sessionViewFilter</filter-name>

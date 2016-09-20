@@ -20,13 +20,13 @@
 
 
 <!--简单url映射, 集中配置bean的id对应 的url -->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <props>
-                <prop key="/admin/rmsTestAct.act">rmsTestAct</prop>
-            </props>
-        </property>
-    </bean>
+<!--     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> -->
+<!--         <property name="mappings"> -->
+<!--             <props> -->
+<!--                 <prop key="/admin/rmsTestAct.act">rmsTestAct</prop> -->
+<!--             </props> -->
+<!--         </property> -->
+<!--     </bean> -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/test/" />
 		<property name="suffix" value=".jsp" />

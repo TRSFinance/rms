@@ -1,6 +1,6 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * RmsUserRole entity. @author MyEclipse Persistence Tools
@@ -17,8 +17,8 @@ public class RmsUserRole implements java.io.Serializable {
 	private Long userRoleId;
 	private RmsUser rmsUser;
 	private RmsRole rmsRole;
-	private Timestamp createTime;
-	private Timestamp updateTime;
+	private Date createTime;
+	private Date updateTime;
 
 	// Constructors
 
@@ -27,8 +27,8 @@ public class RmsUserRole implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public RmsUserRole(RmsUser rmsUser, RmsRole rmsRole, Timestamp createTime,
-			Timestamp updateTime) {
+	public RmsUserRole(RmsUser rmsUser, RmsRole rmsRole, Date createTime,
+			Date updateTime) {
 		this.rmsUser = rmsUser;
 		this.rmsRole = rmsRole;
 		this.createTime = createTime;
@@ -61,19 +61,19 @@ public class RmsUserRole implements java.io.Serializable {
 		this.rmsRole = rmsRole;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

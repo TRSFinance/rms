@@ -70,13 +70,13 @@
                 <comment>登录失败次数</comment>
             </column>
         </property>
-        <set name="rmsUserRoles" inverse="true">
+        <set name="rmsUserRoles"  inverse="true" cascade="delete">
             <key>
                 <column name="USER_ID" />
             </key>
             <one-to-many class="com.trs.rms.usermgr.bean.RmsUserRole" />
         </set>
-        <set name="rmsGroupUsers" inverse="true">
+        <set name="rmsGroupUsers" inverse="true" cascade="delete">
             <key>
                 <column name="USER_ID" not-null="true">
                     <comment>用户ID</comment>
