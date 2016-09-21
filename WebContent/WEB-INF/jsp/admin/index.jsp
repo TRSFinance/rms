@@ -19,7 +19,7 @@
 </head>
 <body>
 hasgdjsajdlksajfkahdfjhafdjhakjfd
-<div>${sessionScope.SPRING_MVC_KAPTCHA}_${sessionScope.CAPTCHA_SESSION_KEY}_
+<div>${sessionScope.CAPTCHA_SESSION_KEY}_
 
 <%=request.getAttribute("KAPTCHAMVC") %>
 

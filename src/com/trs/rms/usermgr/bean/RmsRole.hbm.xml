@@ -34,7 +34,7 @@
                 <comment>优先排序</comment>
             </column>
         </property>
-         <one-to-one name="rmsRolePerm" class="com.trs.rms.usermgr.bean.RmsRolePerm" cascade="all" />  
+       <one-to-one name="rmsRolePerm" class="com.trs.rms.usermgr.bean.RmsRolePerm"   cascade="delete" />  
         
         <set name="rmsUserRoles" inverse="true">
             <key>

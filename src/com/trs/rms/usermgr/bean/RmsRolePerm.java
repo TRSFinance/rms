@@ -82,4 +82,7 @@ public class RmsRolePerm implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
+	
+	
+
 }

@@ -131,4 +131,6 @@ public class RmsRole implements java.io.Serializable {
 		this.rmsUserRoles = rmsUserRoles;
 	}
 
+	
+
 }

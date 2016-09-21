@@ -76,12 +76,14 @@ public interface IDao {
 	public void merge(Object obj);
 	/**
 	 * 修改一条数据
+	 * 支持delete和updateSS
 	 * @param Sql
 	 * @param paramList
 	 */
 	public void updateSql(final String Sql,final List  paramList);
 	/**
 	 * 修改一条数据
+	 * 支持delete和updateSS
 	 * @param hql
 	 * @param paramList
 	 */
