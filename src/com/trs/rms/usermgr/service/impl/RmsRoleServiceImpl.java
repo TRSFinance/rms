@@ -1,12 +1,16 @@
 package com.trs.rms.usermgr.service.impl;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.trs.rms.base.dao.IDao;
 import com.trs.rms.base.service.BasicServicveImpl;
 import com.trs.rms.usermgr.bean.RmsRole;
 import com.trs.rms.usermgr.bean.RmsRolePerm;
+import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.service.RmsRoleService;
 @Service
 @Transactional
@@ -24,11 +28,19 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 			System.out.println(rmsRole.getRoleName());
 			RmsRolePerm rp = rmsRole.getRmsRolePerm();
 			System.out.println(rp.getUpdateTime());
-			RmsRole rmsRole2 = (RmsRole) dao.queryById(RmsRole.class, 2L);
-			RmsRolePerm rp2 = rmsRole2.getRmsRolePerm();
-			System.out.println(rp2.getUpdateTime());
+			RmsUser rmsUser = (RmsUser) dao.queryById(RmsUser.class, 1L);
 			
-			dao.delete(rmsRole2);
+			RmsUser rmsUser2 = (RmsUser) dao.queryById(RmsUser.class, 2L);
+			
+			RmsUser rmsUser3 = (RmsUser) dao.queryById(RmsUser.class, 3L);
+
+			Set perms = rmsUser.getRolePerms();
+
+			System.out.println(perms.size());
+			//RmsRole rmsRole2 = new RmsRole("超级管理员", new Date(), new Date(), 1);
+			//RmsRolePerm rpw = new RmsRolePerm(rmsRole2, "", new Date(), new Date());
+			//dao.save(rmsRole2);
+			//dao.save(rpw);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

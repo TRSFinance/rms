@@ -60,6 +60,7 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>*.act</url-pattern>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>/druid/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>

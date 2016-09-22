@@ -51,6 +51,7 @@ public class PortalRealm extends AuthorizingRealm {
 		if (!StringUtils.isBlank(username)) {
 			RmsUser user = this.userService.findByUsername(username);
 			if ((user != null) ) {
+
 				SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
 					Set perms = user.getRolePerms();
 					if (!CollectionUtils.isEmpty(perms)) {
@@ -65,6 +66,8 @@ public class PortalRealm extends AuthorizingRealm {
 		return null;
 	}
 
+	
+	
 	@Autowired
 	public void setUserService(RmsUserService userService) {
 		this.userService = userService;

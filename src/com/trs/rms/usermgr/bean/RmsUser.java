@@ -48,7 +48,7 @@ public class RmsUser implements java.io.Serializable {
 	public Set getRolePerms() {
 		rmsUserRoles=getRmsUserRoles();
 		if(rmsUserRoles!=null&&rmsUserRoles.size()>0){
-			for (Iterator iterator = rmsGroupUsers.iterator(); iterator
+			for (Iterator iterator = rmsUserRoles.iterator(); iterator
 					.hasNext();) {
 				RmsUserRole rmsUserRole = (RmsUserRole) iterator.next();
 				

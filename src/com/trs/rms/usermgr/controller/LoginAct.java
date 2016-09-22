@@ -38,7 +38,6 @@ public class LoginAct {
 	   public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model)
 	   {
 		   model.addAttribute("KAPTCHAMVC", request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY));
-	       System.out.println(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY));
 		   return "index";
 	   }
 	   @RequestMapping(value={"/login.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
