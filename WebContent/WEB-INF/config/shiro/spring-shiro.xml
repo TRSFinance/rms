@@ -35,6 +35,7 @@
 				/admin/login.jpg = anon
 				/admin/logout.do = logout
 				/admin/index.do = perm
+				/druid/** = perm
 				/admin/** = perm
 			</value>
 		</property>
