@@ -70,6 +70,11 @@
                 <comment>登录失败次数</comment>
             </column>
         </property>
+          <property name="userType" type="java.lang.Integer">
+            <column name="USER_TYPE">
+                <comment>用户类型1:管理用户2:企业用户3:会员用户</comment>
+            </column>
+        </property>
         <set name="rmsUserRoles"  inverse="true" cascade="delete">
             <key>
                 <column name="USER_ID" />
@@ -84,5 +89,7 @@
             </key>
             <one-to-many class="com.trs.rms.usermgr.bean.RmsGroupUser" />
         </set>
+         <one-to-one name="rmsCorporateUser" class="com.trs.rms.company.bean.RmsCorporateUser"></one-to-one>
+        
     </class>
 </hibernate-mapping>

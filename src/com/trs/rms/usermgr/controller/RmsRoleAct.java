@@ -19,6 +19,7 @@ public class RmsRoleAct {
 		return "role/test2";
 
 	}
+	
 	@RequiresPermissions({"admin:role:test2"})
 	@RequestMapping(value={"/test2.do"})
 	public String  test2(){

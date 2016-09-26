@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.trs.rms.company.bean.RmsCorporateUser;
+
 /**
  * 用户信息
  * @author zxh
@@ -39,7 +41,8 @@ public class RmsUser implements java.io.Serializable {
 	private Set rmsGroupUsers = new HashSet(0);
 	
 	private Set  rolePerms=new HashSet();
-    
+	private RmsCorporateUser rmsCorporateUser;
+    private Integer   userType=1;
 	
 	
 	
@@ -234,5 +237,23 @@ public class RmsUser implements java.io.Serializable {
 	public void setRmsGroupUsers(Set rmsGroupUsers) {
 		this.rmsGroupUsers = rmsGroupUsers;
 	}
+
+	public RmsCorporateUser getRmsCorporateUser() {
+		return rmsCorporateUser;
+	}
+
+	public void setRmsCorporateUser(RmsCorporateUser rmsCorporateUser) {
+		this.rmsCorporateUser = rmsCorporateUser;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
+	}
+	
+	
 
 }
