@@ -9,7 +9,6 @@ public class RmsCompanyInfoAct {
 	
 	//v_add
 	
-	
 	//add
 	//v_edit
 	//edit
