@@ -56,13 +56,20 @@
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
          <property name="mappingResources">
             <list>
+              <!-- 测试 -->
             <value>com/trs/rms/test/bean/RmsTest.hbm.xml</value>
-                          <!-- 用户权限 -->
+             <!-- 企业名单 -->
+             <value>com/trs/rms/company/bean/RmsCompanyInfo.hbm.xml</value>
+             <value>com/trs/rms/company/bean/RmsCompanyTrigger.hbm.xml</value>
+             <value>com/trs/rms/company/bean/RmsCorporateUser.hbm.xml</value>
+            
+              <!-- 用户权限 -->
              <value>com/trs/rms/usermgr/bean/RmsGroup.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsGroupUser.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsRole.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsRolePerm.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUser.hbm.xml</value>
+             <value>com/trs/rms/usermgr/bean/RmsUserLog.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUserRole.hbm.xml</value>
                   
             </list>
