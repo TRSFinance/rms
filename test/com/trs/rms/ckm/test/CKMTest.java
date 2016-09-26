@@ -224,7 +224,7 @@ public class CKMTest
   * 规则分类接口测试
   * */
  public void RuleCatTest(String sContent) throws Exception
- {
+ { 
 	 if(sContent==null || sContent.equals(""))
 	 {
 		 return;
