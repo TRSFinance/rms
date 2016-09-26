@@ -226,7 +226,7 @@ public class CKMTest
  public void RuleCatTest(String sContent) throws Exception
  { 
 	 if(sContent==null || sContent.equals(""))
-	 {
+	 { 
 		 return;
 	 }
 	 RuleCATField[] field=new RuleCATField[1];
