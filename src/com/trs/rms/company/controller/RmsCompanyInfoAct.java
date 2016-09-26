@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RmsCompanyInfoAct {
 	
 	//v_add
+	
+	
 	//add
 	//v_edit
 	//edit
