@@ -13,6 +13,58 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
        <%@include file="../../common/jscss.jsp" %>
+       <script type="text/javascript">
+       $(document).ready(function () {
+       $(".datatable").dataTable({
+              "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
+    	      "oLanguage" : { // 汉化
+    	        "sProcessing" : "正在加载数据...",
+    	        "sLengthMenu" : "显示_MENU_条 ",
+    	        "sZeroRecords" : "没有您要搜索的内容",
+    	        "sInfo" : "从_START_ 到 _END_ 条记录——总记录数为 _TOTAL_ 条",
+    	        "sInfoEmpty" : "记录数为0",
+    	        "sInfoFiltered" : "(全部记录数 _MAX_  条)",
+    	        "sInfoPostFix" : "",
+    	        "sSearch" : "搜索",
+    	        "sUrl" : "",
+    	        "oPaginate" : {
+    	          "sFirst" : "第一页",
+    	          "sPrevious" : " 上一页 ",
+    	          "sNext" : " 下一页 ",
+    	          "sLast" : " 最后一页 "
+    	        }
+    	      },
+    	      "bJQueryUI": true,
+    	      "bPaginate" : true,// 分页按钮
+    	      "bFilter" : true,// 搜索栏
+    	      "bLengthChange" : false,// 每行显示记录数
+    	      "iDisplayLength" : 20,// 每页显示行数
+    	      "bSort" : false,// 排序
+    	      //"aLengthMenu": [[50,100,500,1000,10000], [50,100,500,1000,10000]],//定义每页显示数据数量
+    	      //"iScrollLoadGap":400,//用于指定当DataTable设置为滚动时，最多可以一屏显示多少条数据
+    	      //"aaSorting": [[4, "desc"]],
+    	      "bInfo" : true,// Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息
+    	      "bWidth":true,
+    	     
+    	     "bScrollCollapse": true,
+    	      "sPaginationType" : "bootstrap", // 分页，一共两种样式 另一种为two_button // 是datatables默认
+    	      "bProcessing" : true,
+    	      "bServerSide" : true,
+    	      "bDestroy": true,
+    	      "bSortCellsTop": true,	
+    	      "sAjaxSource": '<%=ctx%>/admin/rmsUser/o_ajax_list.do', 
+    	      "sServerMethod": "POST",  
+    	      "aoColumns": [  
+    	                   { "mDataProp": "rmsUser.loginName"},  
+    	                   { "mDataProp": "rmsUser.nickName"},  
+    	                    { "mDataProp": "rmsUser.userState"},  
+    	                   { "mDataProp": "rmsUser.createTime"},  
+    	                   { "mDataProp": "rmsUser.updateTime"}]
+    	       
+    	    });
+       
+       });
+       </script>
 	</head>
 
 	<body>
@@ -36,7 +88,7 @@
 							<div class="box-inner" id="com-list">
 								<div class="com-add"><button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>新增用户</button></div>
 								<div class="box-content">
-									<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+									<table class="table table-striped table-bordered  datatable ">
 										<thead>
 											<!--  表头信息开始  -->
 											<tr>
@@ -49,25 +101,6 @@
 											<!--  表头信息结束 -->
 										</thead>
 										<tbody>
-											<!--  任务循环开始  -->
-											<tr>
-												<td>1</td>
-												<td>用户1</td>
-												<td>激活</td>
-												<td>2016</td>
-												<td class="center font-right">
-													<a class="btn btn-success btn-sm" href="#">
-														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
-													</a>
-													<a class="btn btn-info btn-sm btn-adduser" href="#">
-														<i class="glyphicon glyphicon-edit icon-white"></i>修改
-													</a>
-													<a class="btn btn-danger btn-sm btn-warn" href="#">
-														<i class="glyphicon glyphicon-trash icon-white"></i>删除
-													</a>
-												</td>
-											</tr>
-											<!--  任务循环结束  -->
 											
 											
 
@@ -163,7 +196,7 @@
 			<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 		         aria-hidden="true" style="z-index: 9999;">		         
 		        <div class="modal-dialog" style="z-index: 9999;">
-		            <p style="text-align: center;"><img src="img/loading.gif" /></p>
+		            <p style="text-align: center;"><img src="<%=ctx %>/style/img/loading.gif" /></p>
 		        </div>
 		    </div>
 		    <!-- 保存浮层结束-->

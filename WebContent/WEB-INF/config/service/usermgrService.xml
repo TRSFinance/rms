@@ -12,13 +12,12 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 	 
-	<!-- 扫描分页 --> 
-	<context:component-scan base-package="com.trs.rms.test.page">
+    <!-- 扫描分页 --> 
+	<context:component-scan base-package="com.trs.rms.usermgr.page">
 	</context:component-scan>
 	<!-- 扫描Service层 --> 
-	<context:component-scan base-package="com.trs.rms.test.service">
+    <context:component-scan base-package="com.trs.rms.usermgr.service.impl">
 	</context:component-scan>
-
 
 	
 

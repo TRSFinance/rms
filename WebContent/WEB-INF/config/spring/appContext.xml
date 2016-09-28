@@ -115,7 +115,7 @@
    	 <!-- 扫描基本DAO层 -->  
     <context:component-scan base-package="com.trs.rms.base.dao">
 	</context:component-scan>
-	  
+	<import resource="../service/usermgrService.xml"/>
 	<import resource="../service/testService.xml"/>
 	<import resource="../shiro/spring-shiro.xml"/>
 </beans>

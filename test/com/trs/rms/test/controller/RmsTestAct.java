@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class RmsTestAct extends AbstractController {
 
 		System.out.println("我是控制层！");
 		rmsTestService.test();
+		HttpSession session = arg0.getSession();
+		session.setAttribute("", "");
 		return  new ModelAndView("index");  
 	}
 @RequestMapping("/test.act")	

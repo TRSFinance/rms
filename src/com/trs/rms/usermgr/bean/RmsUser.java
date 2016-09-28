@@ -1,13 +1,10 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
-
 import com.trs.rms.company.bean.RmsCorporateUser;
 
 /**
@@ -252,6 +249,17 @@ public class RmsUser implements java.io.Serializable {
 
 	public void setUserType(Integer userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public String toString() {
+		return "RmsUser [userId=" + userId + ", loginName=" + loginName
+				+ ", userPawd=" + userPawd + ", nickName=" + nickName
+				+ ", userState=" + userState + ", userInfo=" + userInfo
+				+ ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ ", createUser=" + createUser + ", updateUser=" + updateUser
+				+ ", email=" + email + ", mobile=" + mobile + ", failCount="
+				+ failCount + ", userType=" + userType + "]";
 	}
 	
 	

@@ -83,7 +83,7 @@ $(document).ready(function () {
         $a.parent("li").siblings().children("a").removeClass("active");
     });
 
-    docReady();
+   // docReady();
         
 });
 
