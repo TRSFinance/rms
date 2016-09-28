@@ -11,7 +11,7 @@
 	    <script src="../../style/js/html5shiv.min.js"></script>
 	    <script src="../../style/js/respond.min.js"></script>
 	 <![endif]-->
-
+	<script src="../../plug/jquery/validate/v1.1.2/jquery-validate.min.js"></script>
     <script src="../../style/js/bootstrap.min.js"></script>
 	<!-- library for making tables responsive -->
 	<script src="../../style/js/responsive-tables.js"></script>
