@@ -78,5 +78,15 @@
         <property name="stockCode" type="java.lang.String">
             <column name="STOCK_CODE" length="50" />
         </property>
+         <set name="corporateCusts" inverse="true" lazy="true"  cascade="all,delete-orphan">
+            <key>
+                <column name="CUST_ID" not-null="true">
+                    <comment>企业名单ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.trs.rms.company.bean.RmsCorporateCust" />
+        </set>
+        
+        
     </class>
 </hibernate-mapping>

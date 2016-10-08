@@ -62,7 +62,7 @@
              <value>com/trs/rms/company/bean/RmsCompanyInfo.hbm.xml</value>
              <value>com/trs/rms/company/bean/RmsCompanyTrigger.hbm.xml</value>
              <value>com/trs/rms/company/bean/RmsCorporateUser.hbm.xml</value>
-            
+             <value>com/trs/rms/company/bean/RmsCorporateCust.hbm.xml</value>
               <!-- 用户权限 -->
              <value>com/trs/rms/usermgr/bean/RmsGroup.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsGroupUser.hbm.xml</value>

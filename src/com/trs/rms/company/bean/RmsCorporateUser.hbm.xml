@@ -46,5 +46,14 @@
                 <comment>修改时间</comment>
             </column>
         </property>
+          <set name="corporateCusts" inverse="true" lazy="true"  cascade="all,delete-orphan">
+            <key>
+                <column name="USER_ID" not-null="true">
+                    <comment>企业用户ID</comment>
+                </column>
+            </key>
+            <one-to-many class="com.trs.rms.company.bean.RmsCorporateCust" />
+        </set>
+        
     </class>
 </hibernate-mapping>

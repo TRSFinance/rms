@@ -1,7 +1,10 @@
 package com.trs.rms.company.bean;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.trs.rms.usermgr.bean.RmsUser;
 
@@ -26,6 +29,8 @@ public class RmsCorporateUser implements java.io.Serializable {
 	private String corporateInf;
 	private Date createTime;
 	private Date updateTime;
+	private Set<RmsCorporateCust>  corporateCusts=new HashSet<RmsCorporateCust>();
+
 
 	// Constructors
 
@@ -129,5 +134,16 @@ public class RmsCorporateUser implements java.io.Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	public Set<RmsCorporateCust> getCorporateCusts() {
+		return corporateCusts;
+	}
+
+	public void setCorporateCusts(Set<RmsCorporateCust> corporateCusts) {
+		this.corporateCusts = corporateCusts;
+	}
+
+
+	
 
 }

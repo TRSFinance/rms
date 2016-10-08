@@ -1,7 +1,11 @@
 package com.trs.rms.company.bean;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * RmsCompanyInfo entity. @author MyEclipse Persistence Tools
@@ -36,6 +40,7 @@ public class RmsCompanyInfo implements java.io.Serializable {
 	private String icCode;
 	private String taxCode;
 	private String stockCode;
+	private Set<RmsCorporateCust>  corporateCusts=new HashSet<RmsCorporateCust>();
 
 	// Constructors
 
@@ -263,5 +268,15 @@ public class RmsCompanyInfo implements java.io.Serializable {
 	public void setStockCode(String stockCode) {
 		this.stockCode = stockCode;
 	}
+
+	public Set<RmsCorporateCust> getCorporateCusts() {
+		return corporateCusts;
+	}
+
+	public void setCorporateCusts(Set<RmsCorporateCust> corporateCusts) {
+		this.corporateCusts = corporateCusts;
+	}
+
+
 
 }
