@@ -8,6 +8,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <%@include file="../common/jscss.jsp" %>
+<script type="text/javascript">
+window.location.href="<%=ctx%>/admin/rmsUser/list.do";
+</script>
 <title>管理员</title>
 </head>
 <body>

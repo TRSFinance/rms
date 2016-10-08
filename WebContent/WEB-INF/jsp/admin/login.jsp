@@ -16,26 +16,59 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>登录</title>
+  <%@include file="../common/jscss.jsp" %>
+  <link href="<%=ctx %>/style/css/rms-app.css" rel="stylesheet">
 <script type="text/javascript">
 
 </script>
 </head>
 <body>
-<img alt="你大爷" src="<%=ctx%>/kaptcha/kaptchalogin.jpg">
-<c:if test="${!success}">
-   ${msg}
-</c:if>
-<form action="<%=ctx%>/admin/login.do"  method="post">
-用户名：<input name="username"  value="admin" type="text">
-密码：<input name="password" value="trsadmin" type="password">
-<input type="submit"  value="提交">
-</form>
+<div class="ch-container">
+    <div class="row">
+        
+    <div class="row">
+        <div class="col-md-12 center login-header">
+            <h2>欢迎访问风控管理系统</h2>
+        </div>
+        <!--/span-->
+    </div><!--/row-->
 
-<div>
-<img alt="他大爷" src="<%=ctx%>/admin/login.jpg">
+    <div class="row">
+        <div class="well col-md-5 center login-box">
+          
+        <c:if test="${!success}">
+            <div class="alert alert-info">
+			
+			   ${msg}
+			         
+			</div>
+			</c:if>   
+            <form class="form-horizontal" action="<%=ctx%>/admin/login.do" method="post">
+                <fieldset>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                        <input type="text" class="form-control" placeholder="Username"  name="username"  value="root">
+                    </div>
+                    <div class="clearfix"></div><br>
 
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+                        <input type="password" class="form-control" placeholder="Password" name="password"  value="trsadmin">
+                    </div>
+                    <div class="clearfix"></div>
 
-</div>
-<div>${sessionScope.SPRING_MVC_KAPTCHA}_${sessionScope.CAPTCHA_SESSION_KEY}</div>
+                    <div class="clearfix"></div>
+
+                    <p class="center col-md-5">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+        <!--/span-->
+    </div><!--/row-->
+</div><!--/fluid-row-->
+
+</div><!--/.fluid-container-->
 </body>
 </html>

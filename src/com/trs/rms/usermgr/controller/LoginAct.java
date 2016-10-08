@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.code.kaptcha.Constants;
@@ -31,6 +32,10 @@ public class LoginAct {
 	   @RequestMapping(value={"/login.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
 	   public String input(HttpServletRequest request, HttpServletResponse response, ModelMap model)
 	   {
+		
+		   model.addAttribute("msg", "请输入用户名密码！");
+		   model.addAttribute("success", false);
+		   
 	     return "login";
 	   }
 	   
@@ -47,40 +52,43 @@ public class LoginAct {
 	     UsernamePasswordToken token = new UsernamePasswordToken(username, 
 	       this.pwdEncoder.encodePassword(password));
 	     token.setRememberMe(true);
+	      model.addAttribute("success", true);
+
 	     try {
 	       currentUser.login(token);
 	     } catch (UnknownAccountException localUnknownAccountException) {
-	    	 ra.addFlashAttribute("msg", "账户不存在,登录失败!");
-		     ra.addFlashAttribute("success", false);
-			 return "redirect:login.do";
+	    	  model.addAttribute("msg", "账户不存在,登录失败!");
+		      model.addAttribute("success", false);
+			 return "login";
 	    } catch (IncorrectCredentialsException localIncorrectCredentialsException) {
-	         ra.addFlashAttribute("msg", "密码不正确,登录失败!");
-			 ra.addFlashAttribute("success", false);
-			return "redirect:login.do";
+	          model.addAttribute("msg", "密码不正确,登录失败!");
+			  model.addAttribute("success", false);
+			return "login";
 	     } catch (LockedAccountException localLockedAccountException) {
-	          ra.addFlashAttribute("msg", "账户被禁了!");
-			  ra.addFlashAttribute("success", false);
-		   return "redirect:login.do";
+	           model.addAttribute("msg", "账户被禁了!");
+			   model.addAttribute("success", false);
+		   return "login";
 	     }
 	      RmsUser user = this.userService.findByUsername(username);
 	      if(user==null){
-	    	   ra.addFlashAttribute("msg", "用户名或密码错误,登录失败!");
-		       ra.addFlashAttribute("success", false);
-			       return "redirect:login.do";
+	    	    model.addAttribute("msg", "用户名或密码错误,登录失败!");
+		        model.addAttribute("success", false);
+			       return "login";
 	      }
 	       if (user.getUserState()!=1) {
-	           ra.addFlashAttribute("msg", "该账号已经被停用禁止登录");
-	           ra.addFlashAttribute("success", false);
-	           return "redirect:login.do";
+	            model.addAttribute("msg", "该账号已经被停用禁止登录");
+	            model.addAttribute("success", false);
+	           return "login";
 	       }
 	       if (!currentUser.isAuthenticated()) {
-		       ra.addFlashAttribute("msg", "用户名或密码错误,登录失败!");
-	           ra.addFlashAttribute("success", false);
-		       return "redirect:login.do";
+		        model.addAttribute("msg", "用户名或密码错误,登录失败!");
+	            model.addAttribute("success", false);
+		       return "login";
 		     }
 	      if (!StringUtils.isBlank(nextUrl)) {
 	         return "redirect:" + nextUrl;
 	       }
+	      request.getSession().setAttribute("rmsuser", user);
 	       return "redirect:index.do";
 	   }
 	 
@@ -89,9 +97,7 @@ public class LoginAct {
 	   {
 	     Subject currentUser = SecurityUtils.getSubject();
 	     currentUser.logout();
+	     request.getSession().removeAttribute("rmsuser");
 	     return "login";
 	   }
-	 
-	 
-
 }

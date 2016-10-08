@@ -1,8 +1,6 @@
    <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
    <%@include file="../../common/taglib.jsp" %>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -15,53 +13,7 @@
        <%@include file="../../common/jscss.jsp" %>
        <script type="text/javascript">
        $(document).ready(function () {
-       $(".datatable").dataTable({
-              "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
-    	      "oLanguage" : { // 汉化
-    	        "sProcessing" : "正在加载数据...",
-    	        "sLengthMenu" : "显示_MENU_条 ",
-    	        "sZeroRecords" : "没有您要搜索的内容",
-    	        "sInfo" : "从_START_ 到 _END_ 条记录——总记录数为 _TOTAL_ 条",
-    	        "sInfoEmpty" : "记录数为0",
-    	        "sInfoFiltered" : "(全部记录数 _MAX_  条)",
-    	        "sInfoPostFix" : "",
-    	        "sSearch" : "搜索",
-    	        "sUrl" : "",
-    	        "oPaginate" : {
-    	          "sFirst" : "第一页",
-    	          "sPrevious" : " 上一页 ",
-    	          "sNext" : " 下一页 ",
-    	          "sLast" : " 最后一页 "
-    	        }
-    	      },
-    	      "bJQueryUI": true,
-    	      "bPaginate" : true,// 分页按钮
-    	      "bFilter" : true,// 搜索栏
-    	      "bLengthChange" : false,// 每行显示记录数
-    	      "iDisplayLength" : 20,// 每页显示行数
-    	      "bSort" : false,// 排序
-    	      //"aLengthMenu": [[50,100,500,1000,10000], [50,100,500,1000,10000]],//定义每页显示数据数量
-    	      //"iScrollLoadGap":400,//用于指定当DataTable设置为滚动时，最多可以一屏显示多少条数据
-    	      //"aaSorting": [[4, "desc"]],
-    	      "bInfo" : true,// Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息
-    	      "bWidth":true,
-    	     
-    	     "bScrollCollapse": true,
-    	      "sPaginationType" : "bootstrap", // 分页，一共两种样式 另一种为two_button // 是datatables默认
-    	      "bProcessing" : true,
-    	      "bServerSide" : true,
-    	      "bDestroy": true,
-    	      "bSortCellsTop": true,	
-    	      "sAjaxSource": '<%=ctx%>/admin/rmsUser/o_ajax_list.do', 
-    	      "sServerMethod": "POST",  
-    	      "aoColumns": [  
-    	                   { "mDataProp": "rmsUser.loginName"},  
-    	                   { "mDataProp": "rmsUser.nickName"},  
-    	                    { "mDataProp": "rmsUser.userState"},  
-    	                   { "mDataProp": "rmsUser.createTime"},  
-    	                   { "mDataProp": "rmsUser.updateTime"}]
-    	       
-    	    });
+         $("#pageSize").val("${page.pageSize}");
        
        });
        </script>
@@ -78,37 +30,85 @@
 			   <%@include file="../../common/left/sysconfigleft.jsp" %>
 				<!--/span-->
 				<!-- left menu ends -->
-				<div id="content" class="col-lg-10 col-sm-10">
+				   <div id="content" class="col-lg-10 col-sm-10">
 					<!-- content starts -->
 					<div>
+					<div class="breadcrumb">
+					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>新增用户</button>
+					</div>
+					
 					</div>
 
 					<div class="row">
-						<div class="box col-md-12">
-							<div class="box-inner" id="com-list">
-								<div class="com-add"><button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>新增用户</button></div>
+					<form action="<%=ctx %>/admin/rmsUser/v_list.do"  style="margin-left: 20px"  method="post"  id="data">
+					<div class="col-md-6">
+						<div class="dataTables_length">
+							<label><select name="pageSize" class="" id="pageSize">
+							        <option value="10">10</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+									<option value="100">100</option></select>条每页</label>
+						</div>
+					</div>
+					<div class="col-md-6" >
+						<div  class="dataTables_filter">
+							<label>搜索:<input type="text" class="" name="username" value="${page.searchword }"></label>
+						</div>
+					</div>
+					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>
+					
+					</form>
+					<div class="box col-md-12">
+							<div class="box-inner" >
 								<div class="box-content">
-									<table class="table table-striped table-bordered  datatable ">
+									<table class="table table-striped table-bordered   ">
 										<thead>
 											<!--  表头信息开始  -->
 											<tr>
 												<th>序号</th>
 												<th>用户名称</th>
-												<th>状态</th>
-												<th>开通时间</th>
+												<th>登录用户名</th>
+												<th>创建时间</th>
 												<th>操作</th>
 											</tr>
 											<!--  表头信息结束 -->
 										</thead>
 										<tbody>
+										     <c:if test="${!empty data}"> 
+										        <c:forEach items="${data }" var="rmsUser" varStatus="status">
+										     <tr>
+												<td>${ status.index + 1}</td>
+												<td>${rmsUser.nickName }</td>
+												<td>${rmsUser.loginName }</td>
+												<td>${rmsUser.createTime }</td>
+												<td class="center font-right">
+													<a class="btn btn-success btn-sm" href="#">
+														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
+													</a>
+													<a class="btn btn-info btn-sm btn-adduser" href="#">
+														<i class="glyphicon glyphicon-edit icon-white"></i>修改
+													</a>
+													<a class="btn btn-danger btn-sm btn-warn" href="#">
+														<i class="glyphicon glyphicon-trash icon-white"></i>删除
+													</a>
+												</td>
+											</tr>
+										     </c:forEach>
+										     
+										      </c:if>
+										     <c:if test="${empty data}"> 
+										            没有相关数据！
+										      </c:if>
 											
 											
 
 										</tbody>
 									</table>
 								
-									
-								</div>
+		
+		<hr>
+		<page:page2 pageSize="${page.pageSize }" pageNo="${page.pageNo }" rowCount="${page.rowCount }" targetId="data" pageCount="${page.pageCount }"></page:page2>
+		</div>
 							</div>
 						</div>
 						<!--/span-->
@@ -121,8 +121,8 @@
 				<!--/#content.col-md-0-->
 			</div>
 			<!--/fluid-row-->
-
-			<hr>
+		
+		<hr>
 
 			<!-- 新增用户浮层开始-->
 		    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
