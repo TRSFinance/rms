@@ -3,12 +3,16 @@ package com.trs.rms.base.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import com.trs.rms.base.dao.IDao;
 /**
  * 
  * @author zxh
  *
  */
+@Transactional
 public class BasicServicveImpl implements BasicService {
 	
 	
