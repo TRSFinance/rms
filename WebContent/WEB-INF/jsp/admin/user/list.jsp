@@ -11,18 +11,68 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
        <%@include file="../../common/jscss.jsp" %>
-       <script type="text/javascript">
+       	<script src="<%=request.getContextPath() %>/plug/Validform/Validform_v5.2.1_min.js"></script>
+       
+      <script type="text/javascript">
        $(document).ready(function () {
          $("#pageSize").val("${page.pageSize}");
-       
+         $("#_adduser").Validform();
        });
+       function save() {
+    	   var  userName=$("#username").val();
+    	   $.ajax({
+   			url:'<%=ctx%>/admin/rmsUser/a_username.do?random='+Math.random(),
+   			type:"POST",
+   			cache:false,
+   			dataType:"json",
+   			data:{'username':userName},
+   			success:function(data){
+   				if(data.exist){
+   					alert("已存在该用户！");
+   				}else{
+    		    	$("#_adduser").submit();
+   				}
+   			},
+   			error:function(){
+   			}
+   		});
+   	 
+    	   
+    	   
+	}
+       function  del(obj){
+    	 var  delid=$(obj).attr("dataid");
+    	 alert(delid);
+       $("#delid").val(delid);
+        $('#warnModal').modal('show');
+
+       }
+        function  del(){
+          $('#warnModal').modal('hide');
+       	 var  delid=$("#delid").val();
+       	 $.ajax({
+    			url:'<%=ctx%>/admin/rmsUser/a_del.do?random='+Math.random(),
+    			type:"POST",
+    			cache:false,
+    			dataType:"json",
+    			data:{'userId':delid},
+    			success:function(data){
+    				if(data.success){
+    					window.location.href="<%=ctx%>/admin/rmsUser/list.do";
+    				}
+    			},
+    			error:function(){
+    			}
+    		});
+    	        }
+       
+       
        </script>
 	</head>
 
 	<body>
 		<!-- topbar starts -->
-		       <%@include file="../../common/head.jsp" %>
-
+		 <%@include file="../../common/head.jsp" %>
 		<!-- topbar ends -->
 		<div class="ch-container">
 			<div class="row">
@@ -56,7 +106,6 @@
 						</div>
 					</div>
 					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>
-					
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" >
@@ -82,13 +131,13 @@
 												<td>${rmsUser.loginName }</td>
 												<td>${rmsUser.createTime }</td>
 												<td class="center font-right">
-													<a class="btn btn-success btn-sm" href="#">
+													<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsUser/view.do?id=${rmsUser.userId }"  target="_blank">
 														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 													</a>
 													<a class="btn btn-info btn-sm btn-adduser" href="#">
 														<i class="glyphicon glyphicon-edit icon-white"></i>修改
 													</a>
-													<a class="btn btn-danger btn-sm btn-warn" href="#">
+													<a class="btn btn-danger btn-sm btn-warn" href="#" onclick="del(this)" dataid="${rmsUser.userId }">
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
 													</a>
 												</td>
@@ -127,44 +176,59 @@
 			<!-- 新增用户浮层开始-->
 		    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 		         aria-hidden="true">
-		
+		      
 		        <div class="modal-dialog">
 		            <div class="modal-content">
 		                <div class="modal-header">
 		                    <button type="button" class="close" data-dismiss="modal">×</button>
-		                    <h3>用户设置</h3>
+		                    <h3>添加管理用户</h3>
 		                </div>
+		                 <form action="<%=ctx%>/admin/rmsUser/save.do"  id="_adduser"  method="post">
 		                <div class="modal-body">
 		                    <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">用户名</label>
-			                        <input type="text" class="form-control">
+			                        <label class="control-label">登录名称</label>
+			                        <input type="text"  id="username" name="username" class="form-control" datatype="s5-16" errormsg="登录名称至少5个字符,最多16个字符！">
 			                    </div>
 			                </div>
 			                <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">密码</label>
-			                        <input type="text" class="form-control">
+			                        <label class="control-label">设置密码</label>
+			                        <input type="password" class="form-control" name="userpassword" datatype="*6-15" errormsg="密码范围在6~15位之间！" >
 			                    </div>
 			                </div>
 			                <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">昵称</label>
-			                        <input type="text" class="form-control">
+			                        <label class="control-label">确认密码</label>
+			                        <input type="password" class="form-control" name="userpassword2" datatype="*" recheck="userpassword" errormsg="您两次输入的账号密码不一致！">
+			                    </div>
+			                </div>
+			                 <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">真实姓名</label>
+			                        <input type="text" name="nickname" class="form-control" datatype="s2-16" errormsg="真实姓名至少5个字符,最多16个字符！">
 			                    </div>
 			                </div>
 			                <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">邮箱</label>
-			                        <input type="text" class="form-control">
+			                        <label class="control-label">手　　机</label>
+			                        <input type="text"  name="moblie" class="form-control" datatype="m" errormsg="请输入正确的手机号！" ignore="ignore">
+			                    </div>
+			                </div>
+			                <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">邮　　箱</label>
+			                        <input type="text" name="email" class="form-control" datatype="e" errormsg="请输入正确的邮箱地址！" ignore="ignore">
 			                    </div>
 			                </div>
 				            
 		                </div>
+		                
 		                <div class="modal-footer">
 		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-		                    <a href="#" class="btn btn-primary btn-save">保存</a>
+		                    <input  type="button"  class="btn btn-primary "  onclick="save()" value="保存">
 		                </div>
+		                </form>
 		            </div>
 		        </div>
 		    </div>
@@ -181,24 +245,18 @@
 		                    <h3>提示信息</h3>
 		                </div>
 		                <div class="modal-body">
+		                <input  type="hidden"  id="delid"  value="">
 		                    <p>你将要删除此用户？</p>
 		                </div>
 		                <div class="modal-footer">
 		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-		                    <a href="#" class="btn btn-primary" data-dismiss="modal">确定</a>
+		                    <a href="#" class="btn btn-primary"  onclick="del()">确定</a>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		    <!-- 提示浮层结束-->
-		    
-		    <!-- 保存浮层开始-->
-			<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-		         aria-hidden="true" style="z-index: 9999;">		         
-		        <div class="modal-dialog" style="z-index: 9999;">
-		            <p style="text-align: center;"><img src="<%=ctx %>/style/img/loading.gif" /></p>
-		        </div>
-		    </div>
+		   
 		    <!-- 保存浮层结束-->
 		   <%@include file="../../common/foot.jsp" %>
 

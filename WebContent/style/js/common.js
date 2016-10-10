@@ -15,10 +15,10 @@ $(document).ready(function () {
         $('#addUserModal').modal('show');
     }); 
      //提示浮层弹出
-    $('.btn-warn').click(function (e) {
-        e.preventDefault();
-        $('#warnModal').modal('show');
-    });
+//    $('.btn-warn').click(function (e) {
+//        e.preventDefault();
+//        $('#warnModal').modal('show');
+//    });
     //提示浮层弹出
     $('.btn-system').click(function (e) {
         e.preventDefault();
@@ -26,10 +26,10 @@ $(document).ready(function () {
     });    
     
     //保存浮层弹出
-    $('.btn-save').click(function (e) {
-        e.preventDefault();
-        $('#saveModal').modal('show');
-    });
+//    $('.btn-save').click(function (e) {
+//        e.preventDefault();
+//        $('#saveModal').modal('show');
+//    });
     $('#saveModal').on('show.bs.modal', function () {
 	   $('#addComUserModal,#systemModal,#addUserModal').css("z-index","100");
 	})

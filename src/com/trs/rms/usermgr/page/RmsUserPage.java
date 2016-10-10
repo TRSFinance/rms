@@ -15,8 +15,8 @@ public class RmsUserPage   extends  BasicPage{
 	@Override
 	public void addParameter() {
 		String hql = "  from  com.trs.rms.usermgr.bean.RmsUser ru where 1=1   ";
-		hql= hql+"  and ru.userState=?";
-		this.addParams(Types.INTEGER,1);
+		hql= hql+"  and ru.userState<>?";
+		this.addParams(Types.INTEGER,2);
 		if(searchword!=null &&  searchword.trim().length()>0){
 			hql= hql+"  and (ru.loginName like ?  or  ru.nickName  like ?)";
 			this.addParams(Types.VARCHAR,"%"+searchword+"%");

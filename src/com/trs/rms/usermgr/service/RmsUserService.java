@@ -10,4 +10,5 @@ public interface RmsUserService  extends   BasicService {
 	 * @return
 	 */
 	RmsUser findByUsername(String username);
+	boolean isExist(String username);
 }

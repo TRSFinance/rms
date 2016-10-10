@@ -1,17 +1,20 @@
 package com.trs.rms.usermgr.controller;
 
+import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
+import com.trs.rms.base.util.SysUtils;
+import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.page.RmsUserPage;
 import com.trs.rms.usermgr.service.RmsUserService;
 
@@ -42,11 +45,103 @@ public class RmsUserAct {
 		return "user/list";
 	}
 	
+	@RequestMapping("/view.do")
+	public  String   view(Long  id,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsUser user=(RmsUser) service.queryById(RmsUser.class, id);
+		model.addAttribute("user", user);
+		return "user/view";
+	}
+	
+	
+	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   String   save(
+			String  username,
+			String  userpassword,
+			String  userpassword2,
+			String  moblie,
+			String  email,
+			String  nickname,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+				String  loginName=SysUtils.getLoginName();
+		        RmsUser  rmsUser=new RmsUser();
+		    	rmsUser.setLoginName(username);;
+		    	rmsUser.setUserPawd(pwdEncoder.encodePassword(userpassword));;
+		    	rmsUser.setNickName(nickname);;
+		    	rmsUser.setUserState(1);;
+		    	rmsUser.setUserInfo("");;
+		    	rmsUser.setCreateTime(new Date());;
+		    	rmsUser.setUpdateTime(new Date());;
+		    	rmsUser.setCreateUser(loginName);;
+		    	rmsUser.setUpdateUser(loginName);;
+		    	rmsUser.setEmail(email);;
+		    	rmsUser.setMobile(moblie);;
+		    	rmsUser.setFailCount(0);
+		    	rmsUser.setUserType(1);;
+				if(!service.isExist(username))
+				service.save(rmsUser);
+		
+		return "redirect:/admin/rmsUser/list.do";
+	}
+	@RequestMapping("/a_del.do")
+	public   void   ajaxDel(Long  userId,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+		JSONObject json = new JSONObject();
+		json.put("success", true);
+		String  loginName=SysUtils.getLoginName();
+		RmsUser user=(RmsUser) service.queryById(RmsUser.class, userId);
+		if(user!=null){
+			user.setUpdateTime(new Date());
+			user.setUserState(2);;
+			user.setUpdateUser(loginName);
+			service.update(user);
+		}
+		ResponseUtils.renderJson(response,json.toString());
+	}
+	@RequestMapping("/a_stop.do")
+	public   void   ajaxStop(Long  userId,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+		JSONObject json = new JSONObject();
+		json.put("success", true);
+		String  loginName=SysUtils.getLoginName();
+		RmsUser user=(RmsUser) service.queryById(RmsUser.class, userId);
+		if(user!=null){
+			user.setUpdateTime(new Date());
+			user.setUserState(3);;
+			user.setUpdateUser(loginName);
+			service.update(user);
+		}
+		ResponseUtils.renderJson(response,json.toString());
+	}
 	
 	
 	
 	
-	@RequestMapping("/o_ajax_list.do")
+	
+	@RequestMapping(value={"/a_username.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   void   ajaxUsername(
+			String  username,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+
+		JSONObject json = new JSONObject();
+		json.put("exist", false);
+	    if(!StringUtils.isBlank(username)){
+			json.put("exist", service.isExist(username));
+	    }
+		ResponseUtils.renderJson(response,json.toString());
+
+	}
+	
+	
+	
+	
+	
+	
 	public  void   ajaxPageList(Integer sEcho, Integer iDisplayLength,HttpServletRequest request,HttpServletResponse response,
 			ModelMap model) throws JSONException{
 		JSONObject json = new JSONObject();
@@ -62,5 +157,7 @@ public class RmsUserAct {
 	private  RmsUserPage     page;
 	@Autowired
 	private  RmsUserService service;
+	@Autowired
+	private PwdEncoder pwdEncoder;
 
 }
