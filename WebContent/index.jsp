@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>我是测试的！</title>
+<title>首页</title>
 <script type="text/javascript">
 window.location.href="<%=request.getContextPath()%>/admin/login.do";
 

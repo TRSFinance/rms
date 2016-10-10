@@ -1,6 +1,6 @@
 package com.trs.rms.usermgr.bean;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * RmsUserLog entity. @author MyEclipse Persistence Tools
@@ -8,13 +8,17 @@ import java.sql.Timestamp;
 
 public class RmsUserLog implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4264107626479532469L;
 	// Fields
 
 	private Long loginId;
 	private String loginName;
 	private String nickName;
 	private String loginIp;
-	private Timestamp createTime;
+	private Date createTime;
 
 	// Constructors
 
@@ -23,13 +27,13 @@ public class RmsUserLog implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public RmsUserLog(Timestamp createTime) {
+	public RmsUserLog(Date createTime) {
 		this.createTime = createTime;
 	}
 
 	/** full constructor */
 	public RmsUserLog(String loginName, String nickName, String loginIp,
-			Timestamp createTime) {
+			Date createTime) {
 		this.loginName = loginName;
 		this.nickName = nickName;
 		this.loginIp = loginIp;
@@ -70,11 +74,11 @@ public class RmsUserLog implements java.io.Serializable {
 		this.loginIp = loginIp;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

@@ -40,10 +40,9 @@
     	   
     	   
 	}
-       function  del(obj){
-    	 var  delid=$(obj).attr("dataid");
-    	 alert(delid);
-       $("#delid").val(delid);
+       function  dels(obj){
+    	
+       $("#delid").val(obj);
         $('#warnModal').modal('show');
 
        }
@@ -134,10 +133,10 @@
 													<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsUser/view.do?id=${rmsUser.userId }"  target="_blank">
 														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 													</a>
-													<a class="btn btn-info btn-sm btn-adduser" href="#">
+													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsUser/v_edit.do?id=${rmsUser.userId }"  target="_blank">
 														<i class="glyphicon glyphicon-edit icon-white"></i>修改
 													</a>
-													<a class="btn btn-danger btn-sm btn-warn" href="#" onclick="del(this)" dataid="${rmsUser.userId }">
+													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsUser.userId })" >
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
 													</a>
 												</td>

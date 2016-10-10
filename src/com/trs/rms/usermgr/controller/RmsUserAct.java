@@ -2,15 +2,19 @@ package com.trs.rms.usermgr.controller;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
@@ -85,6 +89,39 @@ public class RmsUserAct {
 		
 		return "redirect:/admin/rmsUser/list.do";
 	}
+	@RequestMapping("/v_edit.do")
+	public  String   editpage(Long  id,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsUser user=(RmsUser) service.queryById(RmsUser.class, id);
+		model.addAttribute("user", user);
+		return "user/edit";
+	}
+	
+	
+	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   String   edit(
+			Long  id,
+			String  moblie,
+			String  email,
+			String  nickname,
+			Integer  userState, 
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsUser rmsUser=(RmsUser) service.queryById(RmsUser.class, id);
+		String  loginName=SysUtils.getLoginName();
+				if(rmsUser!=null){
+		    	rmsUser.setUpdateTime(new Date());;
+		    	rmsUser.setUpdateUser(loginName);;
+		    	rmsUser.setEmail(email);;
+		    	rmsUser.setMobile(moblie);;
+		    	rmsUser.setUserState(userState);
+				service.save(rmsUser);
+				}
+		return "redirect:/admin/rmsUser/list.do";
+	}
+	
+	
 	@RequestMapping("/a_del.do")
 	public   void   ajaxDel(Long  userId,
 			HttpServletRequest request,HttpServletResponse response,
@@ -137,22 +174,7 @@ public class RmsUserAct {
 
 	}
 	
-	
-	
-	
-	
-	
-	public  void   ajaxPageList(Integer sEcho, Integer iDisplayLength,HttpServletRequest request,HttpServletResponse response,
-			ModelMap model) throws JSONException{
-		JSONObject json = new JSONObject();
-		List list = page.queryObjectsToPages();
-		json.put("iTotalRecords", page.getRowCount());
-		json.put("sEcho",sEcho);
-		json.put("iTotalDisplayRecords", (page.getPageNo()-1)*(page.getPageSize()));
-		json.put("aaData",list);
-		ResponseUtils.renderJson(response,json.toString());
 
-	}
 	@Autowired
 	private  RmsUserPage     page;
 	@Autowired

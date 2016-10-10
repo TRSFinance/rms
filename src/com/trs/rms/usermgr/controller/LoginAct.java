@@ -1,5 +1,7 @@
 package com.trs.rms.usermgr.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.code.kaptcha.Constants;
 import com.trs.rms.base.security.encoder.PwdEncoder;
+import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.usermgr.bean.RmsUser;
+import com.trs.rms.usermgr.bean.RmsUserLog;
 import com.trs.rms.usermgr.service.RmsUserService;
 
 @Controller
@@ -89,6 +93,13 @@ public class LoginAct {
 	         return "redirect:" + nextUrl;
 	       }
 	      request.getSession().setAttribute("rmsuser", user);
+	     String  ip= SysUtils.getIpAddr(request);
+	     RmsUserLog rmsuserlog = new  RmsUserLog();
+	     rmsuserlog.setCreateTime(new Date());
+	     rmsuserlog.setLoginName(user.getLoginName());
+	     rmsuserlog.setNickName(user.getNickName());
+	     rmsuserlog.setLoginIp(ip);
+	     userService.save(rmsuserlog);
 	       return "redirect:index.do";
 	   }
 	 
@@ -100,4 +111,6 @@ public class LoginAct {
 	     request.getSession().removeAttribute("rmsuser");
 	     return "login";
 	   }
+	   
+	 
 }

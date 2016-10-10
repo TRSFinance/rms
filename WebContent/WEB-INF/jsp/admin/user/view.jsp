@@ -39,7 +39,9 @@
                         <td>
                             <span class="label-default label">登录名称</span>
                         </td>
-                        <td>　${user.loginName }</td>
+                        <td>　${user.loginName }
+                       
+                        </td>
                     </tr>
                     <tr>
                         <td>
