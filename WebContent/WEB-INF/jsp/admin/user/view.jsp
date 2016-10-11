@@ -19,7 +19,13 @@
 		<!-- topbar ends -->
 		<div class="ch-container">
 			<div class="row">
-				<div class="box">
+			<!-- left menu starts -->
+			<%@include file="../../common/left/sysconfigleft.jsp"%>
+			<!--/span-->
+			<!-- left menu ends -->
+					<div id="content" class="col-lg-10 col-sm-10">
+			<div class="row">
+				<div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
                 <h2><i class="glyphicon glyphicon-eye-open"></i>用户信息详情</h2>
@@ -73,12 +79,30 @@
 
                         </td>
                     </tr>
+                    <tr>
+											<td><span class="label-warning label label-default">手
+													机</span></td>
+											<td>${user.mobile }</td>
+										</tr>
+										<tr>
+											<td><span class="label-default label label-danger">邮
+													箱</span></td>
+											<td>${user.email }</td>
+										</tr>
+										<tr> 
+										<td  colspan="2" class="td-center">
+
+											<input type="button"
+												class="btn btn-primary " value="关闭" onclick="closeWin()"></td>										
+										</tr>
+                    
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-		                </div>
+	</div></div></div>
+		  		<hr>
 		   
 		    <!-- 保存浮层结束-->
 		   <%@include file="../../common/foot.jsp" %>

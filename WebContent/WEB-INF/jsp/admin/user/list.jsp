@@ -6,7 +6,7 @@
 
 	<head>
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>系统管理</title>
+		<title>系统用户管理</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -83,7 +83,7 @@
 					<!-- content starts -->
 					<div>
 					<div class="breadcrumb">
-					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>新增用户</button>
+					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户</button>
 					</div>
 					
 					</div>
@@ -133,7 +133,7 @@
 													<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsUser/view.do?id=${rmsUser.userId }"  target="_blank">
 														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 													</a>
-													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsUser/v_edit.do?id=${rmsUser.userId }"  target="_blank">
+													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsUser/v_edit.do?id=${rmsUser.userId }"  target="_self">
 														<i class="glyphicon glyphicon-edit icon-white"></i>修改
 													</a>
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsUser.userId })" >
@@ -145,7 +145,11 @@
 										     
 										      </c:if>
 										     <c:if test="${empty data}"> 
-										            没有相关数据！
+										      <tr>
+											      <td colspan="5">
+											                   没有查到相关数据！
+											      </td>
+										      </tr>
 										      </c:if>
 											
 											

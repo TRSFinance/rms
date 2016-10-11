@@ -38,7 +38,7 @@ public class RmsUserServiceImpl  extends  BasicServicveImpl   implements RmsUser
 	public boolean isExist(String username) {
 		List<Param>  paramList=new ArrayList<Param>();
 		String  hql="  FROM  com.trs.rms.usermgr.bean.RmsUser  where  loginName=?";
-		paramList.add(new Param(Types.VARCHAR, username));
+		paramList.add(new Param(Types.VARCHAR, username.trim()));
 		@SuppressWarnings("unchecked")
 		List<RmsUser> list = dao.query(hql, paramList);
 		if(list==null||list.size()==0)

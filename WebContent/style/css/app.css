@@ -584,6 +584,13 @@ ul.github-buttons li {
 	.title-right{padding-right: 0px;}
 }
 
+/*zxh*/
+
+.td-right{text-align: right}
+.td-left{text-align: left;}
+.td-center{text-align: center;}
+.form_search{cursor:pointer;margin-left: 5px;}
+
 
 #Validform_msg{color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #aaa; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999');}
 #Validform_msg .iframe{position:absolute; left:0px; top:-1px; z-index:-1;}

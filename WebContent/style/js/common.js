@@ -198,3 +198,6 @@ $.extend($.fn.dataTableExt.oPagination, {
         }
     }
 });
+function closeWin(){
+   window.close();
+}

@@ -6,4 +6,9 @@ public interface RmsRoleService  extends   BasicService {
 	
 	void   delQuery();
 	
+	void  saveRole(String roleName,Integer isAllPerm,String description,String perms);
+	void  updateRole(Long id,String roleName,Integer isAllPerm,String description,String perms);
+	void  delRole(long id);
+	boolean isExist(String rolename);
+
 }

@@ -14,16 +14,15 @@
        <link href='<%=request.getContextPath() %>/plug/ztree/css/zTreeStyle/zTreeStyle.css' rel='stylesheet'>
        <script src="<%=request.getContextPath() %>/plug/ztree/jquery.ztree.all-3.5.min.js"></script>
        <script src="<%=request.getContextPath() %>/plug/Validform/Validform_v5.2.1_min.js"></script>
-             <%@include file="permtree.jsp" %>
+       <%@include file="permtree.jsp" %>
       
        <script type="text/javascript">
       
-              var setting1 = {check: {enable: true},data: {simpleData: {enable: true}}};
-              var ztree = null;
+         var setting1 = {check: {enable: true},data: {simpleData: {enable: true}}};
+         var ztree = null;
        $(document).ready(function () {
-           $("#_edituser").Validform();
+           $("#_saverole").Validform();
      	    ztree = $.fn.zTree.init($("#permtree"), setting1,znodes);
-
          });
 
        function checksubmit(){
@@ -36,7 +35,7 @@
     		}
     		str = "<input type='hidden' name='perms' value='" +str+ "'/>";
     		$("#allperms").empty().append(str);
-    		$("#_editrole").submit();
+    		$("#_saverole").submit();
     	}
 
        </script>
@@ -58,17 +57,17 @@
 		<div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-eye-open"></i>添加角色信息</h2>
+                <h2><i class="glyphicon glyphicon-eye-open"></i>修改角色信息</h2>
             </div>
             <div class="box-content">
-            <form action="<%=ctx %>/admin/rmsRole/edit.do"   method="post" id="_editrole">
-                
-               <div style="display: none"> 
-               <input  type="text"  value=""  name="id">
-                </div> 
+            <form action="<%=ctx %>/admin/rmsRole/save.do"   method="post" id="_saverole">
+                <div  style="display: none">
+                 <input type="text" name="id"  value="">  
+                </div>
                 
                 <table class="table table-bordered table-striped">
-              <tr>
+                   
+                   <tr>
               <td class="ftit">功能权限：</td>
               <td colspan="3">
 			  <div class="l-scroll" style="height:300px;overflow-y:scroll;">
@@ -79,9 +78,12 @@
               </td>
             </tr>
                    
-                    <tr><td  colspan="4" class="td-center">
+                    <tr><td  colspan="4">
                     
-                    <input  type="submit"  class="btn btn-primary "   value="修改">                    
+                    	<input  type="submit"  class="btn btn-primary "   value="保存">
+                    
+                   
+                    
                     </td></tr>
                  
                 </table>
@@ -91,17 +93,9 @@
     </div>
 </div></div></div>
 				<hr>
-
-		    
-		<%@include file="../../common/foot.jsp"%>
-		    
-		    
-		</div>
+<%@include file="../../common/foot.jsp"%>
+</div>
 		
-		
-		
-		
-
 	</body>
 
 </html>
