@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.trs.om.statrans.bean.STATransConfInfo" table="statrans_conf">
+		<id column="id" name="id">
+			<generator class="native" />
+		</id>
+		<property column="transConfType" name="transConfType" type="java.lang.String" />
+		<property column="transConfName" name="transConfName" type="java.lang.String" />
+		<property column="transConfContent" name="transConfContent" length="1024" type="java.lang.String" />
+		<property column="transConfComment" name="transConfComment" length="1024" type="java.lang.String" />
+		<property column="transConfTag" name="transConfTag" type="java.lang.Integer" />
+	</class>
+</hibernate-mapping>
