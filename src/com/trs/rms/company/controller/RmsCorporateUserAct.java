@@ -31,6 +31,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,9 +42,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.trs.rms.base.page.Param;
+import com.trs.rms.base.util.ResponseUtils;
+import com.trs.rms.base.util.SysUtils;
+import com.trs.rms.company.bean.RmsCompanyInfo;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.page.RmsCorporateUserPage;
 import com.trs.rms.company.service.RmsCorporateUserService;
+import com.trs.rms.usermgr.bean.RmsUser;
 
 
 @Controller
@@ -101,7 +107,7 @@ public class RmsCorporateUserAct {
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		return "company/CorporateUserManager";
+		return "company/list";
 	}
 	
 	//通用的查询方法(输入搜索词查询)
@@ -117,7 +123,7 @@ public class RmsCorporateUserAct {
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		return "company/CorporateUserManager";
+		return "company/list";
 	}
 	
 	//通用的删除方法(输入搜索词查询)
@@ -150,207 +156,82 @@ public class RmsCorporateUserAct {
 		list.add(new Param(Types.VARCHAR,param3));
 		list.add(new Param(Types.VARCHAR,param4));
 		list.add(new Param(Types.BIGINT,Long.parseLong(cust_id)));		
-		service.updateData(list);
-		
+		service.updateData(list);	
 	}
 	
 	
-	//上传文件
-	@RequestMapping(value=("/filetodb.do"),method={org.springframework.web.bind.annotation.RequestMethod.POST})
-	public void filetodb(HttpServletRequest request,HttpServletResponse response){
-		System.out.println("上传文件");
-		// 判断form是否为上传表单
-		if (!ServletFileUpload.isMultipartContent(request)) {
-			throw new RuntimeException("该请求不是有效编码方式！");
-		}
-		
-		
-		// 创建文件项工厂
-		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-		// 创建核心解析器
-		ServletFileUpload fileUpload = new ServletFileUpload(
-				diskFileItemFactory);
-		// 处理上传文件名乱码
-		fileUpload.setHeaderEncoding("utf-8");
-		
-		String uuidname = "";
-		String savepath = "";
-		// 解析请求request
-		try {
-			List<FileItem> fileItems = fileUpload.parseRequest(request);
-			// 遍历每个FileItem
-			for (FileItem fileItem : fileItems) {
-			
-				// 判断fileItem是否为文件上传
-				if (fileItem.isFormField()) {
-					// 不是上传项
-					String name = fileItem.getFieldName();
-					
-					
-					
-					
-				} else {
-					// 是上传项
-					// 判断用户有没有上传
-					String filename = fileItem.getName();
-					
-					//lm
-					System.out.println("----------"+filename);
-					
-					if (filename == null || filename.trim().length() == 0) {
-						throw new RuntimeException("必须要上传文件！");
-					}
-					// 上传文件名中是否包含 文件路径
-					int index = filename.lastIndexOf("\\");
-					
-					if (index != -1) {
-						filename = filename.substring(index + 1);								
-					}
-					// 控制文件名唯一
-					uuidname = generateUUIDFilename(filename);
-					// 生成hashcode 分散目录
-					//String randomDir = UploadUtils.generateRandomDir(uuidname);
-					
-					//lm 按当天日期动态生成目录
-					String path = new SimpleDateFormat("yyyyMMdd").format(new Date());
-					
-					System.out.println("request.getContextPath()---"+request.getContextPath());
-					
-					// 创建随机目录
-					savepath = "/WEB-INF/upload/" + path;
-					System.out.println(request.getServletContext().getRealPath(savepath));
-					File dirFile = new File(request.getServletContext().getRealPath(savepath));
-					if(!dirFile.exists()){
-						System.out.println("文件夹不存在，正在创建");
-						dirFile.mkdirs();			
-					}
-					
-					// 上传文件内容
-					InputStream in = new BufferedInputStream(fileItem.getInputStream());
-					OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(dirFile, uuidname)));
-					int b;
-					while ((b = in.read()) != -1) {
-						out.write(b);
-					}
-					
-					in.close();
-					out.close();
-					// 删除临时文件，默认内存区 10K
-					fileItem.delete();
-					
+	@RequestMapping("/view.do")
+	public  String   view(Long  id,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsCorporateUser corporateUser=(RmsCorporateUser) service.queryById(RmsCorporateUser.class, id);
+		model.addAttribute("corporateUser", corporateUser);
+		return "company/view";
+	}
+	
+	@RequestMapping("/v_edit.do")
+	public  String   editpage(Long  id,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsCorporateUser corporateUser=(RmsCorporateUser) service.queryById(RmsCorporateUser.class, id);
+		model.addAttribute("corporateUser", corporateUser);
+		return "company/edit";
+	}
+	
+	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   String   edit(
+			Long  id,
+			String  corporateName,
+			String  corporateTel,
+			String corporateMobile,
+			String corporateEmail,
+			String corporateInf,			
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsCorporateUser corporateUser=(RmsCorporateUser) service.queryById(RmsCorporateUser.class, id);
+		//String  loginName=SysUtils.getLoginName();
+				if(corporateUser!=null){
+					corporateUser.setUpdateTime(new Date());
+					corporateUser.setCorporateName(corporateName);
+					corporateUser.setCorporateTel(corporateTel);
+					corporateUser.setCorporateMobile(corporateMobile);
+					corporateUser.setCorporateEmail(corporateEmail);
+					corporateUser.setCorporateInf(corporateInf);
+					service.save(corporateUser);
 				}
-			}
-		} catch (FileUploadException e) {
-			e.printStackTrace();
-			throw new RuntimeException("文件上传失败！");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 		
-		
-		insertFiletoDb(request,savepath,uuidname);
-		// 提示用户文件上传成功
-		response.setContentType("text/html;charset=utf-8");
-		try {
-			response.getWriter().println("文件上传成功！");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		return "redirect:/admin/rmsCorporateUser/list.do";
 	}
 	
 	
-	
-	
-	/**
-	 * 根据真实文件名 生成uuidname
-	 */
-	public static String generateUUIDFilename(String filename) {
-		String uuid = UUID.randomUUID().toString();
-		// 不想保留源文件名 --- 保留源文件扩展名
-		String ext = filename.substring(filename.lastIndexOf("."));
-		return uuid + ext;
-	}
-	
-	
-	public void insertFiletoDb(HttpServletRequest request,String savepath,String uuidname){
-		
-		List list = new ArrayList();
-		
+	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public void delete(HttpServletRequest request,HttpServletResponse response,Long userId) throws JSONException{
 
-		for(int i=0;i<2;i++){
-	
-			RmsCorporateUser rci = new RmsCorporateUser();
-//			rci.setCustCfname("test");
-//			rci.setCustCsname("test");
-//			rci.setCustOrgid("123");
-//			rci.setCustEfname("111");
-//			rci.setCustEsname("123");
-//			rci.setCustIndustry1("222");
-//			rci.setCustIndustry2("1112");
-//			rci.setAreaCode("122");
-//			rci.setDistrictName("2222");
-//			rci.setProvinceName("122");
-//			rci.setCityName("122");
-//			rci.setCustIndustrycode("122");
-//			rci.setPinyin("a");
-//	//		rci.setState(1);
-//			rci.setCreateTime(new Date());
-//			rci.setChangeTime(new Date());
-			list.add(rci);
-		}
-	
-		service.add(list);
 		
-		
-		InputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream(request.getServletContext().getRealPath(savepath)+"\\"+uuidname);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Workbook workbook = null;
-		try {
-			workbook = Workbook.getWorkbook(inputStream);
-		} catch (BiffException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Sheet sheet = workbook.getSheet(0);
-		//行数
-		int rows=sheet.getRows();
-		//列数
-		int cols=sheet.getColumns();
-		
-		//int  location =Integer.parseInt(getContent());
-		
-		for (int i = 0; i < rows; i++) {
-			Cell cell = sheet.getCell(0, i);
-			if(cell!=null){
-				String value = cell.getContents();
-				if(value!=null&&!"".equals(value)){
-					System.out.println(value.trim());
-				}
-				
+//		Long[] ids = {Long.parseLong(cust_id)};
+//		
+//		service.delete(RmsCompanyInfo.class, ids);
+		JSONObject json = new JSONObject();
+		json.put("success", true);
+		String  loginName=SysUtils.getLoginName();
+		RmsUser user=(RmsUser) service.queryById(RmsUser.class, userId);
+		if(user!=null){
+			if("admin".equals(user.getLoginName())||"root".equals(user.getLoginName())){
+			json.put("success", false);
+			}else{
+			user.setUpdateTime(new Date());
+			user.setUserState(2);;
+			user.setUpdateUser(loginName);
+			service.update(user);
 			}
-			
-		}
 		
-		try {
-			inputStream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		ResponseUtils.renderJson(response,json.toString());
 		
+	
 	}
+	
+	
+	
 	
 	
 }

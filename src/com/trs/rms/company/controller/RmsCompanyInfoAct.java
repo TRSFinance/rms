@@ -84,6 +84,7 @@ public class RmsCompanyInfoAct {
 			for(int i=0;i<list.size();i++){
 				Map map2 = new HashMap();
 				map2.put("corporateName", list.get(i).getCorporateName());
+				map2.put("userId", list.get(i).getUserId());
 				list2.add(map2);
 			}	
 			map.put("cool", list2);		
@@ -100,28 +101,22 @@ public class RmsCompanyInfoAct {
 	@RequiresPermissions({"admin:role:test2"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
-			ModelMap model){
+			ModelMap model,Long userId){
 		
-		String  loginName=SysUtils.getLoginName();
-		System.out.println("-----"+loginName);
+//		String  loginName=SysUtils.getLoginName();
+//		System.out.println("-----"+loginName);
+		page.setUserId(userId);
 		
 		List list = page.queryObjectsToPages();
-		//List list2 = page2.queryObjectsToPages();
+		List<RmsCorporateUser> list2 = service.list();
+
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		//model.addAttribute("data2",list2);
+		model.addAttribute("data2",list2);
 		return "company/companyInfo/companyManager";
 	}
 	
-//	@RequiresPermissions({"admin:role:test2"})
-//	@RequestMapping("/list2.do")
-//	public  String   leftList(HttpServletRequest request,HttpServletResponse response,
-//			ModelMap model){
-//		List list = page2.queryObjectsToPages();
-//		//model.addAttribute("page2", page2);
-//		model.addAttribute("data2", list);
-//		return "company/companyManager";
-//	}
+
 	
 	//通用的查询方法(输入搜索词查询)
 	@RequestMapping("/v_list.do")
@@ -134,8 +129,10 @@ public class RmsCompanyInfoAct {
 		page.setPageNo(pageNo);
 		page.setSearchword(username);
 		List list = page.queryObjectsToPages();
+		List<RmsCorporateUser> list2 = service.list();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
+		model.addAttribute("data2",list2);
 		return "company/companyInfo/companyManager";
 	}
 	

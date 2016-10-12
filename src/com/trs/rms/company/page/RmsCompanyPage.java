@@ -13,14 +13,24 @@ public class RmsCompanyPage extends BasicPage{
 	
 	
 	private String searchword="";
+	
+	private Long userId;
+
+
 
 	@Override
 	public void addParameter() {
-		String hql = "  from  com.trs.rms.company.bean.RmsCompanyInfo rci where 1=1   ";
-		hql= hql+"  and rci.state=?";
+		String hql = "  from  com.trs.rms.company.bean.RmsCorporateCust rcc where 1=1";		
+		hql= hql+"  and rcc.companyInfo.state=?";
 		this.addParams(Types.INTEGER,1);
+		
+		if(userId!=null){
+			hql= hql+"  and rcc.corporateUser.userId=?";
+			this.addParams(Types.BIGINT,userId);
+		}
+		
 		if(searchword!=null &&  searchword.trim().length()>0){
-			hql= hql+"  and (rci.custCfname like ?  or  rci.custCsname  like ?)";
+			hql= hql+"  and (rcc.companyInfo.custCfname like ?  or  rcc.companyInfo.custCsname  like ?)";
 			this.addParams(Types.VARCHAR,"%"+searchword+"%");
 			this.addParams(Types.VARCHAR,searchword+"%");
 
@@ -44,7 +54,13 @@ public class RmsCompanyPage extends BasicPage{
 		this.searchword = searchword;
 	}
 	
-	
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	
 }
 
