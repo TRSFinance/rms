@@ -19,7 +19,19 @@
     <context:component-scan base-package="com.trs.rms.usermgr.service.impl">
 	</context:component-scan>
 
-	
+	<context:component-scan base-package="com.trs.rms.company.controller">
+        <context:include-filter type="annotation"
+            expression="org.springframework.stereotype.Controller" />
+        </context:component-scan>
+        
+        <!-- 扫描分页 --> 
+	<context:component-scan base-package="com.trs.rms.company.page">
+	</context:component-scan>
+	<!-- 扫描Service层 -->
+        <context:component-scan base-package="com.trs.rms.company.service">
+	</context:component-scan>
+	<context:component-scan base-package="com.trs.rms.company.service.impl">
+	</context:component-scan>
 
 	
 </beans>

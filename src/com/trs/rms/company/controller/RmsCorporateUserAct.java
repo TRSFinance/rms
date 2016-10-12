@@ -40,27 +40,21 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.trs.rms.base.page.Param;
-import com.trs.rms.base.util.SysUtils;
-import com.trs.rms.company.bean.RmsCompanyInfo;
 import com.trs.rms.company.bean.RmsCorporateUser;
-import com.trs.rms.company.page.RmsCompanyPage;
 import com.trs.rms.company.page.RmsCorporateUserPage;
-import com.trs.rms.company.service.RmsCompanyInfoService;
-import com.trs.rms.usermgr.bean.RmsUser;
+import com.trs.rms.company.service.RmsCorporateUserService;
+
 
 @Controller
-@RequestMapping("/rmsCompanyInfo")
-public class RmsCompanyInfoAct {
+@RequestMapping("/rmsCorporateUser")
+public class RmsCorporateUserAct {
 	
 	
 	@Autowired
-	private  RmsCompanyPage   page;
-	
-	@Autowired
-	private  RmsCorporateUserPage   page2;
+	private  RmsCorporateUserPage   page;
 
 	@Autowired
-	private RmsCompanyInfoService service;
+	private RmsCorporateUserService service;
 	
 
 	//测试
@@ -81,9 +75,12 @@ public class RmsCompanyInfoAct {
 			List<RmsCorporateUser> list = service.list();
 			Map map = new HashMap();
 			List list2 = new ArrayList();		
-			for(int i=0;i<list.size();i++){
+			for(int i=0;i<5;i++){
 				Map map2 = new HashMap();
-				map2.put("corporateName", list.get(i).getCorporateName());
+//				map2.put("CustCfname", list.get(i).getCustCfname());
+//				map2.put("CustCsname", list.get(i).getCustCsname());
+//				map2.put("CustIndustry1", list.get(i).getCustIndustry1());
+//				map2.put("CustIndustry2", list.get(i).getCustIndustry2());
 				list2.add(map2);
 			}	
 			map.put("cool", list2);		
@@ -101,27 +98,11 @@ public class RmsCompanyInfoAct {
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-		
-		String  loginName=SysUtils.getLoginName();
-		System.out.println("-----"+loginName);
-		
 		List list = page.queryObjectsToPages();
-		//List list2 = page2.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		//model.addAttribute("data2",list2);
-		return "company/companyInfo/companyManager";
+		return "company/CorporateUserManager";
 	}
-	
-//	@RequiresPermissions({"admin:role:test2"})
-//	@RequestMapping("/list2.do")
-//	public  String   leftList(HttpServletRequest request,HttpServletResponse response,
-//			ModelMap model){
-//		List list = page2.queryObjectsToPages();
-//		//model.addAttribute("page2", page2);
-//		model.addAttribute("data2", list);
-//		return "company/companyManager";
-//	}
 	
 	//通用的查询方法(输入搜索词查询)
 	@RequestMapping("/v_list.do")
@@ -136,10 +117,23 @@ public class RmsCompanyInfoAct {
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		return "company/companyInfo/companyManager";
+		return "company/CorporateUserManager";
 	}
 	
+	//通用的删除方法(输入搜索词查询)
+	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
+	public void delete(HttpServletRequest request,HttpServletResponse response,String cust_id){
+//		request.getAttribute("deletecomp");
+//		System.out.println(request.getAttribute("deletecomp"));
+		
+		System.out.println(cust_id);
+		
+		Long[] ids = {Long.parseLong(cust_id)};
+		
+		service.delete(RmsCorporateUser.class, ids);
+		
 	
+	}
 
 	
 	//修改一条记录
@@ -159,69 +153,6 @@ public class RmsCompanyInfoAct {
 		service.updateData(list);
 		
 	}
-	
-	@RequestMapping("/view.do")
-	public  String   view(Long  id,
-			HttpServletRequest request,HttpServletResponse response,
-			ModelMap model){
-		RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, id);
-		model.addAttribute("compInfo", compInfo);
-		return "company/companyInfo/view";
-	}
-	
-	@RequestMapping("/v_edit.do")
-	public  String   editpage(Long  id,
-			HttpServletRequest request,HttpServletResponse response,
-			ModelMap model){
-		RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, id);
-		model.addAttribute("compInfo", compInfo);
-		return "company/companyInfo/edit";
-	}
-	
-	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
-	public   String   edit(
-			Long  custid,
-			String  custIndustry1,
-			String  custIndustry2,
-			Integer dataSource,
-			Integer  state, 
-			HttpServletRequest request,HttpServletResponse response,
-			ModelMap model){
-		RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, custid);
-		//String  loginName=SysUtils.getLoginName();
-				if(compInfo!=null){
-		    	compInfo.setChangeTime(new Date());;
-		    	compInfo.setCustIndustry1(custIndustry1);;
-		    	compInfo.setCustIndustry2(custIndustry2);;
-		    	compInfo.setDataSource(dataSource);;
-		    	compInfo.setState(state);
-				service.save(compInfo);
-				}
-		return "redirect:/admin/rmsCompanyInfo/list.do";
-	}
-	
-	//通用的删除方法(输入搜索词查询)
-		@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
-		public String delete(HttpServletRequest request,HttpServletResponse response,Long custid){
-
-			System.out.println(custid);
-			
-//			Long[] ids = {Long.parseLong(cust_id)};
-//			
-//			service.delete(RmsCompanyInfo.class, ids);
-			
-			RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, custid);
-			//String  loginName=SysUtils.getLoginName();
-					if(compInfo!=null){
-			    	compInfo.setChangeTime(new Date());;			    	
-			    	compInfo.setState(-1);
-					service.save(compInfo);
-					}
-			return "redirect:/admin/rmsCompanyInfo/list.do";
-			
-		
-		}
-	
 	
 	
 	//上传文件
@@ -351,23 +282,23 @@ public class RmsCompanyInfoAct {
 
 		for(int i=0;i<2;i++){
 	
-			RmsCompanyInfo rci = new RmsCompanyInfo();
-			rci.setCustCfname("test");
-			rci.setCustCsname("test");
-			rci.setCustOrgid("123");
-			rci.setCustEfname("111");
-			rci.setCustEsname("123");
-			rci.setCustIndustry1("222");
-			rci.setCustIndustry2("1112");
-			rci.setAreaCode("122");
-			rci.setDistrictName("2222");
-			rci.setProvinceName("122");
-			rci.setCityName("122");
-			rci.setCustIndustrycode("122");
-			rci.setPinyin("a");
-	//		rci.setState(1);
-			rci.setCreateTime(new Date());
-			rci.setChangeTime(new Date());
+			RmsCorporateUser rci = new RmsCorporateUser();
+//			rci.setCustCfname("test");
+//			rci.setCustCsname("test");
+//			rci.setCustOrgid("123");
+//			rci.setCustEfname("111");
+//			rci.setCustEsname("123");
+//			rci.setCustIndustry1("222");
+//			rci.setCustIndustry2("1112");
+//			rci.setAreaCode("122");
+//			rci.setDistrictName("2222");
+//			rci.setProvinceName("122");
+//			rci.setCityName("122");
+//			rci.setCustIndustrycode("122");
+//			rci.setPinyin("a");
+//	//		rci.setState(1);
+//			rci.setCreateTime(new Date());
+//			rci.setChangeTime(new Date());
 			list.add(rci);
 		}
 	
