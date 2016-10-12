@@ -1,8 +1,10 @@
 package com.trs.rms.usermgr.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,6 +100,7 @@ public class RmsRoleAct {
 		model.addAttribute("perms", "");
 	   if(role!=null&&perms!=null&&perms.getRolePerms()!=null)
 	      model.addAttribute("perms", perms.getRolePerms());
+	   model.addAttribute("role", role);
 		return "role/edit";
 	}
 	@RequiresPermissions({"admin:role:edit"})
@@ -133,7 +136,18 @@ public class RmsRoleAct {
 		ResponseUtils.renderJson(response,json.toString());
 	}
 	
-	
+	@RequestMapping("/view.do")
+	public  String   view(Long  id,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		RmsRole role=(RmsRole) service.queryById(RmsRole.class, id);
+		RmsRolePerm perms=role.getRmsRolePerm();
+		model.addAttribute("perms", "");
+	   if(role!=null&&perms!=null&&perms.getRolePerms()!=null)
+	      model.addAttribute("perms", perms.getRolePerms());
+	   model.addAttribute("role", role);
+		return "role/view";
+	}
 	
 	
 	

@@ -76,7 +76,7 @@
 					<!-- content starts -->
 					<div>
                      <div class="box-header well"  >
-                        <a  href="#"><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加角色</a>
+                        <a  href="<%=ctx %>/admin/rmsRole/v_add.do" ><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加角色</a>
                       </div>					
 					
 					</div>
@@ -84,7 +84,7 @@
 					<div class="row">
 							<br>
 					
-					<form action="<%=ctx %>/admin/rmsRole/v_list.do"  style="margin-left: 20px"  method="post"  id="data">
+					<form action="<%=ctx %>/admin/rmsRole/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 					<div class="col-md-6">
 						<div class="dataTables_length">
 							<label><select name="pageSize" class="" id="pageSize">
@@ -94,7 +94,7 @@
 									<option value="100">100</option></select>条每页</label>
 						</div>
 					</div>
-					<div class="col-md-6" >
+					<div class="col-md-6 td-right" >
 						<div  class="dataTables_filter">
 							<label>名称:<input type="text" class="" id="searchword" name="searchword" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
 						</div>
@@ -132,10 +132,10 @@
 												</td>
 												<td>${rmsRole.createTime }</td>
 												<td class="center font-right">
-													<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsUser/view.do?id=${rmsRole.roleId }"  target="_blank">
+													<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsRole/view.do?id=${rmsRole.roleId }"  target="_blank">
 														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 													</a>
-													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsUser/v_edit.do?id=${rmsRole.roleId }"  target="_self">
+													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsRole/v_edit.do?id=${rmsRole.roleId }"  target="_self">
 														<i class="glyphicon glyphicon-edit icon-white"></i>修改
 													</a>
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsRole.roleId })" >
@@ -192,7 +192,7 @@
 		                </div>
 		                <div class="modal-body">
 		                <input  type="hidden"  id="delid"  value="">
-		                    <p>你将要删除此用户？</p>
+		                    <p>你将要删除此角色？</p>
 		                </div>
 		                <div class="modal-footer">
 		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>

@@ -6,7 +6,34 @@
  <jspversion>1.1</jspversion>
  <shortname>bean</shortname>
 <uri>pageTag</uri>
-
+<tag>
+  <name>page1</name>
+  <tagclass>com.trs.rms.base.tag.PageTag1</tagclass>
+  <attribute>
+   <name>pageNo</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+   <name>pageSize</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+   <name>rowCount</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+   <name>pageCount</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+  <attribute>
+   <name>targetId</name>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
  <tag>
   <name>page2</name>
   <tagclass>com.trs.rms.base.tag.PageTag2</tagclass>

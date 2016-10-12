@@ -18,11 +18,12 @@
       
        <script type="text/javascript">
       
-              var setting1 = {check: {enable: true},data: {simpleData: {enable: true}}};
-              var ztree = null;
+       var setting1 = {check: {enable: true},data: {simpleData: {enable: true}}};
+       var ztree = null;
        $(document).ready(function () {
-           $("#_edituser").Validform();
+           $("#_editrole").Validform();
      	    ztree = $.fn.zTree.init($("#permtree"), setting1,znodes);
+      	   ztree.expandAll(true);
 
          });
 
@@ -38,6 +39,9 @@
     		$("#allperms").empty().append(str);
     		$("#_editrole").submit();
     	}
+       
+       function winback() {
+    	   history.go(-1);	}
 
        </script>
 	</head>
@@ -64,10 +68,34 @@
             <form action="<%=ctx %>/admin/rmsRole/edit.do"   method="post" id="_editrole">
                 
                <div style="display: none"> 
-               <input  type="text"  value=""  name="id">
+               <input  type="text"  value="${role.roleId }"  name="id">
                 </div> 
                 
                 <table class="table table-bordered table-striped">
+                <tr>
+                <td>角色名称：</td>
+                <td>
+                <input type="text"  name="roleName"
+				value="${role.roleName }" class="form-control"
+			     datatype="s2-16" errormsg="角色名称至少2个字符,最多16个字符！">
+                
+                </td>
+               
+                <td>拥有所有权限：</td>
+               
+                <td>
+                <c:if test="${role.isAllPerm==1 }">
+                 <input  name="isAllPerm" type="radio" value="1" checked="checked">是
+                <input  name="isAllPerm" type="radio"  value="2" >否
+                </c:if>
+                 <c:if test="${role.isAllPerm==2 }">
+                   <input  name="isAllPerm" type="radio" value="1" >是
+                   <input  name="isAllPerm" type="radio"  value="2" checked="checked">否
+                </c:if>
+                </td>
+               
+               </tr>   
+                
               <tr>
               <td class="ftit">功能权限：</td>
               <td colspan="3">
@@ -78,11 +106,19 @@
               <div style="display:none;" id="allperms"></div>
               </td>
             </tr>
+            
+             <tr>
+              <td >简单介绍：</td>
+              <td colspan="3">
+			   <textarea rows="2" cols=""  style="width: 80%"  name="description">${role.description }</textarea>
+              </td>
+            </tr>
                    
                     <tr><td  colspan="4" class="td-center">
-                    
-                    <input  type="submit"  class="btn btn-primary "   value="修改">                    
-                    </td></tr>
+                    	<input type="button" class="btn btn-primary " value="返回" onclick="winback()">									
+                    	<input  type="button"  class="btn btn-primary " onclick="checksubmit()"  value="保存">
+                    </td>
+                    </tr>
                  
                 </table>
                 </form>

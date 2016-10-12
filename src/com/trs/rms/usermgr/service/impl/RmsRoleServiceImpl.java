@@ -29,6 +29,7 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 	public void saveRole(String roleName, Integer isAllPerm,String description, String perms) {
 		RmsRole rmsRole = new RmsRole(roleName, new Date(), new Date(), isAllPerm);
 		rmsRole.setDescription(description);
+		rmsRole.setPriority(2);
 		RmsRolePerm rpw = new RmsRolePerm(rmsRole, perms, new Date(), new Date());
 		dao.save(rmsRole);
 		dao.save(rpw);
@@ -78,6 +79,10 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 	@Override
 	public void delRole(long id) {
 		RmsRole role = (RmsRole) this.dao.getById(RmsRole.class, id);
+		if(role!=null){
+			if(role.getPriority()==1)
+				return;
+		}
 	    this.dao.delete(role);
 	}
 	@Override

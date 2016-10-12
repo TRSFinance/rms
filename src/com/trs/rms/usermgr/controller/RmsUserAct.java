@@ -2,26 +2,21 @@ package com.trs.rms.usermgr.controller;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.page.RmsUserPage;
 import com.trs.rms.usermgr.service.RmsUserService;
-
 @Controller
 @RequestMapping("/rmsUser")
 public class RmsUserAct {
@@ -60,7 +55,7 @@ public class RmsUserAct {
 	
 	
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
-	public   String   save(
+	public  String   save(
 			String  username,
 			String  userpassword,
 			String  userpassword2,
@@ -131,10 +126,15 @@ public class RmsUserAct {
 		String  loginName=SysUtils.getLoginName();
 		RmsUser user=(RmsUser) service.queryById(RmsUser.class, userId);
 		if(user!=null){
+			if("admin".equals(user.getLoginName())||"root".equals(user.getLoginName())){
+			json.put("success", false);
+			}else{
 			user.setUpdateTime(new Date());
 			user.setUserState(2);;
 			user.setUpdateUser(loginName);
 			service.update(user);
+			}
+		
 		}
 		ResponseUtils.renderJson(response,json.toString());
 	}
