@@ -21,7 +21,6 @@
       <% Enumeration<String> ls=request.getAttributeNames();
          Exception  e=(Exception)request.getAttribute("exception");
 	     String message=e.getMessage();
-	     System.out.println(message);
       %>
        <%=message %>
     </TD>  
