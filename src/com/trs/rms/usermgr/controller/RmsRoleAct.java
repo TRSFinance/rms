@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,16 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.trs.rms.base.util.ResponseUtils;
-import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.usermgr.bean.RmsRole;
 import com.trs.rms.usermgr.bean.RmsRolePerm;
-import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.page.RmsRolePage;
-import com.trs.rms.usermgr.page.RmsUserPage;
 import com.trs.rms.usermgr.service.RmsRoleService;
-
 @Controller
 @RequestMapping("/rmsRole")
 public class RmsRoleAct {
@@ -135,7 +131,7 @@ public class RmsRoleAct {
 		}
 		ResponseUtils.renderJson(response,json.toString());
 	}
-	
+	@RequiresPermissions({"admin:role:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -148,7 +144,19 @@ public class RmsRoleAct {
 	   model.addAttribute("role", role);
 		return "role/view";
 	}
-	
+	@RequestMapping(value={"/a_rolename.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   void   ajaxRolename(
+			String  rolename,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+		JSONObject json = new JSONObject();
+		json.put("exist", false);
+	    if(!StringUtils.isBlank(rolename)){
+			json.put("exist", service.isExist(rolename));
+	    }
+		ResponseUtils.renderJson(response,json.toString());
+
+	}
 	
 	
 }

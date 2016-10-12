@@ -2,15 +2,19 @@ package com.trs.rms.usermgr.controller;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
@@ -35,6 +39,7 @@ public class RmsUserAct {
 		model.addAttribute("data", list);
 		return "user/list";
 	}
+	@RequiresPermissions({"admin:user:query"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
@@ -43,7 +48,7 @@ public class RmsUserAct {
 		model.addAttribute("data", list);
 		return "user/list";
 	}
-	
+	@RequiresPermissions({"admin:user:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -53,7 +58,7 @@ public class RmsUserAct {
 		return "user/view";
 	}
 	
-	
+	@RequiresPermissions({"admin:user:add"})
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public  String   save(
 			String  username,
@@ -93,7 +98,7 @@ public class RmsUserAct {
 		return "user/edit";
 	}
 	
-	
+	@RequiresPermissions({"admin:user:edit"})
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  id,
@@ -116,7 +121,7 @@ public class RmsUserAct {
 		return "redirect:/admin/rmsUser/list.do";
 	}
 	
-	
+	@RequiresPermissions({"admin:user:del"})
 	@RequestMapping("/a_del.do")
 	public   void   ajaxDel(Long  userId,
 			HttpServletRequest request,HttpServletResponse response,

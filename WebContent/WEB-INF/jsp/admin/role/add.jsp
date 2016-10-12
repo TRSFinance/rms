@@ -26,6 +26,27 @@
       	   ztree.expandAll(true);
 
          });
+       
+       function  submitData(){
+    	   var  roleName=$("input[name=roleName]").val();
+    	   $.ajax({
+      			url:'<%=ctx%>/admin/rmsRole/a_rolename.do?random='+Math.random(),
+      			type:"POST",
+      			cache:false,
+      			dataType:"json",
+      			data:{'rolename':roleName},
+      			success:function(data){
+      				if(data.exist){
+      					alert("已存在该名称！");
+      				}else{
+      					checksubmit();
+      					}
+      			},
+      			error:function(){
+      			}
+      		});
+       }
+       
 
        function checksubmit(){
     		var nodes = ztree.getCheckedNodes(true);
@@ -104,7 +125,7 @@
                    
                     <tr><td  colspan="4"  class="td-center">
                     
-                    	<input  type="button"  class="btn btn-primary " onclick="checksubmit()"  value="保存">
+                    	<input  type="button"  class="btn btn-primary " onclick="submitData()"  value="保存">
                     
                    
                     

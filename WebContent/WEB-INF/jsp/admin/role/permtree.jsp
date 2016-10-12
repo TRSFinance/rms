@@ -30,11 +30,17 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 				  checked:true
 				  </c:if>
 			      },
+			      {id:"admin:user:query",name:"查询",pId:"admin:user:mgr"
+					  <c:if test="${fn:contains(perms,'admin:user:query')}">,	      
+					  checked:true
+					  </c:if>
+				      },
 			      {id:"admin:user:add",name:"添加",pId:"admin:user:mgr"
 					  <c:if test="${fn:contains(perms,'admin:user:add')}">,	      
 					  checked:true
 					  </c:if>
 				      },
+				      
 			      {id:"admin:user:view",name:"查看",pId:"admin:user:mgr"
 					  <c:if test="${fn:contains(perms,'admin:user:view')}">,	      
 					  checked:true
@@ -50,6 +56,37 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 					  checked:true
 					  </c:if>
 				      }
+				      ,
+				      {id:"admin:role:mgr",name:"角色管理",pId:"admin:system:mgr"
+					  <c:if test="${fn:contains(perms,'admin:role:mgr')}">,	      
+					  checked:true
+					  </c:if>
+				      },
+				      {id:"admin:role:query",name:"查询",pId:"admin:role:mgr"
+						  <c:if test="${fn:contains(perms,'admin:role:query')}">,	      
+						  checked:true
+						  </c:if>
+					      },
+				      {id:"admin:role:add",name:"添加",pId:"admin:role:mgr"
+						  <c:if test="${fn:contains(perms,'admin:role:add')}">,	      
+						  checked:true
+						  </c:if>
+					      },
+				      {id:"admin:role:view",name:"查看",pId:"admin:role:mgr"
+						  <c:if test="${fn:contains(perms,'admin:role:view')}">,	      
+						  checked:true
+						  </c:if>
+					      },
+				      {id:"admin:role:edit",name:"修改",pId:"admin:role:mgr"
+						  <c:if test="${fn:contains(perms,'admin:role:edit')}">,	      
+						  checked:true
+						  </c:if>
+					      },
+				      {id:"admin:role:del",name:"删除",pId:"admin:role:mgr"
+						  <c:if test="${fn:contains(perms,'admin:role:del')}">,	      
+						  checked:true
+						  </c:if>
+					      }
 		      
 		      ];
 </script>

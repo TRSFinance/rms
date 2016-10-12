@@ -9,5 +9,13 @@
 </head>
 <body>
 我是测试的！哈哈哈哈哈。。。
+<!--  <c:set var="theString" value="*"/> -->
+                        
+<%--                         <c:if test="${fn:contains(theString,'test')}"> --%>
+<!--                         asdasdsada -->
+                        
+<!--                         </c:if> -->
+
+
 </body>
 </html>
