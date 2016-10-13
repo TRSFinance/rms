@@ -17,6 +17,7 @@
 	<script src="<%=request.getContextPath() %>/style/js/responsive-tables.js"></script>
 	<!-- data table plugin -->
     <script src='<%=request.getContextPath() %>/style/js/jquery.dataTables.min.js'></script>
+	<script src='<%=request.getContextPath() %>/plug/jquery/jquery-cookie/v1.4.1/jquery.cookie.js'></script>
 	<script src="<%=request.getContextPath() %>/style/js/common.js"></script>
     
     

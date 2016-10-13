@@ -4,7 +4,7 @@
 	<div class="navbar navbar-default" role="navigation">
 
 			<div class="navbar-inner">
-				<a class="navbar-brand" href=""> <!--<img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" />-->
+				<a class="navbar-brand" href="<%=request.getContextPath() %>/"> <!--<img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" />-->
 					<span>风险管理系统</span></a>
 
 				<!-- user dropdown starts -->
@@ -23,33 +23,16 @@
 						</li>
 					</ul>
 				</div>
-				<!-- user dropdown ends -->
+			
 				
-			    <div class="navbar-nav " style="width: 60%; margin-left: 4%;">
-					<div class=" row">
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-user blue"></i>					
-					            <div>企业管理</div>
-					        </a>
-					    </div>
-					
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-retweet green"></i>					
-					            <div>数据推送</div>
-					        </a>
-					    </div>
-					
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-cog yellow"></i>					
-					            <div>系统管理</div>
-					        </a>
-					    </div>
-	
-					</div>
-				</div>
+				
+				
+				  <ul class="collapse navbar-collapse nav navbar-nav top-menu"  id="head_nav">
+	                <li><a href="#"><i class="glyphicon glyphicon-user"></i> 企业管理</a></li>
+	                <li><a href="#"><i class="glyphicon glyphicon-retweet"></i> 数据推送</a></li>
+			<li><a href="#"><i class="glyphicon glyphicon-globe"></i> 网站管理</a></li>
+	                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 系统管理</a></li>
+	            </ul>	
 
 			</div>
 		</div>

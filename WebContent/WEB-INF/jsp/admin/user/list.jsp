@@ -89,7 +89,7 @@
 					</div>
 
 					<div class="row">
-					<form action="<%=ctx %>/admin/rmsUser/v_list.do"  style="margin-left: 20px"  method="post"  id="data">
+					<form action="<%=ctx %>/admin/rmsUser/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 					<div class="col-md-6">
 						<div class="dataTables_length">
 							<label><select name="pageSize" class="" id="pageSize">
@@ -99,7 +99,7 @@
 									<option value="100">100</option></select>条每页</label>
 						</div>
 					</div>
-					<div class="col-md-6" >
+					<div class="col-md-6 td-right" >
 						<div  class="dataTables_filter">
 							<label>搜索:<input type="text" class="" name="username" value="${page.searchword }"></label>
 						</div>

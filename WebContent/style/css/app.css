@@ -179,7 +179,7 @@ div.center, p.center, img.center {
     letter-spacing: 2px;
     width: 193px;
     font-size: 17px;
-    padding: 23px 15px;
+   /* padding: 23px 15px;*/
 }
 
 .navbar-brand img {
@@ -202,10 +202,8 @@ div.center, p.center, img.center {
 }
 
 .navbar-inner {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    line-height: 30px;
-    height: 60px;
+       margin: 7px 5px 0 5px;
+
 }
 
 .navbar-inner .btn-group {
@@ -558,7 +556,7 @@ ul.github-buttons li {
 
 /* 首页 */
 .com-list{ position: relative;}
-.com-add{ position: absolute; left: 26px; top: 9px;}
+.com-add{ position: absolute; left: 26px; top: 9px; z-index: 9999;}
 #content .box{ margin-top: 0px;}
 .ch-container .col-sm-2{ padding-right: 0;}
 .nav>li>a{ padding-right: 5px;}
@@ -583,6 +581,17 @@ ul.github-buttons li {
 @media only screen and (max-width:768px ) {
 	.title-right{padding-right: 0px;}
 }
+
+/* 样式新增 */
+#head_nav>li>a{ padding-right: 15px;}
+
+/*网站管理*/
+.com-add button{ margin-right: 7px;}
+
+/*规则分类维护*/
+ul.ztree {margin-top: 30px;width:220px;max-height:550px;overflow-y:auto; overflow-x: auto;}
+.rule_con .dataTables_filter{ visibility: hidden;}
+
 
 /*zxh*/
 
