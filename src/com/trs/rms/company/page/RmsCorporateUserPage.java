@@ -16,7 +16,7 @@ public class RmsCorporateUserPage extends BasicPage{
 
 	@Override
 	public void addParameter() {
-		String hql = "  from  com.trs.rms.company.bean.RmsCorporateUser rcu where 1=1   ";
+		String hql = "  from  com.trs.rms.company.bean.RmsCorporateUser rcu where 1=1 and rcu.rmsUser.userState=1 ";
 //		hql= hql+"  and rci.userState=?";
 //		this.addParams(Types.INTEGER,1);
 		if(searchword!=null &&  searchword.trim().length()>0){

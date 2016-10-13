@@ -109,12 +109,12 @@
 		                           <li class="nav nav-pills nav-stacked" style="overflow:auto;height:200px">
 		                            <ul class="nav nav-pills nav-stacked" id="companyList" >
 		                            
-<%-- 		                            <c:if test="${!empty data2}">  --%>
-<%-- 										<c:forEach items="${data2}" var="RmsCorporateUsers" varStatus="status"> --%>
-<%-- 		                            		<li><a href="#" class="ajax-link">${ RmsCorporateUsers.corporateName}</a></li>	 --%>
-		                            	
-<%-- 		                            	</c:forEach> --%>
-<%-- 		                            </c:if> --%>
+		                            <c:if test="${!empty data2}"> 
+										<c:forEach items="${data2}" var="RmsCorporateUsers" varStatus="status">
+		                            		<li><a href="<%=ctx%>/admin/rmsCompanyInfo/list.do?userId=${ RmsCorporateUsers.userId}">${ RmsCorporateUsers.corporateName}</a></li>			                      	
+		                            	</c:forEach>
+		                            </c:if>
+
 <!-- 		                                <li><a href="企业名单管理.html" class="ajax-link">东亚银行</a></li> -->
 <!-- 		                                <li><a href="#" class="ajax-link">农业银行</a></li>	  -->
 
@@ -126,7 +126,7 @@
 
 	$(document).ready(function(){
 		
-		companyList();
+		//companyList();
 
 	});
 
@@ -140,7 +140,8 @@
 			       	for(var i=0;i<data.cool.length;i++){
 			       		//alert("返回数据成功");
 			       		
-			       		$("#companyList").append("<li><a href='#' class='ajax-link'>"+data.cool[i].corporateName+"</a></li>");
+<%-- 			       		<li><a class='ajax-link' href="<%=ctx%>/admin/rmsCompanyInfo/list.do?userId=data.cool[i].userId"></a></li> --%>
+			       		$("#companyList").append("<li><a class='ajax-link' href='<%=ctx%>/admin/rmsCompanyInfo/list.do?userId='"+data.cool[i].userId+">"+data.cool[i].corporateName+"</a></li>");
 			       		 
 			       		//alert(data.cool[i].CustCfname);                		
 			       	}                    
@@ -261,20 +262,20 @@
 											 <c:if test="${!empty data}"> 
 										        <c:forEach items="${data}" var="RmsCompanys" varStatus="status">
 											     	<tr>
-											     		<td style="display:none">${ RmsCompanys.custId}</td>
+											     		<td style="display:none">${ RmsCompanys.companyInfo.custId}</td>
 												     	<td>${ status.index  + 1 + page.pageSize*(page.pageNo-1)} </td>
-														<td>${ RmsCompanys.custCfname}</td>
-														<td>${ RmsCompanys.custCsname}</td>
-														<td>${ RmsCompanys.custEfname}</td>
-														<td>${ RmsCompanys.custEsname}</td>
+														<td>${ RmsCompanys.companyInfo.custCfname}</td>
+														<td>${ RmsCompanys.companyInfo.custCsname}</td>
+														<td>${ RmsCompanys.companyInfo.custEfname}</td>
+														<td>${ RmsCompanys.companyInfo.custEsname}</td>
 														<td class="center font-right">
-															<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsCompanyInfo/view.do?id=${ RmsCompanys.custId}" target="_blank">
+															<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsCompanyInfo/view.do?id=${ RmsCompanys.companyInfo.custId}" target="_blank">
 																<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 															</a>
-															<a class="btn btn-info btn-sm btn-setting" href="<%=ctx%>/admin/rmsCompanyInfo/v_edit.do?id=${ RmsCompanys.custId}" target="_blank">
+															<a class="btn btn-info btn-sm btn-setting" href="<%=ctx%>/admin/rmsCompanyInfo/v_edit.do?id=${ RmsCompanys.companyInfo.custId}" target="_blank">
 																<i class="glyphicon glyphicon-edit icon-white"></i>修改
 															</a>
-															<a class="btn btn-danger btn-sm btn-warn" onclick="dels(${ RmsCompanys.custId})">
+															<a class="btn btn-danger btn-sm btn-warn" onclick="dels(${ RmsCompanys.companyInfo.custId})">
 																<i class="glyphicon glyphicon-trash icon-white"></i>删除
 															</a>
 														</td>
@@ -283,8 +284,13 @@
 										     </c:if>   
 										     
 										     <c:if test="${empty data}"> 
-										            没有相关数据！
+										      	 <tr>
+												      <td colspan="5">
+												                   没有查到相关数据！
+												      </td>
+										     	 </tr>
 										      </c:if>
+										      
 											
 											<!--  任务循环结束  -->	
 

@@ -246,7 +246,9 @@
 											<tr>
 												<th>序号</th>
 												<th>企业用户名称</th>
-												<th>企业名单数</th>											
+												<th>企业用户说明</th>
+												<th>联系电话</th>	
+												<th>客户邮箱</th>																						
 												<th>操作</th>
 											</tr>
 											<!--  表头信息结束 -->
@@ -259,7 +261,9 @@
 											     		<td style="display:none">${ RmsCorporateUsers.userId}</td>
 												     	<td>${ status.index  + 1 + page.pageSize*(page.pageNo-1)} </td>
 														<td>${ RmsCorporateUsers.corporateName}</td>
+														<td>${ RmsCorporateUsers.corporateInf}</td>
 														<td>${ RmsCorporateUsers.corporateTel}</td>
+														<td>${ RmsCorporateUsers.corporateEmail}</td>
 														<td class="center font-right">
 															<a class="btn btn-success btn-sm" href="#">
 																<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
