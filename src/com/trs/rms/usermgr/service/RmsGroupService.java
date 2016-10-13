@@ -7,5 +7,7 @@ public interface RmsGroupService  extends   BasicService {
 	
 	
 	boolean isExist(String rolename);
+	boolean isExist(Long id,String rolename);
+
 
 }

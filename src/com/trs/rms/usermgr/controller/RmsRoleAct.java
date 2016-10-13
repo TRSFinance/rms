@@ -157,6 +157,20 @@ public class RmsRoleAct {
 		ResponseUtils.renderJson(response,json.toString());
 
 	}
+	@RequestMapping(value={"/e_rolename.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   void   ajaxRolename(
+			Long   id,
+			String  rolename,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+		JSONObject json = new JSONObject();
+		json.put("exist", false);
+	    if(!StringUtils.isBlank(rolename)){
+			json.put("exist", service.isExist(id,rolename));
+	    }
+		ResponseUtils.renderJson(response,json.toString());
+
+	}
 	
 	
 }

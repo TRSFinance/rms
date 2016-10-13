@@ -4,9 +4,11 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.trs.rms.base.dao.IDao;
 import com.trs.rms.base.page.Param;
 import com.trs.rms.base.service.BasicServicveImpl;
@@ -70,6 +72,21 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 		if(list==null||list.size()==0)
 		return false;
 		return  true;
+	}
+	@Override
+	public boolean isExist(Long id, String rolename) {
+		
+		
+		List<Param>  paramList=new ArrayList<Param>();
+		String  hql="  FROM   com.trs.rms.usermgr.bean.RmsRole  where  roleName=? AND  roleId<>?";
+		paramList.add(new Param(Types.VARCHAR, rolename.trim()));
+		paramList.add(new Param(Types.BIGINT, id));
+
+		@SuppressWarnings("unchecked")
+		List<RmsRole> list = dao.query(hql, paramList);
+		if(list==null||list.size()==0)
+		return false;
+		return  true;	
 	}
 
 	

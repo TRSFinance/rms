@@ -37,6 +37,20 @@ public class RmsGroupServiceImpl  extends  BasicServicveImpl   implements RmsGro
 		return  true;
 	}
 
+	@Override
+	public boolean isExist(Long id, String rolename) {
+		List<Param>  paramList=new ArrayList<Param>();
+		String  hql="  FROM   com.trs.rms.usermgr.bean.RmsGroup  where  groupName=?  AND groupId<>?";
+		paramList.add(new Param(Types.VARCHAR, rolename.trim()));
+		paramList.add(new Param(Types.BIGINT, id));
+
+		@SuppressWarnings("unchecked")
+		List<RmsGroup> list = dao.query(hql, paramList);
+		if(list==null||list.size()==0)
+		return false;
+		return  true;
+	}
+
 	
 
 	

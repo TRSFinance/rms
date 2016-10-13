@@ -29,12 +29,14 @@
 
        function  submitData(){
     	   var  roleName=$("input[name=roleName]").val();
+    	   var  id=$("input[name=id]").val();
+
     	   $.ajax({
-      			url:'<%=ctx%>/admin/rmsRole/a_rolename.do?random='+Math.random(),
+      			url:'<%=ctx%>/admin/rmsRole/e_rolename.do?random='+Math.random(),
       			type:"POST",
       			cache:false,
       			dataType:"json",
-      			data:{'rolename':roleName},
+      			data:{'id':id,'rolename':roleName},
       			success:function(data){
       				if(data.exist){
       					alert("已存在该名称！");

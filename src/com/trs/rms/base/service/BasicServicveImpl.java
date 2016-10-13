@@ -48,6 +48,12 @@ public class BasicServicveImpl implements BasicService {
 	public void setDao(IDao dao) {
 		this.dao = dao;
 	}
+
+	@Override
+	public void delete(Class cla, Serializable id) {
+		Object obj = this.queryById(cla, id );
+		dao.delete(obj);		
+	}
 	
 
 }

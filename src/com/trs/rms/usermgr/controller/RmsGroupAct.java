@@ -1,9 +1,11 @@
 package com.trs.rms.usermgr.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.trs.rms.base.util.ResponseUtils;
+import com.trs.rms.usermgr.bean.RmsGroup;
 import com.trs.rms.usermgr.page.RmsGroupPage;
 import com.trs.rms.usermgr.service.RmsGroupService;
 @Controller
@@ -41,7 +45,7 @@ public class RmsGroupAct {
 		model.addAttribute("data", list);
 		return "group/list";
 	}
-	@RequiresPermissions({"admin:role:query"})
+	@RequiresPermissions({"admin:group:query"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
@@ -55,41 +59,42 @@ public class RmsGroupAct {
 			ModelMap model){
 		return "group/add";
 	}
-	@RequiresPermissions({"admin:role:save"})
+	@RequiresPermissions({"admin:group:save"})
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public    String  save(
-			    String roleName,
-				Integer     isAllPerm,
-				String      perms,
-				String description,
+			    String groupName,
 			    HttpServletRequest request,
 			    HttpServletResponse response,
 			    ModelMap model){
-		
-	       log.debug("add Role roleName={}", roleName);
+		   RmsGroup  group= new RmsGroup(groupName, 2, new Date(), new Date());
+		   service.save(group);
+	       log.debug("add Group groupName={}", groupName);
 		
 		return "redirect:/admin/rmsGroup/list.do";
 	}
 	@RequestMapping(value={"/v_edit.do"})
 	public   String   vedit(Long id,HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-	
+		RmsGroup     group= (RmsGroup) service.queryById(RmsGroup.class, id);
+		model.addAttribute("group", group);
 		return "group/edit";
 	}
-	@RequiresPermissions({"admin:role:edit"})
+	@RequiresPermissions({"admin:group:edit"})
 	@RequestMapping(value={"/edit.do"})
 	public   String   edit(Long id, 
-			String roleName, 
-			Integer isAllPerm,
-			String  description,
-			String perms,
+			String groupName, 
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-		
-		return "redirect:/admin/rmsRole/list.do";
+		RmsGroup     group= (RmsGroup) service.queryById(RmsGroup.class, id);
+		if(group!=null){
+			group.setUpdateTime(new Date());
+			group.setGroupName(groupName);
+			service.update(group);
+		}
+		return "redirect:/admin/rmsGroup/list.do";
 		
 	}
-	@RequiresPermissions({"admin:role:del"})
+	@RequiresPermissions({"admin:group:del"})
 	@RequestMapping("/a_del.do")
 	public   void   ajaxDel(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -97,28 +102,45 @@ public class RmsGroupAct {
 		JSONObject json = new JSONObject();
 		json.put("success", true);
 		try {
+				service.delete(RmsGroup.class, id);
 		} catch (Exception e) {
 			json.put("success", false);
 		}
 		ResponseUtils.renderJson(response,json.toString());
 	}
-	@RequiresPermissions({"admin:role:view"})
+	@RequiresPermissions({"admin:group:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-	
+		RmsGroup     group= (RmsGroup) service.queryById(RmsGroup.class, id);
+		model.addAttribute("group", group);
 		return "group/view";
 	}
-	@RequestMapping(value={"/a_rolename.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	@RequestMapping(value={"/a_groupname.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   void   ajaxRolename(
-			String  rolename,
+			String  groupName,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model) throws JSONException{
 		JSONObject json = new JSONObject();
 		json.put("exist", false);
-	    if(!StringUtils.isBlank(rolename)){
-			json.put("exist", service.isExist(rolename));
+	    if(!StringUtils.isBlank(groupName)){
+			json.put("exist", service.isExist(groupName));
+	    }
+		ResponseUtils.renderJson(response,json.toString());
+
+	}
+	
+	@RequestMapping(value={"/e_groupname.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   void   ajaxRolename(
+			Long    id,
+			String  groupName,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+		JSONObject json = new JSONObject();
+		json.put("exist", false);
+	    if(!StringUtils.isBlank(groupName)){
+			json.put("exist", service.isExist(groupName));
 	    }
 		ResponseUtils.renderJson(response,json.toString());
 

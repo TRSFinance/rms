@@ -17,7 +17,7 @@ public class RmsGroupPage   extends  BasicPage{
 		String hql = "  from  com.trs.rms.usermgr.bean.RmsGroup rg where 1=1   ";
 
 		if(searchword!=null &&  searchword.trim().length()>0){
-			hql= hql+"  and rg.ro like ?";
+			hql= hql+"  and rg.groupName like ?";
 			this.addParams(Types.VARCHAR,"%"+searchword.trim()+"%");
 		}
 		

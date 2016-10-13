@@ -75,15 +75,14 @@
 					<!-- content starts -->
 					<div>
                      <div class="box-header well"  >
-                        <a  href="<%=ctx %>/admin/rmsRole/v_add.do" ><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加组织</a>
+                        <a  href="<%=ctx %>/admin/rmsGroup/v_add.do" ><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加组织</a>
                       </div>					
-					
 					</div>
 
 					<div class="row">
 							<br>
 					
-					<form action="<%=ctx %>/admin/rmsRole/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
+					<form action="<%=ctx %>/admin/rmsGroup/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 					<div class="col-md-6">
 						<div class="dataTables_length">
 							<label><select name="pageSize" class="" id="pageSize">
@@ -170,66 +169,7 @@
 			<!--/fluid-row-->
 		
 		<hr>
-		    	<!-- 新增组织浮层开始-->
-		    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-		         aria-hidden="true">
-		      
-		        <div class="modal-dialog">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <button type="button" class="close" data-dismiss="modal">×</button>
-		                    <h3>添加管理用户</h3>
-		                </div>
-		                 <form action="<%=ctx%>/admin/rmsUser/save.do"  id="_adduser"  method="post">
-		                <div class="modal-body">
-		                    <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">登录名称</label>
-			                        <input type="text"  id="username" name="username" class="form-control" datatype="s5-16" errormsg="登录名称至少5个字符,最多16个字符！">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">设置密码</label>
-			                        <input type="password" class="form-control" name="userpassword" datatype="*6-15" errormsg="密码范围在6~15位之间！" >
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">确认密码</label>
-			                        <input type="password" class="form-control" name="userpassword2" datatype="*" recheck="userpassword" errormsg="您两次输入的账号密码不一致！">
-			                    </div>
-			                </div>
-			                 <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">真实姓名</label>
-			                        <input type="text" name="nickname" class="form-control" datatype="s2-16" errormsg="真实姓名至少5个字符,最多16个字符！">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">手　　机</label>
-			                        <input type="text"  name="moblie" class="form-control" datatype="m" errormsg="请输入正确的手机号！" ignore="ignore">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">邮　　箱</label>
-			                        <input type="text" name="email" class="form-control" datatype="e" errormsg="请输入正确的邮箱地址！" ignore="ignore">
-			                    </div>
-			                </div>
-				            
-		                </div>
-		                
-		                <div class="modal-footer">
-		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-		                    <input  type="button"  class="btn btn-primary "  onclick="save()" value="保存">
-		                </div>
-		                </form>
-		            </div>
-		        </div>
-		    </div>
-		    <!-- 新增组织浮层结束-->
+		
 		    
 		    
 		    <!-- 提示浮层开始-->
@@ -254,11 +194,8 @@
 		        </div>
 		    </div>
 		    <!-- 提示浮层结束-->
-		   
 		    <!-- 保存浮层结束-->
 		   <%@include file="../../common/foot.jsp" %>
-
-
 		</div>
 		
 

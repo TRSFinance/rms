@@ -34,6 +34,14 @@ public class RmsGroup implements java.io.Serializable {
 		this.updateTime = updateTime;
 		this.rmsGroupUsers = rmsGroupUsers;
 	}
+	/** full constructor */
+	public RmsGroup(String groupName, Integer isAllPerm, Date createTime,
+			Date updateTime) {
+		this.groupName = groupName;
+		this.isAllPerm = isAllPerm;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
 	// Property accessors
 	public Long getGroupId() {
 		return this.groupId;

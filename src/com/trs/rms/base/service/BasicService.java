@@ -30,5 +30,12 @@ public interface BasicService {
 	 */
 	public void delete( Class cla ,  Serializable[] ids );
 	
+	/**
+	 * 删除单个
+	 * @return
+	 */
+	public void delete( Class cla ,  Serializable id);
+	
+	
 	
 }
