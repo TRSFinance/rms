@@ -50,6 +50,49 @@ public class RmsGroupServiceImpl  extends  BasicServicveImpl   implements RmsGro
 		return false;
 		return  true;
 	}
+   
+	@Override
+	public List<RmsUser> queryUserByGroupIdN(Long groupId) {
+		List<Param>  paramList=new ArrayList<Param>();
+		String  hql="  select rgu.rmsUser "
+				+ "from  com.trs.rms.usermgr.bean.RmsGroupUser  rgu where  rgu.rmsGroup.groupId=?  ) ";
+		
+		paramList.add(new Param(Types.BIGINT, groupId));
+		@SuppressWarnings("unchecked")
+		List<RmsUser> groupuserlist = dao.query(hql, paramList);
+		
+		String   userids="";
+		if(groupuserlist!=null&&groupuserlist.size()>0){
+			
+		}
+		
+		
+		paramList=new ArrayList<Param>();
+		hql="  FROM   com.trs.rms.usermgr.bean.RmsUser  ru.userType=?   ";
+		hql= hql+"  and ru.userState<>?  and ru.userId  = some  ( select rgu.rmsUser.userId  "
+				+ "from  com.trs.rms.usermgr.bean.RmsGroupUser  rgu where  rgu.rmsGroup.groupId=?  ) ";
+		paramList.add(new Param(Types.INTEGER, 1));
+		paramList.add(new Param(Types.INTEGER, 2));
+		paramList.add(new Param(Types.BIGINT, groupId));
+		
+		@SuppressWarnings("unchecked")
+		List<RmsUser> list = dao.query(hql, paramList);
+		
+		return list;
+	}
+
+	@Override
+	public List<RmsUser> queryUserByGroupId(Long groupId) {
+		List<Param>  paramList=new ArrayList<Param>();
+		String  hql="  select rgu.rmsUser "
+				+ "from  com.trs.rms.usermgr.bean.RmsGroupUser  rgu where  rgu.rmsGroup.groupId=?  ) ";
+		
+		paramList.add(new Param(Types.BIGINT, groupId));
+		@SuppressWarnings("unchecked")
+		List<RmsUser> list = dao.query(hql, paramList);
+		
+		return list;
+	}
 
 	
 

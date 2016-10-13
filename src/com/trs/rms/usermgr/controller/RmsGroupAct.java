@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.usermgr.bean.RmsGroup;
+import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.page.RmsGroupPage;
 import com.trs.rms.usermgr.service.RmsGroupService;
 @Controller
@@ -52,6 +53,9 @@ public class RmsGroupAct {
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
+		//List<RmsUser> lists = service.queryUserByGroupId(1L);
+		List<RmsUser> listss= service.queryUserByGroupIdN(1L);
+
 		return "group/list";
 	}
 	@RequestMapping(value={"/v_add.do"})
