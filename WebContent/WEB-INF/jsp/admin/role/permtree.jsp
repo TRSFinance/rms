@@ -86,7 +86,48 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 						  <c:if test="${fn:contains(perms,'admin:role:del')}">,	      
 						  checked:true
 						  </c:if>
-					      }
+					      },
+					      {id:"admin:group:mgr",name:"组织管理",pId:"admin:system:mgr"
+							  <c:if test="${fn:contains(perms,'admin:group:mgr')}">,	      
+							  checked:true
+							  </c:if>
+						      },
+						      {id:"admin:group:query",name:"查询",pId:"admin:group:mgr"
+								  <c:if test="${fn:contains(perms,'admin:group:query')}">,	      
+								  checked:true
+								  </c:if>
+							      },
+						      {id:"admin:group:add",name:"添加",pId:"admin:group:mgr"
+								  <c:if test="${fn:contains(perms,'admin:group:add')}">,	      
+								  checked:true
+								  </c:if>
+							      },
+						      {id:"admin:group:view",name:"查看",pId:"admin:group:mgr"
+								  <c:if test="${fn:contains(perms,'admin:group:view')}">,	      
+								  checked:true
+								  </c:if>
+							      },
+						      {id:"admin:group:edit",name:"修改",pId:"admin:group:mgr"
+								  <c:if test="${fn:contains(perms,'admin:group:edit')}">,	      
+								  checked:true
+								  </c:if>
+							      },
+						      {id:"admin:group:del",name:"删除",pId:"admin:group:mgr"
+								  <c:if test="${fn:contains(perms,'admin:group:del')}">,	      
+								  checked:true
+								  </c:if>
+							      }
+							      ,
+							      {id:"admin:group:adduser",name:"添加用户",pId:"admin:group:mgr"
+									  <c:if test="${fn:contains(perms,'admin:group:adduser')}">,	      
+									  checked:true
+									  </c:if>
+								      },
+							      {id:"admin:group:deluser",name:"用户删除",pId:"admin:group:mgr"
+									  <c:if test="${fn:contains(perms,'admin:group:deluser')}">,	      
+									  checked:true
+									  </c:if>
+								      }
 		      
 		      ];
 </script>

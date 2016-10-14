@@ -22,7 +22,7 @@ public class RmsUserServiceImpl  extends  BasicServicveImpl   implements RmsUser
 		super.setDao(dao);
 	}
 
-	@Override
+	@Transactional(readOnly=true)
 	public RmsUser findByUsername(String username) {
 		List<Param>  paramList=new ArrayList<Param>();
 		String  hql="  FROM  com.trs.rms.usermgr.bean.RmsUser  where  loginName=?";
@@ -34,7 +34,7 @@ public class RmsUserServiceImpl  extends  BasicServicveImpl   implements RmsUser
 		return  list.get(0);
 	}
 
-	@Override
+	@Transactional(readOnly=true)
 	public boolean isExist(String username) {
 		List<Param>  paramList=new ArrayList<Param>();
 		String  hql="  FROM  com.trs.rms.usermgr.bean.RmsUser  where  loginName=?";

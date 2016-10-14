@@ -55,6 +55,19 @@
         
     function  query(){
     	$("#data").submit();}
+    
+    function   addGroupUser(id){
+    	$("#frameUser").attr("src","<%=ctx %>/admin/rmsGroup/groupUserN.do?groupId="+id);
+    	$("#frameModal").modal("show");
+    }
+    function   hideFrame(){
+    	$("#frameModal").modal("hide");
+    }
+    
+    function   queryGroupUser(id){
+    	$("#frameUser").attr("src","<%=ctx %>/admin/rmsGroup/groupUser.do?groupId="+id);
+    	$("#frameModal").modal("show");
+    }
         
        
        
@@ -131,6 +144,13 @@
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsGroup.groupId })" >
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
 													</a>
+													<a class="btn btn-success btn-sm" href="#"  onclick="addGroupUser(${rmsGroup.groupId })">
+														<i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户
+													</a>
+													<a class="btn btn-info btn-sm" href="#"  onclick="queryGroupUser(${rmsGroup.groupId })">
+														<i class="glyphicon glyphicon-search icon-white"></i>查询用户
+													</a>
+													
 												</td>
 											</tr>
 										     </c:forEach>
@@ -170,6 +190,23 @@
 		
 		<hr>
 		
+		    
+		    <div class="modal fade td-center" id="frameModal" tabindex="-1" role="dialog" aria-labelledby="frameModalLabel"
+		         aria-hidden="true">
+	      
+		                <div class="modal-body"  >
+		                <iframe src=""  id="frameUser" style="width: 80%;height: 500px;text-align: center;"></iframe>
+		                </div>
+		                
+		          
+		    </div>
+		    
+		    
+		    
+		    
+		    
+		    
+		    
 		    
 		    
 		    <!-- 提示浮层开始-->
