@@ -30,7 +30,7 @@
                 <comment>修改时间</comment>
             </column>
         </property>
-        <set name="rmsGroupUsers" inverse="true">
+        <set name="rmsGroupUsers" inverse="true" cascade="delete">
             <key>
                 <column name="GROUP_ID" not-null="true">
                     <comment>分组ID</comment>

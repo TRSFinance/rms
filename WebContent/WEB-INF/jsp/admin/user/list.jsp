@@ -16,7 +16,17 @@
       <script type="text/javascript">
        $(document).ready(function () {
          $("#pageSize").val("${page.pageSize}");
+         $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+         $("#_userGroupmgr").css("display","block");
          $("#_adduser").Validform();
+         var obj=$("#searchword");  
+         obj.keyup(function(event){
+         var  myEvent=event||window.event;
+         var  keycode=myEvent.keyCode;		  
+         if(keycode==13){
+             query();
+    	 } });
+         
        });
        function save() {
     	   var  userName=$("#username").val();
@@ -41,9 +51,8 @@
     	   
 	}
        function  dels(obj){
-    	
        $("#delid").val(obj);
-        $('#warnModal').modal('show');
+       $('#warnModal').modal('show');
 
        }
         function  del(){
@@ -57,14 +66,21 @@
     			data:{'userId':delid},
     			success:function(data){
     				if(data.success){
-    					window.location.href="<%=ctx%>/admin/rmsUser/list.do";
-    				}
+    					$("#data").submit();    				
+    					}
     			},
     			error:function(){
     			}
     		});
     	        }
+       function  adduser(){
+    	   $("#addUserModal").modal("show");
+       }
        
+       function  query(){
+           $("#pageSize").val(1);
+       	   $("#data").submit();
+       	  }
        
        </script>
 	</head>
@@ -83,7 +99,8 @@
 					<!-- content starts -->
 					<div>
 					<div class="breadcrumb">
-					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户</button>
+			        <a  href="#" onclick="adduser()"><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户</a>
+					
 					</div>
 					
 					</div>
@@ -101,7 +118,7 @@
 					</div>
 					<div class="col-md-6 td-right" >
 						<div  class="dataTables_filter">
-							<label>搜索:<input type="text" class="" name="username" value="${page.searchword }"></label>
+							<label>名称:<input type="text" class="" id="searchword" name="searchword" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
 						</div>
 					</div>
 					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>

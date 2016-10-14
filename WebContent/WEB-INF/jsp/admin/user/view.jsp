@@ -11,6 +11,17 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
        <%@include file="../../common/jscss.jsp" %>
+       <script type="text/javascript">
+       
+       $(document).ready(function () {
+           $("#pageSize").val("${page.pageSize}");
+           $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+           $("#_userGroupmgr").css("display","block");
+           $("#_adduser").Validform();
+         });
+       
+       </script>
+         
 	</head>
 
 	<body>

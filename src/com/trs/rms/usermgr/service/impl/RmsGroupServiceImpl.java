@@ -68,7 +68,7 @@ public class RmsGroupServiceImpl  extends  BasicServicveImpl   implements RmsGro
 				userIds.add(groupuserlist.get(i).getUserId());
 			}
 		}else{
-			userIds.add(-1);
+			userIds.add(-1L);
 		}
 		paramList=new ArrayList<Param>();
 		hql="  FROM   com.trs.rms.usermgr.bean.RmsUser  ru where   ru.userType = ?   ";

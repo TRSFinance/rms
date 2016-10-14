@@ -105,6 +105,7 @@ public class RmsGroupAct {
 		try {
 				service.delete(RmsGroup.class, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			json.put("success", false);
 		}
 		ResponseUtils.renderJson(response,json.toString());

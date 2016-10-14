@@ -15,8 +15,6 @@
        <script type="text/javascript">
        $(document).ready(function () {
            $("#_editGroup").Validform();
-           $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-           $("#_userGroupmgr").css("display","block");
      	    });
 
        function  submitData(){
@@ -63,10 +61,9 @@
 		<div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-eye-open"></i>修改组织信息</h2>
+                <h2><i class="glyphicon glyphicon-eye-open"></i>查看组织信息</h2>
             </div>
             <div class="box-content">
-            <form action="<%=ctx %>/admin/rmsGroup/edit.do"   method="post" id="_editGroup">
                 
                <div style="display: none"> 
                <input  type="text"  value="${group.groupId }"  name="id">
@@ -76,22 +73,25 @@
                 <tr>
                 <td>组织名称：</td>
                 <td>
-                <input type="text"  name="groupName"
-				value="${group.groupName }" class="form-control"
-			     datatype="s2-16" errormsg="组织名称至少2个字符,最多16个字符！">               
-                </td>
+                ${group.groupName }
+              
+               </tr> 
+                <tr>
+                <td>创建时间：</td>
+                <td>
+                ${group.createTime }
+              
                </tr>   
-                
-             
-                   
-                    <tr><td  colspan="2" class="td-center">
-                    	<input type="button" class="btn btn-primary " value="返回" onclick="winback()">									
-                    	<input  type="button"  class="btn btn-primary " onclick="submitData()"  value="保存">
+                <tr>
+                <td>修改时间：</td>
+                <td>
+                ${group.updateTime }
+               </tr> 
+               <tr><td  colspan="2" class="td-center">
+                    	<input type="button" class="btn btn-primary " value="关闭" onclick="closeWin()">									
                     </td>
-                    </tr>
-                 
+                </tr>
                 </table>
-                </form>
             </div>
         </div>
     </div>

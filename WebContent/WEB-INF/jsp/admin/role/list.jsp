@@ -16,12 +16,13 @@
       <script type="text/javascript">
        $(document).ready(function () {
          $("#pageSize").val("${page.pageSize}");
+         $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+         $("#_userGroupmgr").css("display","block");
          var obj=$("#searchword");  
          obj.keyup(function(event){
          var  myEvent=event||window.event;
          var  keycode=myEvent.keyCode;		  
          if(keycode==13){
-             $("#pageSize").val(1);
              query();
     	 } });
          
@@ -54,7 +55,9 @@
     	        }
         
     function  query(){
-    	$("#data").submit();}
+        $("#pageSize").val(1);
+    	$("#data").submit();
+    	}
         
        
        
@@ -74,15 +77,13 @@
 				   <div id="content" class="col-lg-10 col-sm-10">
 					<!-- content starts -->
 					<div>
-                     <div class="box-header well"  >
+                     <div class="breadcrumb"  >
                         <a  href="<%=ctx %>/admin/rmsRole/v_add.do" ><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加角色</a>
                       </div>					
 					
 					</div>
 
-					<div class="row">
-							<br>
-					
+					<div class="row">					
 					<form action="<%=ctx %>/admin/rmsRole/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 					<div class="col-md-6">
 						<div class="dataTables_length">
@@ -135,7 +136,7 @@
 														<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 													</a>
 													<a class="btn btn-info btn-sm " href="<%=ctx%>/admin/rmsRole/v_edit.do?id=${rmsRole.roleId }"  target="_self">
-														<i class="glyphicon glyphicon-edit icon-white"></i>修改
+													<i class="glyphicon glyphicon-edit icon-white"></i>修改
 													</a>
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsRole.roleId })" >
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
