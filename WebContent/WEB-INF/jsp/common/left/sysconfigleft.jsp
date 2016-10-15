@@ -10,16 +10,12 @@
 							</div>
 							<ul class="nav nav-pills nav-stacked main-menu">
 		                        <li class="accordion">
-		                            <a href="#"><i class="glyphicon glyphicon-tasks"></i><span>用户/组织管理</span><i class="glyphicon glyphicon-chevron-down pull-right hidden-sm"></i></a>
-		                            <ul class="nav nav-pills nav-stacked">
-		                                <li><a href="#"  class="ajax-link">用户管理<i class="glyphicon glyphicon-chevron-down pull-right hidden-sm"></i></a>
-		                                	<dl>
-		                                		<dt><a href="#">系统用户管理</a></dt>
-		                                		<dt><a href="#">企业用户管理</a></dt>
-		                                	</dl>
+		                            <a href="#"><i class="glyphicon glyphicon-tasks"></i><span>用户/组织管理</span><i class="glyphicon glyphicon-chevron-down pull-right hidden-sm" id="icondown"></i></a>
+		                            <ul class="nav nav-pills nav-stacked"  id="_userGroupmgr">
+		                                <li><a href="<%=request.getContextPath() %>/admin/rmsUser/list.do"  id="_usermgr">用户管理</a>
 		                                </li>
-		                                <li><a href="#"  class="ajax-link">组织管理</a></li>
-		                                <li><a href="#"  class="ajax-link">角色管理</a></li>
+		                                <li><a href="<%=request.getContextPath()%>/admin/rmsGroup/list.do" id="_groupmgr">组织管理</a></li>
+		                                <li><a href="<%=request.getContextPath() %>/admin/rmsRole/list.do" id="_rolemgr">角色管理</a></li>
 		                            </ul>
 		                        </li>
 		                        <li class="accordion">

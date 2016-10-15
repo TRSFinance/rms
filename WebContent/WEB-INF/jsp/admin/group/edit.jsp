@@ -6,7 +6,7 @@
 
 	<head>
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>修改角色</title>
+		<title>修改组织</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -15,6 +15,8 @@
        <script type="text/javascript">
        $(document).ready(function () {
            $("#_editGroup").Validform();
+           $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+           $("#_userGroupmgr").css("display","block");
      	    });
 
        function  submitData(){
@@ -61,7 +63,7 @@
 		<div class="box col-md-12">
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-eye-open"></i>添加角色信息</h2>
+                <h2><i class="glyphicon glyphicon-eye-open"></i>修改组织信息</h2>
             </div>
             <div class="box-content">
             <form action="<%=ctx %>/admin/rmsGroup/edit.do"   method="post" id="_editGroup">

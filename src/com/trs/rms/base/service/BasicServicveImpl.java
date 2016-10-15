@@ -27,7 +27,7 @@ public class BasicServicveImpl implements BasicService {
 		}
 		dao.delete(list);
 	}
-
+	@Transactional(readOnly=true)
 	public Object queryById(Class cla, Serializable id) {
 	
 		return dao.queryById(cla, id);

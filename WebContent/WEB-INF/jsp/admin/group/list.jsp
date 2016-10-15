@@ -16,12 +16,13 @@
       <script type="text/javascript">
        $(document).ready(function () {
          $("#pageSize").val("${page.pageSize}");
+         $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+         $("#_userGroupmgr").css("display","block");
          var obj=$("#searchword");  
          obj.keyup(function(event){
          var  myEvent=event||window.event;
          var  keycode=myEvent.keyCode;		  
          if(keycode==13){
-             $("#pageSize").val(1);
              query();
     	 } });
          
@@ -54,7 +55,22 @@
     	        }
         
     function  query(){
-    	$("#data").submit();}
+        $("#pageSize").val(1);
+    	$("#data").submit();
+    	}
+    
+    function   addGroupUser(id){
+    	$("#frameUser").attr("src","<%=ctx %>/admin/rmsGroup/groupUserN.do?groupId="+id);
+    	$("#frameModal").modal("show");
+    }
+    function   hideFrame(){
+    	$("#frameModal").modal("hide");
+    }
+    
+    function   queryGroupUser(id){
+    	$("#frameUser").attr("src","<%=ctx %>/admin/rmsGroup/groupUser.do?groupId="+id);
+    	$("#frameModal").modal("show");
+    }
         
        
        
@@ -74,13 +90,12 @@
 				   <div id="content" class="col-lg-10 col-sm-10">
 					<!-- content starts -->
 					<div>
-                     <div class="box-header well"  >
+                     <div class="breadcrumb"  >
                         <a  href="<%=ctx %>/admin/rmsGroup/v_add.do" ><i class="glyphicon glyphicon-plus-sign icon-white"></i>添加组织</a>
                       </div>					
 					</div>
 
 					<div class="row">
-							<br>
 					
 					<form action="<%=ctx %>/admin/rmsGroup/v_list.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 					<div class="col-md-6">
@@ -131,6 +146,13 @@
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsGroup.groupId })" >
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
 													</a>
+													<a class="btn btn-success btn-sm" href="#"  onclick="addGroupUser(${rmsGroup.groupId })">
+														<i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户
+													</a>
+													<a class="btn btn-info btn-sm" href="#"  onclick="queryGroupUser(${rmsGroup.groupId })">
+														<i class="glyphicon glyphicon-search icon-white"></i>查询用户
+													</a>
+													
 												</td>
 											</tr>
 										     </c:forEach>
@@ -170,6 +192,24 @@
 		
 		<hr>
 		
+		    
+		    <div class="modal fade td-center" id="frameModal" tabindex="-1" role="dialog" aria-labelledby="frameModalLabel"
+		         aria-hidden="true">
+	                   
+		                <div class="modal-body"  >
+		                 <button type="button" class="close" data-dismiss="modal">×</button>
+		                <iframe src=""  id="frameUser" style="width: 80%;height: 500px;text-align: center; "  frameborder="0" scrolling="auto" ></iframe>
+		                </div>
+		                
+		          
+		    </div>
+		    
+		    
+		    
+		    
+		    
+		    
+		    
 		    
 		    
 		    <!-- 提示浮层开始-->

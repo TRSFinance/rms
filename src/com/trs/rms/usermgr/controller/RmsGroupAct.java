@@ -53,9 +53,6 @@ public class RmsGroupAct {
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		//List<RmsUser> lists = service.queryUserByGroupId(1L);
-		List<RmsUser> listss= service.queryUserByGroupIdN(1L);
-
 		return "group/list";
 	}
 	@RequestMapping(value={"/v_add.do"})
@@ -108,6 +105,7 @@ public class RmsGroupAct {
 		try {
 				service.delete(RmsGroup.class, id);
 		} catch (Exception e) {
+			e.printStackTrace();
 			json.put("success", false);
 		}
 		ResponseUtils.renderJson(response,json.toString());
@@ -150,5 +148,66 @@ public class RmsGroupAct {
 
 	}
 	
+	@RequestMapping("/groupUser.do")
+	public   String    groupUser(Long  groupId,String search,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		List<RmsUser> groupUsers = service.queryUserByGroupId(groupId,search);
+
+	    model.addAttribute("groupUsers", groupUsers);
+		model.addAttribute("search", search);
+		model.addAttribute("groupId", groupId);
+
+		return "group/groupuser";
+	}
 	
+	@RequestMapping("/groupUserN.do")
+	public   String    groupUserN(Long  groupId,String search,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		List<RmsUser> groupUsers = service.queryUserByGroupIdN(groupId,search);
+					model.addAttribute("groupUsers", groupUsers);
+					model.addAttribute("search", search);
+					model.addAttribute("groupId", groupId);
+
+		return "group/groupusern";
+	}
+	@RequiresPermissions({"admin:group:adduser"})
+	@RequestMapping("/addGroupUsers.do")
+	public   void     addGroupUsers(Long  groupId,String userIds,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+	
+		JSONObject json = new JSONObject();
+		try {
+			service.addGroupUsers(groupId, userIds);
+			json.put("success", true);
+		} catch (Exception e) {
+			json.put("success", false);
+		}
+	   
+		ResponseUtils.renderJson(response,json.toString());
+		
+		
+		
+	}
+	@RequiresPermissions({"admin:group:deluser"})
+	@RequestMapping("/delGroupUsers.do")
+	public   void     delGroupUsers(Long  groupId,String userIds,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+	
+		JSONObject json = new JSONObject();
+		try {
+			service.delGroupUsers(groupId, userIds);
+			json.put("success", true);
+		} catch (Exception e) {
+			json.put("success", false);
+		}
+	   
+		ResponseUtils.renderJson(response,json.toString());
+		
+		
+		
+	}
+	
+	
+	
+
 }

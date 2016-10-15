@@ -61,6 +61,9 @@ public class DaoImpl extends HibernateDaoSupport implements IDao {
 					case Types.DATE:
 						query.setDate( i , (Date)p.getValue() );
 						break;
+					case Types.ARRAY:
+						query.setParameterList("inParam0", (List) p.getValue() );
+						break;
 					default:
 						query.setString( i , (String)p.getValue() );
 						break;
@@ -101,8 +104,12 @@ public class DaoImpl extends HibernateDaoSupport implements IDao {
 					case Types.DATE:
 						query.setDate( i , (Date)p.getValue() );
 						break;
+					case Types.ARRAY:
+						query.setParameterList("inParam0", (List) p.getValue() );
+						break;	
 					default:
 						query.setString( i , (String)p.getValue() );
+						
 						break;
 					}
 				}}

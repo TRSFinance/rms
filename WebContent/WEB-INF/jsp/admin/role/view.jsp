@@ -24,6 +24,8 @@
            $("#_editrole").Validform();
      	    ztree = $.fn.zTree.init($("#permtree"), setting1,znodes);
      	   ztree.expandAll(true);
+     	  $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+          $("#_userGroupmgr").css("display","block");
          });
 
        function checksubmit(){

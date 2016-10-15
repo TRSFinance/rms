@@ -54,7 +54,7 @@ $(document).ready(function () {
         $ul.slideToggle();
     });
 
-    $('.accordion li.active:first').parents('ul').slideDown();
+   // $('.accordion li.active:first').parents('ul').slideDown();
     
     //下拉菜单
     $('.nav > li > .ajax-link').click(function (e) {
@@ -67,28 +67,18 @@ $(document).ready(function () {
         
         if ($dl.is(':visible')){
         	$(this).children(".pull-right").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-        	$.cookie("subnavstation" + index1, null, {path: "/"});
 
 
         }
         else{
         	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
         	$(this).addClass("active");
-        	$.cookie("subnavstation" + index1, $(this).text(), {path: "/"});
 
         }
         $dl.slideToggle();
     });
     
-    $(".nav > li > .ajax-link").each(function(){
-    	for(var i=0;i<$('.ajax-link').length;i++){
-	        if($(this).text() == $.cookie("subnavstation" + i)){
-	        	$(this).siblings('dl').show();
-	        	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
-        	    $(this).addClass("active");
-	        }	
-       }
-    });
+   
 
     //下拉菜单
     $('.nav > li > dl  a').click(function (e) {

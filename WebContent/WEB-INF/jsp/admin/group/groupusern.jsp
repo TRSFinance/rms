@@ -37,19 +37,19 @@
     	  }
     	  var  groupId=$("input[name=groupId]").val();
     	  $.ajax({
-  			url:'<%=ctx%>/admin/rmsGroup/delGroupUsers.do?random='+Math.random(),
+  			url:'<%=ctx%>/admin/rmsGroup/addGroupUsers.do?random='+Math.random(),
   			type:"POST",
   			cache:false,
   			dataType:"json",
   			data:{'userIds':ids,"groupId":groupId},
   			success:function(data){
   				if(data.success){
-  					$("#data").submit();
-  					}else{
-  	  				alert("删除失败！");}
+  		    	  window.parent.hideFrame();
+  				}else{
+  	  				alert("保存失败！");}
   			},
   			error:function(){
-  				alert("删除失败！");
+  				alert("保存失败！");
   			}
   		});
     	  
@@ -66,7 +66,7 @@
 					<br>
 					<br>
 					<div class="row">
-					<form action="<%=ctx %>/admin/rmsGroup/groupUser.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
+					<form action="<%=ctx %>/admin/rmsGroup/groupUserN.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 				
 					<div class="col-md-6 td-left" >
 						<div  class="dataTables_filter">
@@ -76,7 +76,7 @@
 					<div class="col-md-6 td-right">
 						<div class="dataTables_length">
 							<input type="button"  class="btn " value="关闭" onclick="closeModal()">
-					        <input type="button"  class="btn" value="删除" onclick="addGroupUser()">
+					        <input type="button"  class="btn" value="提交" onclick="addGroupUser()">
 							
 						</div>
 					</div>

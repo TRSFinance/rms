@@ -62,7 +62,7 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 		}
 	    this.dao.delete(role);
 	}
-	@Override
+	@Transactional(readOnly=true)
 	public boolean isExist(String rolename) {
 		List<Param>  paramList=new ArrayList<Param>();
 		String  hql="  FROM   com.trs.rms.usermgr.bean.RmsRole  where  roleName=?";
@@ -73,7 +73,7 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 		return false;
 		return  true;
 	}
-	@Override
+	@Transactional(readOnly=true)
 	public boolean isExist(Long id, String rolename) {
 		
 		

@@ -18,6 +18,8 @@
        
        $(document).ready(function () {
            $("#_edituser").Validform();
+           $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+           $("#_userGroupmgr").css("display","block");
            $("#userState").val("${user.userState}")
          });
        
@@ -70,7 +72,7 @@
 										<tr>
 											<td><span class="label-success label label-default">显示名称</span>
 											</td>
-											<td><input type="text" id="nickname" name="username"
+											<td><input type="text" id="nickname" name="nickname"
 												value="${user.nickName } " class="form-control"
 												datatype="s2-16" errormsg="登录名称至少2个字符,最多16个字符！"></td>
 										</tr>

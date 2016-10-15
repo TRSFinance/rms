@@ -114,6 +114,7 @@ public class RmsUserAct {
 		    	rmsUser.setUpdateTime(new Date());;
 		    	rmsUser.setUpdateUser(loginName);;
 		    	rmsUser.setEmail(email);;
+		    	rmsUser.setNickName(nickname);
 		    	rmsUser.setMobile(moblie);;
 		    	rmsUser.setUserState(userState);
 				service.save(rmsUser);
