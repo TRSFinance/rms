@@ -73,6 +73,14 @@
                         </td>
                         <td>${corporateUser.corporateInf }</td>
                     </tr>
+                    <tr>
+                        <td>
+                            <span class="label-success label label-default">用户状态</span>
+                        </td>                                               
+                        <c:if test="${corporateUser.rmsUser.userState  eq 1 }"><td>正常</td></c:if>
+　　　　　　　　　　　　　　　　<c:if test="${corporateUser.rmsUser.userState  eq 2 }"><td>删除</td></c:if>
+						<c:if test="${corporateUser.rmsUser.userState  eq 3 }"><td>停用</td></c:if>						              
+                    </tr>
                      <tr>
                         <td>
                             <span class="label-default label label-danger">创建日期</span>

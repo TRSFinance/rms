@@ -185,7 +185,8 @@ public class RmsCorporateUserAct {
 			String  corporateTel,
 			String corporateMobile,
 			String corporateEmail,
-			String corporateInf,			
+			String corporateInf,
+			Integer userState,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
 		RmsCorporateUser corporateUser=(RmsCorporateUser) service.queryById(RmsCorporateUser.class, id);
@@ -197,6 +198,7 @@ public class RmsCorporateUserAct {
 					corporateUser.setCorporateMobile(corporateMobile);
 					corporateUser.setCorporateEmail(corporateEmail);
 					corporateUser.setCorporateInf(corporateInf);
+					corporateUser.getRmsUser().setUserState(userState);					
 					service.save(corporateUser);
 				}
 		return "redirect:/admin/rmsCorporateUser/list.do";

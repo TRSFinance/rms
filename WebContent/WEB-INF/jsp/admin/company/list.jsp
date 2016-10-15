@@ -6,7 +6,7 @@
 
 	<head>
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>系统用户管理</title>
+		<title>企业用户管理</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -83,7 +83,7 @@
 					<!-- content starts -->
 					<div>
 					<div class="breadcrumb">
-					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加用户</button>
+					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加企业用户</button>
 					</div>
 					
 					</div>
@@ -108,7 +108,7 @@
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" id="com-list">
-								<div class="com-add"><button class="btn-comlist">新建企业用户</button></div>
+<!-- 								<div class="com-add"><button class="btn-comlist">新建企业用户</button></div> -->
 								<div class="box-content">
 									<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 										<thead>
@@ -118,7 +118,7 @@
 												<th>企业用户名称</th>
 												<th>企业用户说明</th>
 												<th>联系电话</th>	
-												<th>客户邮箱</th>																						
+												<th>用户状态</th>																						
 												<th>操作</th>
 											</tr>
 											<!--  表头信息结束 -->
@@ -132,7 +132,11 @@
 														<td>${ RmsCorporateUsers.corporateName}</td>
 														<td>${ RmsCorporateUsers.corporateInf}</td>
 														<td>${ RmsCorporateUsers.corporateTel}</td>
-														<td>${ RmsCorporateUsers.corporateEmail}</td>
+														<td>
+															<c:if test="${ RmsCorporateUsers.rmsUser.userState==1}">正常</c:if>
+															<c:if test="${ RmsCorporateUsers.rmsUser.userState==2}">删除</c:if>
+															<c:if test="${ RmsCorporateUsers.rmsUser.userState==3}">停用</c:if>
+														<td>
 														<td class="center font-right">
 															<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsCorporateUser/view.do?id=${ RmsCorporateUsers.userId}" target="_blank">
 																<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
@@ -180,7 +184,7 @@
 		
 		<hr>
 
-			<!-- 新增用户浮层开始-->
+			<!-- 新增企业用户浮层开始-->
 		    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 		         aria-hidden="true">
 		      
@@ -188,38 +192,26 @@
 		            <div class="modal-content">
 		                <div class="modal-header">
 		                    <button type="button" class="close" data-dismiss="modal">×</button>
-		                    <h3>添加管理用户</h3>
+		                    <h3>添加企业用户</h3>
 		                </div>
-		                 <form action="<%=ctx%>/admin/rmsUser/save.do"  id="_adduser"  method="post">
+		                 <form action="<%=ctx%>/admin/rmsCorporateUser/save.do"  id="_addcorporateUser"  method="post">
 		                <div class="modal-body">
 		                    <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">登录名称</label>
-			                        <input type="text"  id="username" name="username" class="form-control" datatype="s5-16" errormsg="登录名称至少5个字符,最多16个字符！">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">设置密码</label>
-			                        <input type="password" class="form-control" name="userpassword" datatype="*6-15" errormsg="密码范围在6~15位之间！" >
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">确认密码</label>
-			                        <input type="password" class="form-control" name="userpassword2" datatype="*" recheck="userpassword" errormsg="您两次输入的账号密码不一致！">
+			                        <label class="control-label">用户名称</label>
+			                        <input type="text"  id="userName" name="corporateName" class="form-control" >
 			                    </div>
 			                </div>
 			                 <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">真实姓名</label>
-			                        <input type="text" name="nickname" class="form-control" datatype="s2-16" errormsg="真实姓名至少5个字符,最多16个字符！">
+			                        <label class="control-label">联系电话</label>
+			                        <input type="text"  name="tel" class="form-control" datatype="m" errormsg="请输入正确的手机号！" ignore="ignore">
 			                    </div>
 			                </div>
-			                <div class="form-inline">
+			                 <div class="form-inline">
 			                    <div class="form-group">
 			                        <label class="control-label">手　　机</label>
-			                        <input type="text"  name="moblie" class="form-control" datatype="m" errormsg="请输入正确的手机号！" ignore="ignore">
+			                        <input type="text"  name="mobile" class="form-control" datatype="m" errormsg="请输入正确的手机号！" ignore="ignore">
 			                    </div>
 			                </div>
 			                <div class="form-inline">
@@ -228,6 +220,14 @@
 			                        <input type="text" name="email" class="form-control" datatype="e" errormsg="请输入正确的邮箱地址！" ignore="ignore">
 			                    </div>
 			                </div>
+			         
+			                 <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">客户说明</label>
+			                        <textarea class="form-control"></textarea>
+			                    </div>
+			                </div>
+			               
 				            
 		                </div>
 		                
@@ -239,7 +239,7 @@
 		            </div>
 		        </div>
 		    </div>
-		    <!-- 新增用户浮层结束-->
+		    <!-- 新增企业用户浮层结束-->
 		    
 		    <!-- 提示浮层开始-->
 			<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

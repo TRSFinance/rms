@@ -97,6 +97,46 @@
 												value="${corporateUser.corporateInf }" class="form-control"
 												datatype="s2-16" errormsg="登录名称至少2个字符,最多16个字符！"></td>
 										</tr>
+										
+										<tr>
+											<td><span class="label-success label label-default">用户状态</span>
+											</td>
+											<td>
+												<select  name="userState" >
+												
+													<c:choose>
+														<c:when test="${corporateUser.rmsUser.userState==1 }">
+															<option value="1" selected="selected">正常</option>
+														</c:when>
+														<c:otherwise>
+															<option value="1">正常</option>
+														</c:otherwise>
+													</c:choose>
+													<c:choose>
+														<c:when test="${corporateUser.rmsUser.userState==2 }">
+															<option value="2" selected="selected">删除</option>
+														</c:when>
+														<c:otherwise>
+															<option value="2">删除</option>
+														</c:otherwise>
+													</c:choose>		
+													<c:choose>
+														<c:when test="${corporateUser.rmsUser.userState==3 }">
+															<option value="3" selected="selected">停用</option>
+														</c:when>
+														<c:otherwise>
+															<option value="3">停用</option>
+														</c:otherwise>
+													</c:choose>												    	
+					
+						                       	</select>
+											</td>
+										</tr>
+										
+		
+										
+										
+										
 										<tr>
 											<td><span class="label-success label label-default">创建时间</span>
 											</td>

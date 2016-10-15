@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>企业名单管理</title>
+	<title>企业用户管理</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
