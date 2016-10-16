@@ -30,6 +30,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.trs.rms.base.page.Param;
+import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.company.bean.RmsCompanyInfo;
@@ -62,6 +64,8 @@ public class RmsCorporateUserAct {
 	@Autowired
 	private RmsCorporateUserService service;
 	
+	@Autowired
+	private PwdEncoder pwdEncoder;
 
 	//测试
 	@RequiresPermissions({"admin:role:test2"})
@@ -232,8 +236,66 @@ public class RmsCorporateUserAct {
 	
 	}
 	
+	@RequestMapping(value={"/a_username.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public   void   ajaxUsername(
+			String  username,
+			String corporateUserName,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+
+		JSONObject json = new JSONObject();
+		json.put("exist", false);
+	    if(!StringUtils.isBlank(username)&&!StringUtils.isBlank(corporateUserName)){
+			json.put("exist", service.isExist(username,corporateUserName));
+	    }
+		ResponseUtils.renderJson(response,json.toString());
+
+	}
 	
-	
-	
+	@RequiresPermissions({"admin:user:add"})
+	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public  String   save(
+			String  username,
+			String corporateUserName,
+			String  userpassword,
+			String  tel,
+			String  mobile,
+			String  email,
+			String  _info,
+			HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+				String  loginName=SysUtils.getLoginName();
+				RmsUser rmsUser = new RmsUser();
+				//设置用户表中参数
+				rmsUser.setLoginName(username);
+		    	rmsUser.setUserPawd(pwdEncoder.encodePassword(userpassword));
+		    	rmsUser.setNickName("企业用户");
+		    	rmsUser.setUserState(1);
+		    	rmsUser.setUserInfo("");
+		    	rmsUser.setCreateTime(new Date());
+		    	rmsUser.setUpdateTime(new Date());
+		    	rmsUser.setCreateUser(loginName);
+		    	rmsUser.setUpdateUser(loginName);
+		    	rmsUser.setEmail(email);
+		    	rmsUser.setMobile(mobile);
+		    	rmsUser.setFailCount(0);
+		    	rmsUser.setUserType(2);
+		    	//service.save(rmsUser);
+		    	//查询rms_user表中生成的id
+		    	service.saveCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info);
+		    	//设置企业用户表中参数
+//		    	rmsCorporateUser.setRmsUser(rmsUser);
+//		    	rmsCorporateUser.setCorporateName(corporateUserName);
+//		    	rmsCorporateUser.setCorporateTel(tel);
+//		    	rmsCorporateUser.setCorporateMobile(mobile);
+//		    	rmsCorporateUser.setCorporateEmail(email);
+//		    	rmsCorporateUser.setCorporateInf(_info);
+//		    	rmsCorporateUser.setCreateTime(new Date());
+//		    	rmsCorporateUser.setUpdateTime(new Date());
+//				if(!service.isExist(username,corporateUserName))
+//				service.save(rmsCorporateUser);
+		
+		return "redirect:/admin/rmsCorporateUser/list.do";
+	}
 	
 }

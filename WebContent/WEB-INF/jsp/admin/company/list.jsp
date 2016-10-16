@@ -20,16 +20,19 @@
        });
        function save() {
     	   var  userName=$("#username").val();
+    	   var  corporateUserName=$("#corporateUserName").val();
     	   $.ajax({
-   			url:'<%=ctx%>/admin/rmsUser/a_username.do?random='+Math.random(),
+   			url:'<%=ctx%>/admin/rmsCorporateUser/a_username.do?random='+Math.random(),
    			type:"POST",
    			cache:false,
    			dataType:"json",
-   			data:{'username':userName},
+   			data:{'username':userName,'corporateUserName':corporateUserName},
    			success:function(data){
+   				
    				if(data.exist){
-   					alert("已存在该用户！");
+   					alert("已存在该登录名称或企业名称！");
    				}else{
+   					
     		    	$("#_adduser").submit();
    				}
    			},
@@ -84,6 +87,7 @@
 					<div>
 					<div class="breadcrumb">
 					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加企业用户</button>
+					<div class="com-add"><button class="btn-comlist">新建企业用户</button></div>					
 					</div>
 					
 					</div>
@@ -108,7 +112,6 @@
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" id="com-list">
-<!-- 								<div class="com-add"><button class="btn-comlist">新建企业用户</button></div> -->
 								<div class="box-content">
 									<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 										<thead>
@@ -194,12 +197,30 @@
 		                    <button type="button" class="close" data-dismiss="modal">×</button>
 		                    <h3>添加企业用户</h3>
 		                </div>
-		                 <form action="<%=ctx%>/admin/rmsCorporateUser/save.do"  id="_addcorporateUser"  method="post">
+		                 <form action="<%=ctx%>/admin/rmsCorporateUser/save.do"  id="_adduser"  method="post">
 		                <div class="modal-body">
+		                 <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">登录名称</label>
+			                        <input type="text"  id="username" name="username" class="form-control" datatype="s5-16" errormsg="登录名称至少5个字符,最多16个字符！">
+			                    </div>
+			                </div>
 		                    <div class="form-inline">
 			                    <div class="form-group">
-			                        <label class="control-label">用户名称</label>
-			                        <input type="text"  id="userName" name="corporateName" class="form-control" >
+			                        <label class="control-label">企业名称</label>
+			                        <input type="text" id="corporateUserName"  name="corporateUserName" class="form-control" >
+			                    </div>
+			                </div>
+			                 <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">设置密码</label>
+			                        <input type="password" class="form-control" name="userpassword" datatype="*6-15" errormsg="密码范围在6~15位之间！" >
+			                    </div>
+			                </div>
+			                <div class="form-inline">
+			                    <div class="form-group">
+			                        <label class="control-label">确认密码</label>
+			                        <input type="password" class="form-control" name="userpassword2" datatype="*" recheck="userpassword" errormsg="您两次输入的账号密码不一致！">
 			                    </div>
 			                </div>
 			                 <div class="form-inline">
@@ -224,7 +245,7 @@
 			                 <div class="form-inline">
 			                    <div class="form-group">
 			                        <label class="control-label">客户说明</label>
-			                        <textarea class="form-control"></textarea>
+			                        <textarea class="form-control" style="width:315px" name="_info"></textarea>
 			                    </div>
 			                </div>
 			               

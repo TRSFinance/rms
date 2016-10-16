@@ -62,6 +62,8 @@ public class RmsCompanyInfoAct {
 	@Autowired
 	private RmsCompanyInfoService service;
 	
+	//设置一个存放当前查询userId的参数
+	Long publicUserId;
 
 	//测试
 	@RequiresPermissions({"admin:role:test2"})
@@ -103,6 +105,7 @@ public class RmsCompanyInfoAct {
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,Long userId){
 		
+		publicUserId = userId;
 //		String  loginName=SysUtils.getLoginName();
 //		System.out.println("-----"+loginName);
 		page.setUserId(userId);
@@ -113,7 +116,7 @@ public class RmsCompanyInfoAct {
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
 		model.addAttribute("data2",list2);
-		return "company/companyInfo/companyManager";
+		return "company/companyInfo/list";
 	}
 	
 
@@ -133,7 +136,7 @@ public class RmsCompanyInfoAct {
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
 		model.addAttribute("data2",list2);
-		return "company/companyInfo/companyManager";
+		return "company/companyInfo/list";
 	}
 	
 	
@@ -222,9 +225,11 @@ public class RmsCompanyInfoAct {
 	
 	
 	//上传文件
-	@RequestMapping(value=("/filetodb.do"),method={org.springframework.web.bind.annotation.RequestMethod.POST})
-	public void filetodb(HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping(value=("/upload.do"),method={org.springframework.web.bind.annotation.RequestMethod.POST})
+	public void filetodb(HttpServletRequest request,HttpServletResponse response,Long userId){
 		System.out.println("上传文件");
+		userId=publicUserId;
+		//System.out.println("userId==================="+userId);
 		// 判断form是否为上传表单
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			throw new RuntimeException("该请求不是有效编码方式！");
@@ -250,10 +255,7 @@ public class RmsCompanyInfoAct {
 				// 判断fileItem是否为文件上传
 				if (fileItem.isFormField()) {
 					// 不是上传项
-					String name = fileItem.getFieldName();
-					
-					
-					
+					String name = fileItem.getFieldName();	
 					
 				} else {
 					// 是上传项
@@ -314,17 +316,29 @@ public class RmsCompanyInfoAct {
 			e.printStackTrace();
 		} 		
 		
-		insertFiletoDb(request,savepath,uuidname);
-		// 提示用户文件上传成功
-		response.setContentType("text/html;charset=utf-8");
-		try {
-			response.getWriter().println("文件上传成功！");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		boolean status = service.insertFiletoDb(request,savepath,uuidname,userId);
+		
+		if(status==true){
+			
+			// 提示用户文件上传成功
+			response.setContentType("text/html;charset=utf-8");
+			try {
+				response.getWriter().println("文件上传成功！");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			// 提示用户文件上传失败
+			response.setContentType("text/html;charset=utf-8");
+			try {
+				response.getWriter().println("文件上传失败,请选择某一个企业用户进行上传！");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		
+
 	}
 	
 	
@@ -341,82 +355,6 @@ public class RmsCompanyInfoAct {
 	}
 	
 	
-	public void insertFiletoDb(HttpServletRequest request,String savepath,String uuidname){
-		
-		List list = new ArrayList();
-		
-
-		for(int i=0;i<2;i++){
-	
-			RmsCompanyInfo rci = new RmsCompanyInfo();
-			rci.setCustCfname("test");
-			rci.setCustCsname("test");
-			rci.setCustOrgid("123");
-			rci.setCustEfname("111");
-			rci.setCustEsname("123");
-			rci.setCustIndustry1("222");
-			rci.setCustIndustry2("1112");
-			rci.setAreaCode("122");
-			rci.setDistrictName("2222");
-			rci.setProvinceName("122");
-			rci.setCityName("122");
-			rci.setCustIndustrycode("122");
-			rci.setPinyin("a");
-	//		rci.setState(1);
-			rci.setCreateTime(new Date());
-			rci.setChangeTime(new Date());
-			list.add(rci);
-		}
-	
-		service.add(list);
-		
-		
-		InputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream(request.getServletContext().getRealPath(savepath)+"\\"+uuidname);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		Workbook workbook = null;
-		try {
-			workbook = Workbook.getWorkbook(inputStream);
-		} catch (BiffException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Sheet sheet = workbook.getSheet(0);
-		//行数
-		int rows=sheet.getRows();
-		//列数
-		int cols=sheet.getColumns();
-		
-		//int  location =Integer.parseInt(getContent());
-		
-		for (int i = 0; i < rows; i++) {
-			Cell cell = sheet.getCell(0, i);
-			if(cell!=null){
-				String value = cell.getContents();
-				if(value!=null&&!"".equals(value)){
-					System.out.println(value.trim());
-				}
-				
-			}
-			
-		}
-		
-		try {
-			inputStream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	
 }

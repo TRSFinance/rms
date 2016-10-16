@@ -1,97 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+   <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<%@include file="../../../common/taglib.jsp" %>
-    
+   <%@include file="../../../common/taglib.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-    
 <html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>企业名单管理</title>
 
+	<head>
+       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>企业用户管理</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
-
-		<!-- The styles -->
-<!-- 		<link id="bs-css" href="/rms/css/bootstrap-cerulean.min.css" rel="stylesheet"> -->
-<!-- 		<link href="/rms/css/app.css" rel="stylesheet"> -->
-<!--         <link href='/rms/css/responsive-tables.css' rel='stylesheet'> -->
-<!-- 		<!-- jQuery --> 
-<!-- 		<script src="/rms/js/jquery-1.11.3.min.js"></script> -->
-
-		<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-		<!--[if lt IE 9]>
-	    <script src="js/html5shiv.min.js"></script>
-	    <script src="js/respond.min.js"></script>
-	    <![endif]-->
-
-		<!-- The fav icon -->
-		<link rel="shortcut icon" href="/rms/img/favicon1.ico">
-		
-		<%@include file="../../../common/jscss.jsp" %>
+       <%@include file="../../../common/jscss.jsp" %>
+       	<script src="<%=request.getContextPath() %>/plug/Validform/Validform_v5.2.1_min.js"></script>
+       
 		<script type="text/javascript">
 	       $(document).ready(function () {
 	         $("#pageSize").val("${page.pageSize}");	         
-	       
 	       });
        </script>
 		
 </head>
 <body>
 <!-- topbar starts -->
-		<div class="navbar navbar-default" role="navigation">
-
-			<div class="navbar-inner">
-				<a class="navbar-brand" href=""> <!--<img alt="Charisma Logo" src="img/logo20.png" class="hidden-xs" />-->
-					<span>风险管理系统</span></a>
-
-				<!-- user dropdown starts -->
-				<div class="btn-group pull-right">
-					<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-	                    <i class="glyphicon glyphicon-user"></i><span class="hidden-sm hidden-xs"> root</span>
-	                    <span class="caret"></span>
-                    </button>
-					<ul class="dropdown-menu">
-						<li>
-							<a href="#">用户</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a href="login.html">退出</a>
-						</li>
-					</ul>
-				</div>
-				<!-- user dropdown ends -->
-				
-			    <div class="navbar-nav " style="width: 60%; margin-left: 4%;">
-					<div class=" row">
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-user blue"></i>					
-					            <div>企业管理</div>
-					        </a>
-					    </div>
-					
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-retweet green"></i>					
-					            <div>数据推送</div>
-					        </a>
-					    </div>
-					
-					    <div class="col-md-4 col-sm-4 hidden-xs">
-					        <a class="well top-block" href="#">
-					            <i class="glyphicon glyphicon-cog yellow"></i>					
-					            <div>系统管理</div>
-					        </a>
-					    </div>
-	
-					</div>
-				</div>
-
-			</div>
-		</div>
+		 <%@include file="../../../common/head.jsp" %>
 		<!-- topbar ends -->
 		<div class="ch-container">
 			<div class="row">
@@ -120,83 +51,7 @@
 
  									</ul>
  									</li>
-		            			 </li>
-<script type="text/javascript">
-
-
-	$(document).ready(function(){
-		
-		//companyList();
-
-	});
-
-	function companyList(){
-		  $.ajax( {  
-		       type : "GET",  
-		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
-		        data : {}, 
-		        dataType: "json",  
-		        success : function(data) {  					
-			       	for(var i=0;i<data.cool.length;i++){
-			       		//alert("返回数据成功");
-			       		
-<%-- 			       		<li><a class='ajax-link' href="<%=ctx%>/admin/rmsCompanyInfo/list.do?userId=data.cool[i].userId"></a></li> --%>
-			       		$("#companyList").append("<li><a class='ajax-link' href='<%=ctx%>/admin/rmsCompanyInfo/list.do?userId='"+data.cool[i].userId+">"+data.cool[i].corporateName+"</a></li>");
-			       		 
-			       		//alert(data.cool[i].CustCfname);                		
-			       	}                    
-		        },
-		        error: function(err) {     
-       			alert("oh my god");     
-		        }  
-		    });
-	} 
-
-	
-	function companyInfoList(){
-		  $.ajax( {  
-		       type : "GET",  
-		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
-		        data : {}, 
-		        dataType: "json",  
-		        success : function(data) {  					
-			       	for(var i=0;i<data.cool.length;i++){
-			       		//alert("返回数据成功");
-			       		
-			       		$("#liebiao").append("<tr><td>"+(i+2)+"</td>"+
-			       		"<td>"+data.cool[i].CustCfname+"</td>"+
-			       		"<td>"+data.cool[i].CustCsname+"</td>"+
-			       		"<td>"+data.cool[i].CustIndustry1+"</td>"+
-			       		"<td>"+data.cool[i].CustIndustry2+"</td>"+
-			       		
-			       		"<td class=\"center font-right\">"+
-						"<a class=\"btn btn-success btn-sm\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i>查看"+
-						"</a> "+
-						"<a class=\"btn btn-info btn-sm btn-setting\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-edit icon-white\"></i>修改"+
-						"</a> "+
-						"<a class=\"btn btn-danger btn-sm btn-warn\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-trash icon-white\"></i>删除"+
-						"</a> "+
-					"</td>"+
-						"</tr>");
-			       		//alert(data.cool[i].CustCfname);                		
-			       	}                    
-		        },
-		        error: function(err) {     
-     			alert("oh my god");     
-		        }  
-		    });
-	} 
-
-
-</script>		                                
-		                                
-
-
-		                                
-		                           
+		            			 </li>  
 		                        <li class="accordion">
 		                            <a href="#"><i class="glyphicon glyphicon-globe"></i><span>企业风险规则管理</span><i class="glyphicon glyphicon-chevron-down pull-right hidden-sm"></i></a>
 		                            <ul class="nav nav-pills nav-stacked">
@@ -217,10 +72,12 @@
 				<div id="content" class="col-lg-10 col-sm-10">
 					<!-- content starts -->
 					<div>
+						<div class="breadcrumb">
+						<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>导入企业名单</button>												
+						</div>						
 					</div>
-
-					<div class="row">
-					<form action="<%=ctx %>/admin/rmsCompanyInfo/v_list.do"  style="margin-left: 20px"  method="post"  id="data">
+					<div class="row">					
+					<form action="<%=ctx %>/admin/rmsCompanyInfo/v_list.do"  style="margin-left: 20px"  method="get"  id="data">
 					<div class="col-md-6">
 						<div class="dataTables_length">
 							<label><select name="pageSize" class="" id="pageSize">
@@ -242,7 +99,6 @@
 					
 						<div class="box col-md-12">
 							<div class="box-inner" id="com-list">
-								<div class="com-add"><button class="btn-comlist">导入企业名单</button></div>
 								<div class="box-content">
 									<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 										<thead>
@@ -326,68 +182,22 @@
 		                <div class="modal-body">
 			                <div class="form-inline">
 			                    <div class="form-group">
-			                    <form action="/rms/admin/rmsCompanyInfo/filetodb.do" method="post" id="fileUpload"  enctype="multipart/form-data" target="_blank">
+			                    <form action="/rms/admin/rmsCompanyInfo/upload.do" method="post" id="uploadFile"  enctype="multipart/form-data" target="_blank">
 			                        <label class="control-label">任务名称</label>
-			                        <input type="file" class="form-control" name="filetodb2">
+			                        <input type="file" class="form-control" name="theFile">
 			                    </form>
 			                    </div>
 			                </div>  
 		                </div>
 		                <div class="modal-footer">
 		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-		                    <a href="#" class="btn btn-primary"  id="filetodb">导入</a>
+		                    <a href="#" class="btn btn-primary"  id="insertFile">导入</a>
 		                </div>
 		            </div>
 		        </div>
 		    </div>
 		    <!-- 导入企业名单浮层结束-->
-		    
-		    <!-- 新增用户浮层开始-->
-		    <div class="modal fade" id="setCompanyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-		         aria-hidden="true">
-		
-		        <div class="modal-dialog">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <button type="button" class="close" data-dismiss="modal">×</button>
-		                    <h3>企业设置</h3>
-		                </div>
-		                <div class="modal-body">
-		                    <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">企业全称</label>
-			                        <input type="text" class="form-control" id="param1">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">企业简称</label>
-			                        <input type="text" class="form-control" id="param2">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">一级行业</label>
-			                        <input type="text" class="form-control" id="param3">
-			                    </div>
-			                </div>
-			                <div class="form-inline">
-			                    <div class="form-group">
-			                        <label class="control-label">二级行业</label>
-			                        <input type="text" class="form-control" id="param4">
-			                    </div>
-			                </div>
-				            
-		                </div>
-		                <div class="modal-footer">
-		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-		                    <a href="#" class="btn btn-primary btn-save" id="updateCompanyInfo">保存</a>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		    <!-- 新增用户浮层结束-->
-		    
+
 		    <!-- 提示浮层开始-->
 			<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 		         aria-hidden="true">
@@ -418,8 +228,27 @@
 
 
 <script type="text/javascript">
-	
+				
+	$('.breadcrumb').click(function (e) {
+	   e.preventDefault();
+	   $('#comModal').modal('show');
+	});
 
+	$("#insertFile").click(function(){
+		
+//      var URL = document.location.toString(); 
+//      var userId="";
+//      if(URL.lastIndexOf("?")!=-1){ 
+//     	 userId= URL.substring(URL.lastIndexOf("?")+1,URL.length); 	  			
+//		 }	
+//		alert(userId);
+		
+		$('#comModal').modal('hide');
+		location.reload();
+		$("#uploadFile").submit();
+
+	});
+	
 	$("#toDelete").click(function(){
 		
 		$('#warnModal').modal('hide');
@@ -454,23 +283,83 @@
 	});
 	
 		
-	$("#filetodb").click(function(){
-		
-		
-		//alert($(".form-control").val());
-		
-// 		$.post("/rms/admin/rmsCompanyInfo/filetodb.do",{},function(data, status){
-// 			alert(status);	
-// 			//location.reload();
-// 		});
 
-		$("#fileUpload").submit();
-
-	});
 	
 	
 </script>
 
+
+<script type="text/javascript">
+
+
+	$(document).ready(function(){
+		
+		//companyList();
+
+	});
+
+	function companyList(){
+		  $.ajax( {  
+		       type : "GET",  
+		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
+		        data : {}, 
+		        dataType: "json",  
+		        success : function(data) {  					
+			       	for(var i=0;i<data.cool.length;i++){
+			       		//alert("返回数据成功");
+			       		
+<%-- 			       		<li><a class='ajax-link' href="<%=ctx%>/admin/rmsCompanyInfo/list.do?userId=data.cool[i].userId"></a></li> --%>
+			       		$("#companyList").append("<li><a class='ajax-link' href='<%=ctx%>/admin/rmsCompanyInfo/list.do?userId='"+data.cool[i].userId+">"+data.cool[i].corporateName+"</a></li>");
+			       		 
+			       		//alert(data.cool[i].CustCfname);                		
+			       	}                    
+		        },
+		        error: function(err) {     
+       			alert("oh my god");     
+		        }  
+		    });
+	} 
+
+	
+	function companyInfoList(){
+		  $.ajax( {  
+		       type : "GET",  
+		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
+		        data : {}, 
+		        dataType: "json",  
+		        success : function(data) {  					
+			       	for(var i=0;i<data.cool.length;i++){
+			       		//alert("返回数据成功");
+			       		
+			       		$("#liebiao").append("<tr><td>"+(i+2)+"</td>"+
+			       		"<td>"+data.cool[i].CustCfname+"</td>"+
+			       		"<td>"+data.cool[i].CustCsname+"</td>"+
+			       		"<td>"+data.cool[i].CustIndustry1+"</td>"+
+			       		"<td>"+data.cool[i].CustIndustry2+"</td>"+
+			       		
+			       		"<td class=\"center font-right\">"+
+						"<a class=\"btn btn-success btn-sm\" href=\"#\">"+
+							"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i>查看"+
+						"</a> "+
+						"<a class=\"btn btn-info btn-sm btn-setting\" href=\"#\">"+
+							"<i class=\"glyphicon glyphicon-edit icon-white\"></i>修改"+
+						"</a> "+
+						"<a class=\"btn btn-danger btn-sm btn-warn\" href=\"#\">"+
+							"<i class=\"glyphicon glyphicon-trash icon-white\"></i>删除"+
+						"</a> "+
+					"</td>"+
+						"</tr>");
+			       		//alert(data.cool[i].CustCfname);                		
+			       	}                    
+		        },
+		        error: function(err) {     
+     			alert("oh my god");     
+		        }  
+		    });
+	} 
+
+
+</script>
 
 
 </body>

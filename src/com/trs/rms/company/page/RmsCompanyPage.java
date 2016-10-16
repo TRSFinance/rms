@@ -28,7 +28,7 @@ public class RmsCompanyPage extends BasicPage{
 			hql= hql+"  and rcc.corporateUser.userId=?";
 			this.addParams(Types.BIGINT,userId);
 		}
-		
+	//	System.out.println("userId-------------"+userId);
 		if(searchword!=null &&  searchword.trim().length()>0){
 			hql= hql+"  and (rcc.companyInfo.custCfname like ?  or  rcc.companyInfo.custCsname  like ?)";
 			this.addParams(Types.VARCHAR,"%"+searchword+"%");
