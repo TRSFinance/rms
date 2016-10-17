@@ -6,9 +6,10 @@
 -->
 <hibernate-mapping>
     <class name="com.trs.rms.company.bean.RmsCorporateUser" table="rms_corporate_user" >
-        <id name="userId" type="java.lang.Long">
-            <column name="USER_ID" />
-            <generator class="native" />
+        <id name="userId" column="USER_ID" type="java.lang.Long">
+            <generator class="foreign">  
+                <param name="property">rmsUser</param>  
+            </generator>  
         </id>
         <one-to-one name="rmsUser" class="com.trs.rms.usermgr.bean.RmsUser" constrained="true"></one-to-one>
         <property name="corporateName" type="java.lang.String">
