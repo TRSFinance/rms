@@ -78,7 +78,7 @@
        }
        
        function  query(){
-           $("#pageSize").val(1);
+           $("#pageNo").val(1);
        	   $("#data").submit();
        	  }
        
@@ -118,14 +118,14 @@
 					</div>
 					<div class="col-md-6 td-right" >
 						<div  class="dataTables_filter">
-							<label>名称:<input type="text" class="" id="searchword" name="searchword" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
+							<label>名称:<input type="text" class="" id="searchword" name="username" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
 						</div>
 					</div>
 					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" >
-								<div class="box-content">
+								<div class="box-content right-div">
 									<table class="table table-striped table-bordered   ">
 										<thead>
 											<!--  表头信息开始  -->

@@ -55,7 +55,7 @@
     	        }
         
     function  query(){
-        $("#pageSize").val(1);
+        $("#pageNo").val(1);
     	$("#data").submit();
     	}
         
@@ -103,7 +103,7 @@
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" >
-								<div class="box-content">
+								<div class="box-content right-div">
 									<table class="table table-striped table-bordered   ">
 										<thead>
 											<!--  表头信息开始  -->

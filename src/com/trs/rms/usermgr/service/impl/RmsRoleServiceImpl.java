@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.trs.rms.base.dao.IDao;
 import com.trs.rms.base.page.Param;
 import com.trs.rms.base.service.BasicServicveImpl;
+import com.trs.rms.company.bean.RmsCompanyInfo;
+import com.trs.rms.company.bean.RmsCorporateCust;
+import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.usermgr.bean.RmsRole;
 import com.trs.rms.usermgr.bean.RmsRolePerm;
 import com.trs.rms.usermgr.service.RmsRoleService;
@@ -35,6 +38,25 @@ public class RmsRoleServiceImpl  extends  BasicServicveImpl   implements RmsRole
 
 	@Override
 	public void delQuery() {
+		try{
+		RmsCompanyInfo  companyInfo=new RmsCompanyInfo("测试", "测试", "测试", "测试", "测试",
+				"测试", "测试", "测试", 
+				"测试", "测试", "测试", "测试", "C",
+				1, new Date(), new Date(), 1, "",
+				"", "");
+		dao.save(companyInfo);
+		List<RmsCorporateUser> list = dao.query("  FROM  com.trs.rms.company.bean.RmsCorporateUser  where userId=1");
+		
+		RmsCorporateUser    user=	list.get(0);
+		
+		RmsCorporateCust  corporateCust=new  RmsCorporateCust();
+		
+		corporateCust.setCorporateUser(user);
+		corporateCust.setCompanyInfo(companyInfo);
+		corporateCust.setCreateTime(new Date());
+		dao.save(corporateCust);}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 	@Override
