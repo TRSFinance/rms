@@ -16,12 +16,18 @@
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations" value="WEB-INF/config/dbConfig/rmsDB.xml" />
+		<property name="locations">
+		<list>
+		<value>WEB-INF/config/dbConfig/rmsDB.xml</value>
+		<value>WEB-INF/config/dbConfig/hybaseDB.xml</value>
+		</list>
+		</property>
 	</bean>
 	<bean id="hibernateProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
+			    
 				<value>WEB-INF/config/dbConfig/hibernateCommon.xml</value>
 				<value>WEB-INF/config/dbConfig/rmsDB.xml</value>
 			</list>
@@ -84,12 +90,28 @@
 	    	<ref local="sessionFactory"/>
 	    </property>
 	    </bean>
-   	 <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->  
    	 <bean id="publicDao" class="com.trs.rms.base.page.BasicDaoImpl">
 		<property name="sessionFactory">
 			<ref local="sessionFactory"/>
 		</property>
 	</bean>
+	
+		<!--Hybase 连接信息  -->
+	<bean id="hybasedataSource" class="com.trs.rms.base.param.HBConnectionParam">
+		<property name="host" value="${hybase.hosts}" />
+		<property name="port" value="${hybase.port}" />
+		<property name="user" value="${hybase.user}" />
+		<property name="passwd" value="${hybase.pwd}" />
+		<property name="timeout" value="${hybase.timeout}" />
+	</bean>
+	
+	<bean id="hybaseFactory" class="com.trs.rms.base.dao.HyBaseConnectionFactory">
+		<property name="hybasedataSource">
+			<ref local="hybasedataSource" />
+		</property>
+	</bean>
+	
+	
    <bean id="pwdEncoder" class="com.trs.rms.base.security.encoder.Md5PwdEncoder" />
    <!-- google 验证码 -->
 	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">

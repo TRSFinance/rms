@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
+import com.trs.rms.usermgr.bean.RmsRole;
 import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.page.RmsUserPage;
 import com.trs.rms.usermgr.service.RmsUserService;
@@ -179,6 +180,67 @@ public class RmsUserAct {
 		ResponseUtils.renderJson(response,json.toString());
 
 	}
+	
+	@RequestMapping("/userRole.do")
+	public   String    userRole(Long  userId,String search,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		List<RmsRole> rmsRoles = service.queryRoleByUserId(userId,search);
+
+	    model.addAttribute("rmsRoles", rmsRoles);
+		model.addAttribute("search", search);
+		model.addAttribute("userId", userId);
+
+		return "user/userrole";
+	}
+	
+	@RequestMapping("/userRoleN.do")
+	public   String    userRoleN(Long  userId,String search,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		List<RmsRole> rmsRoles = service.queryRoleByUserIdN(userId,search);
+					model.addAttribute("rmsRoles", rmsRoles);
+					model.addAttribute("search", search);
+					model.addAttribute("userId", userId);
+
+		return "user/userrolen";
+	}
+	
+	@RequiresPermissions({"admin:user:addrole"})
+	@RequestMapping("/addUserRoles.do")
+	public   void     addUserRoles(Long  userId,String ids,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+	
+		JSONObject json = new JSONObject();
+		try {
+			service.addUserRoles(userId, ids);
+			json.put("success", true);
+		} catch (Exception e) {
+			json.put("success", false);
+		}
+	   
+		ResponseUtils.renderJson(response,json.toString());
+		
+		
+		
+	}
+	@RequiresPermissions({"admin:user:delrole"})
+	@RequestMapping("/delUserRoles.do")
+	public   void     delUserRoles(Long  userId,String ids,HttpServletRequest request,HttpServletResponse response,
+			ModelMap model) throws JSONException{
+	
+		JSONObject json = new JSONObject();
+		try {
+			service.delUserRoles(userId, ids);
+			json.put("success", true);
+		} catch (Exception e) {
+			json.put("success", false);
+		}
+	   
+		ResponseUtils.renderJson(response,json.toString());
+		
+		
+		
+	}
+	
 	
 
 	@Autowired

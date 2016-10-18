@@ -6,7 +6,7 @@
 
 	<head>
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>组织用户</title>
+		<title>用户角色</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -22,7 +22,7 @@
   
       }
       
-      function  addGroupUser(){
+      function  addUserRoles(){
     	 
     	  var ids ="";   
     	  var  i=0;
@@ -35,21 +35,21 @@
     	  if(i==0){
     		  alert("请至少选择一个！");
     	  }
-    	  var  groupId=$("input[name=groupId]").val();
+    	  var  userId=$("input[name=userId]").val();
     	  $.ajax({
-  			url:'<%=ctx%>/admin/rmsUser/delUserRoles.do?random='+Math.random(),
+  			url:'<%=ctx%>/admin/rmsUser/addUserRoles.do?random='+Math.random(),
   			type:"POST",
   			cache:false,
   			dataType:"json",
-  			data:{'userIds':ids,"groupId":groupId},
+  			data:{'ids':ids,"userId":userId},
   			success:function(data){
   				if(data.success){
-  					$("#data").submit();
-  					}else{
-  	  				alert("删除失败！");}
+  		    	  window.parent.hideFrame();
+  				}else{
+  	  				alert("保存失败！");}
   			},
   			error:function(){
-  				alert("删除失败！");
+  				alert("保存失败！");
   			}
   		});
     	  
@@ -66,7 +66,7 @@
 					<br>
 					<br>
 					<div class="row">
-					<form action="<%=ctx %>/admin/rmsGroup/groupUser.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
+					<form action="<%=ctx %>/admin/rmsUser/userRoleN.do"  style="margin-left: 20px;margin-right: 20px;"  method="post"  id="data">
 				
 					<div class="col-md-6 td-left" >
 						<div  class="dataTables_filter">
@@ -76,11 +76,11 @@
 					<div class="col-md-6 td-right">
 						<div class="dataTables_length">
 							<input type="button"  class="btn " value="关闭" onclick="closeModal()">
-					        <input type="button"  class="btn" value="删除" onclick="addGroupUser()">
+					        <input type="button"  class="btn" value="提交" onclick="addUserRoles()">
 							
 						</div>
 					</div>
-					<input  type="hidden"  name="groupId"  value="${groupId }" />
+					<input  type="hidden"  name="userId"  value="${userId }" />
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" >
@@ -90,28 +90,26 @@
 											<!--  表头信息开始  -->
 											<tr>
 												<th>序号</th>
-												<th>用户名称</th>
-												<th>登录用户名</th>
+												<th>角色名称</th>
 												<th>创建时间</th>
 											</tr>
 											<!--  表头信息结束 -->
 										</thead>
 										<tbody>
-										     <c:if test="${!empty groupUsers}"> 
-										        <c:forEach items="${groupUsers }" var="rmsUser" varStatus="status">
+										     <c:if test="${!empty rmsRoles}"> 
+										        <c:forEach items="${rmsRoles }" var="role" varStatus="status">
 										     <tr>
-												<td><input  type="checkbox"  name="ids" value="${rmsUser.userId }">${ status.index + 1}</td>
-												<td>${rmsUser.nickName }</td>
-												<td>${rmsUser.loginName }</td>
-												<td>${rmsUser.createTime }</td>
+												<td><input  type="checkbox"  name="ids" value="${role.roleId }">${ status.index + 1}</td>
+												<td>${role.roleName }</td>
+												<td>${role.createTime }</td>
 												
 											</tr>
 										     </c:forEach>
 										     
 										      </c:if>
-										     <c:if test="${empty groupUsers}"> 
+										     <c:if test="${empty rmsRoles}"> 
 										      <tr>
-											      <td colspan="4">
+											      <td colspan="3">
 											                   没有查到相关数据！
 											      </td>
 										      </tr>

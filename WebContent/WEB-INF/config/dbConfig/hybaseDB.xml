@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<!-- DB -->
+<entry key="hybase.hosts">192.168.103.61</entry>
+<entry key="hybase.port">5555</entry>
+<entry key="hybase.user">trs</entry>
+<entry key="hybase.pwd">trsadmin123</entry>
+<entry key="hybase.timeout">1000</entry>
+</properties>

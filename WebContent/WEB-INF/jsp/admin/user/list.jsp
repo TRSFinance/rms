@@ -82,6 +82,19 @@
        	   $("#data").submit();
        	  }
        
+       function   addUserRole(id){
+       	$("#frameRole").attr("src","<%=ctx %>/admin/rmsUser/userRoleN.do?userId="+id);
+       	$("#frameModal").modal("show");
+       }
+       function   hideFrame(){
+       	$("#frameModal").modal("hide");
+       }
+       
+       function   queryUserRole(id){
+       	$("#frameRole").attr("src","<%=ctx %>/admin/rmsUser/userRole.do?userId="+id);
+       	$("#frameModal").modal("show");
+       }
+       
        </script>
 	</head>
 
@@ -155,6 +168,12 @@
 													</a>
 													<a class="btn btn-danger btn-sm" href="#" onclick="dels(${rmsUser.userId })" >
 														<i class="glyphicon glyphicon-trash icon-white"></i>删除
+													</a>
+																<a class="btn btn-success btn-sm" href="#"  onclick="addUserRole(${rmsUser.userId })">
+														<i class="glyphicon glyphicon-plus-sign icon-white"></i>配置角色
+													</a>
+													<a class="btn btn-info btn-sm" href="#"  onclick="queryUserRole(${rmsUser.userId })">
+														<i class="glyphicon glyphicon-search icon-white"></i>查询角色
 													</a>
 												</td>
 											</tr>
@@ -276,8 +295,16 @@
 		        </div>
 		    </div>
 		    <!-- 提示浮层结束-->
-		   
-		    <!-- 保存浮层结束-->
+		   <div class="modal fade td-center" id="frameModal" tabindex="-1" role="dialog" aria-labelledby="frameModalLabel"
+		         aria-hidden="true">
+	                   
+		                <div class="modal-body"  >
+		                 <button type="button" class="close" data-dismiss="modal">×</button>
+		                <iframe src=""  id="frameRole" style="width: 80%;height: 500px;text-align: center; "  frameborder="0" scrolling="auto" ></iframe>
+		                </div>
+		                
+		          
+		    </div>
 		   <%@include file="../../common/foot.jsp" %>
 
 
