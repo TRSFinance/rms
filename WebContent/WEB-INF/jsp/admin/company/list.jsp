@@ -121,7 +121,7 @@
 					</form>
 					<div class="box col-md-12">
 							<div class="box-inner" id="com-list">
-								<div class="box-content">
+								<div class="box-content  right-div">
 									<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 										<thead>
 											<!--  表头信息开始  -->

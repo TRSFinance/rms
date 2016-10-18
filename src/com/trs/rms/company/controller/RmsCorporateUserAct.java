@@ -1,52 +1,20 @@
 package com.trs.rms.company.controller;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-
-import com.trs.rms.base.page.Param;
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
-import com.trs.rms.company.bean.RmsCompanyInfo;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.page.RmsCorporateUserPage;
 import com.trs.rms.company.service.RmsCorporateUserService;
@@ -68,10 +36,11 @@ public class RmsCorporateUserAct {
 	private PwdEncoder pwdEncoder;
 
 	//查询方法(首次查询)
-	@RequiresPermissions({"admin:role:test2"})
+	@RequiresPermissions({"admin:company:query"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
+		page.setPageNo(1);
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
@@ -79,6 +48,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//通用的查询方法(输入搜索词查询)
+	@RequiresPermissions({"admin:company:query"})
 	@RequestMapping("/v_list.do")
 	public  String   pagelist(Integer pageSize,Integer pageNo,String username,
 			HttpServletRequest request,HttpServletResponse response,
@@ -95,6 +65,7 @@ public class RmsCorporateUserAct {
 	}
 
 	//查看某一条数据详细信息的方法
+	@RequiresPermissions({"admin:company:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -115,6 +86,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//编辑某一条数据的方法，提交后将修改数据库信息
+	@RequiresPermissions({"admin:company:edit"})
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  id,
@@ -141,6 +113,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//删除方法
+	@RequiresPermissions({"admin:company:del"})
 	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public void delete(HttpServletRequest request,HttpServletResponse response,Long userId) throws JSONException{
 
@@ -179,7 +152,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//保存企业用户到RmsUser和RmsCorporateUser表中
-	@RequiresPermissions({"admin:user:add"})
+	@RequiresPermissions({"admin:company:add"})
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public  String   save(
 			String  username,
