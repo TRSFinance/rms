@@ -6,7 +6,7 @@
 
 	<head>
        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>企业用户管理</title>
+		<title>企业名单管理</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -15,8 +15,22 @@
        
 		<script type="text/javascript">
 	       $(document).ready(function () {
-	         $("#pageSize").val("${page.pageSize}");	         
+	         $("#pageSize").val("${page.pageSize}");	
+	         
+	         var obj=$("#searchword");  
+	         obj.keyup(function(event){
+	         var  myEvent=event||window.event;
+	         var  keycode=myEvent.keyCode;		  
+	         if(keycode==13){
+	             query();
+	    	 } });
 	       });
+	       
+	       function  query(){
+	           $("#pageNo").val(1);
+	       	   $("#data").submit();
+	       	  }
+	       
        </script>
 		
 </head>
@@ -89,7 +103,7 @@
 					</div>
 					<div class="col-md-6" >
 						<div  class="dataTables_filter">
-							<label>搜索:<input type="text" class="" name="username" value="${page.searchword }"></label>
+							<label>搜索:<input type="text" class="" id="searchword" name="username" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
 						</div>
 					</div>
 					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>
@@ -146,8 +160,7 @@
 												      </td>
 										     	 </tr>
 										      </c:if>
-										      
-											
+					
 											<!--  任务循环结束  -->	
 
 										</tbody>
@@ -184,7 +197,7 @@
 			                    <div class="form-group">
 			                    <form action="/rms/admin/rmsCompanyInfo/upload.do" method="post" id="uploadFile"  enctype="multipart/form-data" target="_blank">
 			                        <label class="control-label">任务名称</label>
-			                        <input type="file" class="form-control" name="theFile">
+			                        <input type="file" class="form-control" name="theFile" accept="application/vnd.ms-excel">
 			                    </form>
 			                    </div>
 			                </div>  
@@ -220,12 +233,10 @@
 		        </div>
 		    </div>
 		    <!-- 提示浮层结束-->
-		    
 
 		 <%@include file="../../../common/foot.jsp" %>
 
 		</div>
-
 
 <script type="text/javascript">
 				
@@ -235,132 +246,25 @@
 	});
 
 	$("#insertFile").click(function(){
-		
-//      var URL = document.location.toString(); 
-//      var userId="";
-//      if(URL.lastIndexOf("?")!=-1){ 
-//     	 userId= URL.substring(URL.lastIndexOf("?")+1,URL.length); 	  			
-//		 }	
-//		alert(userId);
-		
 		$('#comModal').modal('hide');
 		location.reload();
 		$("#uploadFile").submit();
-
 	});
 	
-	$("#toDelete").click(function(){
-		
+	$("#toDelete").click(function(){		
 		$('#warnModal').modal('hide');
-      	 var  delid=$("#delid").val();
-		
-		//alert(cust_id);
-		$.get("/rms/admin/rmsCompanyInfo/delete.do",{custid:delid},function(data, status){
-			//alert("删除成功");
+      	var  delid=$("#delid").val();
+		$.get("/rms/admin/rmsCompanyInfo/delete.do",{custId:delid},function(data, status){
 			location.reload();
-		});
-	
+		});	
 	});
 	
- 	function  dels(obj){
-    	
+ 	function  dels(obj){  	
        $("#delid").val(obj);
        $('#warnModal').modal('show');
     }
-	
- 	
- 	
-	
-	
-	$("#updateCompanyInfo").click(function(){
-		
-		//alert(cust_id);
-		$.get("/rms/admin/rmsCompanyInfo/update.do",{cust_id:cust_id,param1:$("#param1").val(),param2:$("#param2").val(),param3:$("#param3").val(),param4:$("#param4").val()},function(data, status){
-			alert("修改成功");	
-			location.reload();
-		});
-	
-	});
-	
-		
-
-	
-	
-</script>
-
-
-<script type="text/javascript">
-
-
-	$(document).ready(function(){
-		
-		//companyList();
-
-	});
-
-	function companyList(){
-		  $.ajax( {  
-		       type : "GET",  
-		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
-		        data : {}, 
-		        dataType: "json",  
-		        success : function(data) {  					
-			       	for(var i=0;i<data.cool.length;i++){
-			       		//alert("返回数据成功");
-			       		
-<%-- 			       		<li><a class='ajax-link' href="<%=ctx%>/admin/rmsCompanyInfo/list.do?userId=data.cool[i].userId"></a></li> --%>
-			       		$("#companyList").append("<li><a class='ajax-link' href='<%=ctx%>/admin/rmsCompanyInfo/list.do?userId='"+data.cool[i].userId+">"+data.cool[i].corporateName+"</a></li>");
-			       		 
-			       		//alert(data.cool[i].CustCfname);                		
-			       	}                    
-		        },
-		        error: function(err) {     
-       			alert("oh my god");     
-		        }  
-		    });
-	} 
-
-	
-	function companyInfoList(){
-		  $.ajax( {  
-		       type : "GET",  
-		        url : "/rms/admin/rmsCompanyInfo/list2.do",  
-		        data : {}, 
-		        dataType: "json",  
-		        success : function(data) {  					
-			       	for(var i=0;i<data.cool.length;i++){
-			       		//alert("返回数据成功");
-			       		
-			       		$("#liebiao").append("<tr><td>"+(i+2)+"</td>"+
-			       		"<td>"+data.cool[i].CustCfname+"</td>"+
-			       		"<td>"+data.cool[i].CustCsname+"</td>"+
-			       		"<td>"+data.cool[i].CustIndustry1+"</td>"+
-			       		"<td>"+data.cool[i].CustIndustry2+"</td>"+
-			       		
-			       		"<td class=\"center font-right\">"+
-						"<a class=\"btn btn-success btn-sm\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-zoom-in icon-white\"></i>查看"+
-						"</a> "+
-						"<a class=\"btn btn-info btn-sm btn-setting\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-edit icon-white\"></i>修改"+
-						"</a> "+
-						"<a class=\"btn btn-danger btn-sm btn-warn\" href=\"#\">"+
-							"<i class=\"glyphicon glyphicon-trash icon-white\"></i>删除"+
-						"</a> "+
-					"</td>"+
-						"</tr>");
-			       		//alert(data.cool[i].CustCfname);                		
-			       	}                    
-		        },
-		        error: function(err) {     
-     			alert("oh my god");     
-		        }  
-		    });
-	} 
-
 
 </script>
-
 
 </body>
 </html>

@@ -18,6 +18,8 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +32,12 @@ import com.trs.rms.company.bean.RmsCorporateCust;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.service.RmsCompanyInfoService;
 import com.trs.rms.usermgr.bean.RmsUser;
+import com.trs.rms.usermgr.controller.RmsRoleAct;
 @Service
 @Transactional
 public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyInfoService{
 
+	
 	@Autowired
 	public  void  setMyDao(IDao dao){
 		super.setDao(dao);
@@ -41,15 +45,10 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 	
 	@Override
 	public List<RmsCorporateUser> list(){
-
-		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from RmsCorporateUser rcu where rcu.rmsUser.userType=2");
-		
-		return list;
-		
+		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from RmsCorporateUser rcu where rcu.rmsUser.userType=2");		
+		return list;		
 	}
 
-	
-	
 	@Override
 	public long getUserId() {		
 		System.out.println("查询用户的id");
@@ -62,10 +61,8 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 	public void updateData(List list) {
 		System.out.println("我来了");
 		String sql = "update rms_company_info set CUST_CFNAME=?,CUST_CSNAME=?, "+
-		"CUST_INDUSTRY1=?,CUST_INDUSTRY2=? where CUST_ID=?";
-	
-		dao.updateSql(sql, list);
-		
+		"CUST_INDUSTRY1=?,CUST_INDUSTRY2=? where CUST_ID=?";	
+		dao.updateSql(sql, list);		
 	}
 
 	@Override
@@ -76,7 +73,6 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 	@Override
 	public boolean insertFiletoDb(HttpServletRequest request, String savepath,
 			String uuidname,Long userId) {
-		//System.out.println(("userid=")+userId);
 		
 		if(userId==null){
 			return false;
@@ -85,18 +81,14 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 		try {
 			inputStream = new FileInputStream(request.getServletContext().getRealPath(savepath)+"\\"+uuidname);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		
+		}		
 		Workbook workbook = null;
 		try {
 			workbook = Workbook.getWorkbook(inputStream);
 		} catch (BiffException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Sheet sheet = workbook.getSheet(0);
@@ -104,69 +96,102 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 		int rows=sheet.getRows();
 		//列数
 		int cols=sheet.getColumns();
-
-		List<RmsCompanyInfo> list = dao.query("from  com.trs.rms.company.bean.RmsCompanyInfo");
-		long maxCustId = list.get(list.size()-1).getCustId();
+		//将表格内容存放到list数组中
 		for (int i = 1; i < rows; i++) {
-			List list2 = new ArrayList();
+			List<String> list = new ArrayList<String>();
 			for(int j = 0; j < cols; j++){
-				Cell cell = sheet.getCell(j, i);
-				
-//				if(cell!=null){	
-					String value = cell.getContents();
-					if(value!=null&&!"".equals(value)){
-						list2.add(value);
-					}else{
-						list2.add("");
-					}					
-//				}
-		
+				Cell cell = sheet.getCell(j, i);				
+				String value = cell.getContents();
+				if(value!=null&&!"".equals(value)){
+					list.add(value);
+				}else{
+					list.add("");
+				}					
 			}
-
-			RmsCompanyInfo rci = new RmsCompanyInfo();
 			
-			rci.setCustOrgid(list2.get(0).toString());
-			rci.setCustCfname(list2.get(1).toString());
-			rci.setCustCsname(list2.get(2).toString());			
-			rci.setCustEfname(list2.get(3).toString());
-			rci.setCustEsname(list2.get(4).toString());
-			rci.setCustIndustrycode(list2.get(5).toString());
-			rci.setCustIndustry1(list2.get(6).toString());
-			rci.setCustIndustry2(list2.get(7).toString());
-			rci.setAreaCode(list2.get(8).toString());
-			rci.setDistrictName(list2.get(9).toString());
-			rci.setProvinceName(list2.get(10).toString());
-			rci.setCityName(list2.get(11).toString());
-			rci.setIcCode(list2.get(12).toString());
-			rci.setTaxCode(list2.get(13).toString());
-			rci.setStockCode(list2.get(14).toString());
-			
-			rci.setState(1);
-			rci.setDataSource(2);
-			rci.setPinyin("");
-			rci.setCreateTime(new Date());
-			rci.setChangeTime(new Date()); 
-
-			dao.save(rci);
-			RmsCorporateCust rmsCorporateCust = new RmsCorporateCust();
-			
-			String sql="insert into rms_corporate_cust (CUST_ID,USER_ID,CREATE_TIME) values (?,?,?) ";
-			List list3 = new ArrayList();	
-			maxCustId=maxCustId+1;
-			list3.add(new Param(Types.BIGINT,maxCustId));
-			list3.add(new Param(Types.BIGINT,userId));
-			list3.add(new Param(Types.TIMESTAMP,new Date()));
-			dao.updateSql(sql, list3);	
-		}
-		
+			//判断是否已经存在于RmsCorporateCust表中了
+			int z=0;
+			Long custId = null;
+			List<RmsCorporateCust> list3 = dao.query(" from com.trs.rms.company.bean.RmsCorporateCust rcu where rcu.corporateUser.userId="+userId);
+			for(int k=0;k<list3.size();k++){
+				if(list3.get(k).getCompanyInfo().getCustCfname().equals(list.get(0))){	
+					z++;
+					break;
+				}		
+			}	
+			//已存在RmsCorporateCust表中，结束本次流程，进入下一次循环。
+			if(z>0){
+				continue;
+			}				
+			//不在RmsCorporateCust表中，判断是否在RmsCompanyInfo表中
+			List<RmsCompanyInfo> list2 = dao.query(" from com.trs.rms.company.bean.RmsCompanyInfo");			
+			for(int j=0;j<list2.size();j++){
+				if(list2.get(j).getCustCfname().equals(list.get(0))){	
+					z++;
+					custId = list2.get(j).getCustId();
+					break;
+				}		
+			}	
+			//不在RmsCorporateCust表中，也不在RmsCompanyInfo表中
+			if(z==0){
+				RmsCompanyInfo rci = new RmsCompanyInfo();						
+				rci.setCustCfname(list.get(0));
+				rci.setCustCsname(list.get(1));			
+				rci.setCustEfname(list.get(1));
+				rci.setCustEsname(list.get(3));
+				rci.setCustOrgid(list.get(4));
+				rci.setCustIndustrycode(list.get(5));
+				rci.setCustIndustry1(list.get(6));
+				rci.setCustIndustry2(list.get(7));
+				rci.setAreaCode(list.get(8));
+				rci.setDistrictName(list.get(9));
+				rci.setProvinceName(list.get(10));
+				rci.setCityName(list.get(11));
+				rci.setIcCode(list.get(12));
+				rci.setTaxCode(list.get(13));
+				rci.setStockCode(list.get(14));			
+				rci.setState(1);
+				rci.setDataSource(2);
+				rci.setPinyin("");
+				rci.setCreateTime(new Date());
+				rci.setChangeTime(new Date()); 
+				dao.save(rci);
+				RmsCorporateCust rmsCorporateCust = new RmsCorporateCust();
+				RmsCorporateUser rmsCorporateUser = (RmsCorporateUser) dao.queryById(RmsCorporateUser.class, userId);			
+				rmsCorporateCust.setCompanyInfo(rci);
+				rmsCorporateCust.setCorporateUser(rmsCorporateUser);
+				rmsCorporateCust.setCreateTime(new Date());
+				dao.save(rmsCorporateCust);			
+			}else{
+				//不在RmsCorporateCust表中，但是在RmsCompanyInfo表中
+				RmsCompanyInfo rci = (RmsCompanyInfo) dao.queryById(RmsCompanyInfo.class, custId);
+				RmsCorporateCust rmsCorporateCust = new RmsCorporateCust();
+				RmsCorporateUser rmsCorporateUser = (RmsCorporateUser) dao.queryById(RmsCorporateUser.class, userId);			
+				rmsCorporateCust.setCompanyInfo(rci);
+				rmsCorporateCust.setCorporateUser(rmsCorporateUser);
+				rmsCorporateCust.setCreateTime(new Date());
+				dao.save(rmsCorporateCust);				
+			}	
+				
+		}		
 		try {
 			inputStream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return true;
-		
+		return true;		
 	}
+
+	@Override
+	public void deleteRmsCorporateCust(Long custId, Long publicUserId) {
+
+		String sql = "delete from rms_corporate_cust where cust_id=? and user_id=?";
+		List<Param> list = new ArrayList<Param>();		
+		list.add(new Param(Types.BIGINT,custId));
+		list.add(new Param(Types.BIGINT,publicUserId));
+		dao.updateSql(sql, list);
+	}
+
+
 	
 }

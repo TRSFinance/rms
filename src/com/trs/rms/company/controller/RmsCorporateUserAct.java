@@ -67,43 +67,7 @@ public class RmsCorporateUserAct {
 	@Autowired
 	private PwdEncoder pwdEncoder;
 
-	//测试
-	@RequiresPermissions({"admin:role:test2"})
-	@RequestMapping(value={"/ceshi.do"})
-	public  String   list(ModelAndView model){
-		List<RmsCorporateUser> list = service.list();
-		Map map = new HashMap();
-		
-		model.addObject("abc", map);
-		return "../ceshi/receiveData";
-	}
-	
-	//自定义的查询后台数据方法
-	@RequiresPermissions({"admin:role:test2"})
-	@RequestMapping(value={"/list2.do"})
-		public  ModelAndView   list2(Model model){
-			List<RmsCorporateUser> list = service.list();
-			Map map = new HashMap();
-			List list2 = new ArrayList();		
-			for(int i=0;i<5;i++){
-				Map map2 = new HashMap();
-//				map2.put("CustCfname", list.get(i).getCustCfname());
-//				map2.put("CustCsname", list.get(i).getCustCsname());
-//				map2.put("CustIndustry1", list.get(i).getCustIndustry1());
-//				map2.put("CustIndustry2", list.get(i).getCustIndustry2());
-				list2.add(map2);
-			}	
-			map.put("cool", list2);		
-			return new ModelAndView(new MappingJackson2JsonView(),map);
-		} 
-	
-	//add
-	//v_edit
-	//edit
-	//del
-	//query
-	
-	//通用的查询方法(首次查询)
+	//查询方法(首次查询)
 	@RequiresPermissions({"admin:role:test2"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
@@ -129,41 +93,8 @@ public class RmsCorporateUserAct {
 		model.addAttribute("data", list);
 		return "company/list";
 	}
-	
-	//通用的删除方法(输入搜索词查询)
-	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
-	public void delete(HttpServletRequest request,HttpServletResponse response,String cust_id){
-//		request.getAttribute("deletecomp");
-//		System.out.println(request.getAttribute("deletecomp"));
-		
-		System.out.println(cust_id);
-		
-		Long[] ids = {Long.parseLong(cust_id)};
-		
-		service.delete(RmsCorporateUser.class, ids);
-		
-	
-	}
 
-	
-	//修改一条记录
-	@RequestMapping(value=("/update.do"),method={org.springframework.web.bind.annotation.RequestMethod.GET})
-	public void update(HttpServletRequest request,HttpServletResponse response,String cust_id,String param1,String param2,String param3,String param4){
-		System.out.println(cust_id);
-		System.out.println(param1);
-		System.out.println(param2);
-		System.out.println(param3);
-		System.out.println(param4);
-		List list = new ArrayList();		
-		list.add(new Param(Types.VARCHAR,param1));
-		list.add(new Param(Types.VARCHAR,param2));
-		list.add(new Param(Types.VARCHAR,param3));
-		list.add(new Param(Types.VARCHAR,param4));
-		list.add(new Param(Types.BIGINT,Long.parseLong(cust_id)));		
-		service.updateData(list);	
-	}
-	
-	
+	//查看某一条数据详细信息的方法
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -173,6 +104,7 @@ public class RmsCorporateUserAct {
 		return "company/view";
 	}
 	
+	//编辑某一条数据的方法，之后进入编辑页
 	@RequestMapping("/v_edit.do")
 	public  String   editpage(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -182,6 +114,7 @@ public class RmsCorporateUserAct {
 		return "company/edit";
 	}
 	
+	//编辑某一条数据的方法，提交后将修改数据库信息
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  id,
@@ -194,7 +127,6 @@ public class RmsCorporateUserAct {
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
 		RmsCorporateUser corporateUser=(RmsCorporateUser) service.queryById(RmsCorporateUser.class, id);
-		//String  loginName=SysUtils.getLoginName();
 				if(corporateUser!=null){
 					corporateUser.setUpdateTime(new Date());
 					corporateUser.setCorporateName(corporateName);
@@ -203,19 +135,15 @@ public class RmsCorporateUserAct {
 					corporateUser.setCorporateEmail(corporateEmail);
 					corporateUser.setCorporateInf(corporateInf);
 					corporateUser.getRmsUser().setUserState(userState);					
-					service.save(corporateUser);
+					service.update(corporateUser);
 				}
 		return "redirect:/admin/rmsCorporateUser/list.do";
 	}
 	
-	
+	//删除方法
 	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public void delete(HttpServletRequest request,HttpServletResponse response,Long userId) throws JSONException{
 
-		
-//		Long[] ids = {Long.parseLong(cust_id)};
-//		
-//		service.delete(RmsCompanyInfo.class, ids);
 		JSONObject json = new JSONObject();
 		json.put("success", true);
 		String  loginName=SysUtils.getLoginName();
@@ -228,14 +156,12 @@ public class RmsCorporateUserAct {
 			user.setUserState(2);;
 			user.setUpdateUser(loginName);
 			service.update(user);
-			}
-		
+			}		
 		}
 		ResponseUtils.renderJson(response,json.toString());
-		
-	
 	}
 	
+	//判断注册时是否已存在该登录名或者企业名称
 	@RequestMapping(value={"/a_username.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   void   ajaxUsername(
 			String  username,
@@ -252,6 +178,7 @@ public class RmsCorporateUserAct {
 
 	}
 	
+	//保存企业用户到RmsUser和RmsCorporateUser表中
 	@RequiresPermissions({"admin:user:add"})
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public  String   save(
@@ -264,37 +191,25 @@ public class RmsCorporateUserAct {
 			String  _info,
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-				String  loginName=SysUtils.getLoginName();
-				RmsUser rmsUser = new RmsUser();
-				//设置用户表中参数
-				rmsUser.setLoginName(username);
-		    	rmsUser.setUserPawd(pwdEncoder.encodePassword(userpassword));
-		    	rmsUser.setNickName("企业用户");
-		    	rmsUser.setUserState(1);
-		    	rmsUser.setUserInfo("");
-		    	rmsUser.setCreateTime(new Date());
-		    	rmsUser.setUpdateTime(new Date());
-		    	rmsUser.setCreateUser(loginName);
-		    	rmsUser.setUpdateUser(loginName);
-		    	rmsUser.setEmail(email);
-		    	rmsUser.setMobile(mobile);
-		    	rmsUser.setFailCount(0);
-		    	rmsUser.setUserType(2);
-		    	//service.save(rmsUser);
-		    	//查询rms_user表中生成的id
-		    	service.saveCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info);
-		    	//设置企业用户表中参数
-//		    	rmsCorporateUser.setRmsUser(rmsUser);
-//		    	rmsCorporateUser.setCorporateName(corporateUserName);
-//		    	rmsCorporateUser.setCorporateTel(tel);
-//		    	rmsCorporateUser.setCorporateMobile(mobile);
-//		    	rmsCorporateUser.setCorporateEmail(email);
-//		    	rmsCorporateUser.setCorporateInf(_info);
-//		    	rmsCorporateUser.setCreateTime(new Date());
-//		    	rmsCorporateUser.setUpdateTime(new Date());
-//				if(!service.isExist(username,corporateUserName))
-//				service.save(rmsCorporateUser);
 		
+		String  loginName=SysUtils.getLoginName();
+		RmsUser rmsUser = new RmsUser();
+		//设置用户表中参数
+		rmsUser.setLoginName(username);
+    	rmsUser.setUserPawd(pwdEncoder.encodePassword(userpassword));
+    	rmsUser.setNickName("企业用户");
+    	rmsUser.setUserState(1);
+    	rmsUser.setUserInfo("");
+    	rmsUser.setCreateTime(new Date());
+    	rmsUser.setUpdateTime(new Date());
+    	rmsUser.setCreateUser(loginName);
+    	rmsUser.setUpdateUser(loginName);
+    	rmsUser.setEmail(email);
+    	rmsUser.setMobile(mobile);
+    	rmsUser.setFailCount(0);
+    	rmsUser.setUserType(2);
+    	//调用自定义方法保存企业用户信息到表格中
+    	service.saveCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info);
 		return "redirect:/admin/rmsCorporateUser/list.do";
 	}
 	

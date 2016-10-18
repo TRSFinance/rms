@@ -17,6 +17,15 @@
        $(document).ready(function () {
          $("#pageSize").val("${page.pageSize}");
          $("#_adduser").Validform();
+         
+         var obj=$("#searchword");  
+         obj.keyup(function(event){
+         var  myEvent=event||window.event;
+         var  keycode=myEvent.keyCode;		  
+         if(keycode==13){
+             query();
+    	 } });
+         
        });
        function save() {
     	   var  userName=$("#username").val();
@@ -27,20 +36,16 @@
    			cache:false,
    			dataType:"json",
    			data:{'username':userName,'corporateUserName':corporateUserName},
-   			success:function(data){
-   				
+   			success:function(data){  				
    				if(data.exist){
    					alert("已存在该登录名称或企业名称！");
-   				}else{
-   					
+   				}else{   					
     		    	$("#_adduser").submit();
    				}
    			},
    			error:function(){
    			}
-   		});
-   	 
-    	   
+   		});   
     	   
 	}
        function  dels(obj){
@@ -66,8 +71,12 @@
     			error:function(){
     			}
     		});
-    	        }
+    	 }
        
+        function  query(){
+           $("#pageNo").val(1);
+       	   $("#data").submit();
+	    }
        
        </script>
 	</head>
@@ -87,7 +96,7 @@
 					<div>
 					<div class="breadcrumb">
 					<button class="btn btn-info btn-sm btn-adduser"> <i class="glyphicon glyphicon-plus-sign icon-white"></i>添加企业用户</button>
-					<div class="com-add"><button class="btn-comlist">新建企业用户</button></div>					
+<!-- 					<div class="com-add"><button class="btn-comlist">新建企业用户</button></div>					 -->
 					</div>
 					
 					</div>
@@ -105,7 +114,7 @@
 					</div>
 					<div class="col-md-6" >
 						<div  class="dataTables_filter">
-							<label>搜索:<input type="text" class="" name="username" value="${page.searchword }"></label>
+							<label>搜索:<input type="text" class="" id="searchword" name="username" value="${page.searchword }"><a href="#" onclick="query()"><i class="glyphicon glyphicon-search form_search" ></i></a></label>
 						</div>
 					</div>
 					<input  type="hidden"  name="pageNo"  value="1" id="pageNo"/>

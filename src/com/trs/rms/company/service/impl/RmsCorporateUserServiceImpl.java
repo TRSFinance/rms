@@ -86,21 +86,10 @@ public class RmsCorporateUserServiceImpl extends BasicServicveImpl implements Rm
 
 	@Override
 	public void saveCorporateUser(RmsUser rmsUser, String corporateUserName,
-			String tel, String mobile, String email, String _info) {
-		
-		dao.save(rmsUser);
-		List<RmsUser> list = dao.query("from  com.trs.rms.usermgr.bean.RmsUser");
-		String sql="insert into rms_corporate_user (USER_ID,CORPORATE_NAME, CORPORATE_TEL, CORPORATE_MOBILE, CORPORATE_EMAIL, CORPORATE_INF, CREATE_TIME, UPDATE_TIME) values (?,?, ?, ?, ?, ?, ?, ?) ";
-		List list2 = new ArrayList();		
-		list2.add(new Param(Types.BIGINT,list.get(list.size()-1).getUserId()));
-		list2.add(new Param(Types.VARCHAR,corporateUserName));
-		list2.add(new Param(Types.VARCHAR,tel));
-		list2.add(new Param(Types.VARCHAR,mobile));
-		list2.add(new Param(Types.VARCHAR,email));
-		list2.add(new Param(Types.VARCHAR,_info));
-		list2.add(new Param(Types.TIMESTAMP,new Date()));
-		list2.add(new Param(Types.TIMESTAMP,new Date()));
-		dao.updateSql(sql, list2);		
+			String tel, String mobile, String email, String _info) {		
+		dao.save(rmsUser);		
+		RmsCorporateUser rmsCorporateUser = new RmsCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info,new Date(),new Date());
+		dao.save(rmsCorporateUser);	
 	}
 
 

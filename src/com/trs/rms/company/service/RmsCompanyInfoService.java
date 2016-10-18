@@ -20,5 +20,7 @@ public interface RmsCompanyInfoService extends BasicService {
 	public void add(Collection c);
 	
 	boolean insertFiletoDb(HttpServletRequest request,String savepath,String uuidname,Long userId);
+
+	void deleteRmsCorporateCust(Long custId, Long publicUserId);
 	
 }

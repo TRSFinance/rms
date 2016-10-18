@@ -42,6 +42,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.trs.rms.base.page.Param;
 import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.company.bean.RmsCompanyInfo;
+import com.trs.rms.company.bean.RmsCorporateCust;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.page.RmsCompanyPage;
 import com.trs.rms.company.page.RmsCorporateUserPage;
@@ -57,71 +58,29 @@ public class RmsCompanyInfoAct {
 	private  RmsCompanyPage   page;
 	
 	@Autowired
-	private  RmsCorporateUserPage   page2;
-
-	@Autowired
 	private RmsCompanyInfoService service;
 	
-	//设置一个存放当前查询userId的参数
+	//设置一个存放当前查询userId的参数,提供给上传文件时使用
 	Long publicUserId;
 
-	//测试
-	@RequiresPermissions({"admin:role:test2"})
-	@RequestMapping(value={"/ceshi.do"})
-	public  String   list(ModelAndView model){
-		List<RmsCorporateUser> list = service.list();
-		Map map = new HashMap();
-		
-		model.addObject("abc", map);
-		return "../ceshi/receiveData";
-	}
 	
-	//自定义的查询后台数据方法
-	@RequiresPermissions({"admin:role:test2"})
-	@RequestMapping(value={"/list2.do"})
-		public  ModelAndView   list2(Model model){
-			List<RmsCorporateUser> list = service.list();
-			Map map = new HashMap();
-			List list2 = new ArrayList();		
-			for(int i=0;i<list.size();i++){
-				Map map2 = new HashMap();
-				map2.put("corporateName", list.get(i).getCorporateName());
-				map2.put("userId", list.get(i).getUserId());
-				list2.add(map2);
-			}	
-			map.put("cool", list2);		
-			return new ModelAndView(new MappingJackson2JsonView(),map);
-		} 
-	
-	//add
-	//v_edit
-	//edit
-	//del
-	//query
-	
-	//通用的查询方法(首次查询)
+	//查询方法(首次查询)
 	@RequiresPermissions({"admin:role:test2"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,Long userId){
 		
 		publicUserId = userId;
-//		String  loginName=SysUtils.getLoginName();
-//		System.out.println("-----"+loginName);
-		page.setUserId(userId);
-		
+		page.setUserId(userId);	
 		List list = page.queryObjectsToPages();
 		List<RmsCorporateUser> list2 = service.list();
-
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
 		model.addAttribute("data2",list2);
 		return "company/companyInfo/list";
 	}
-	
 
-	
-	//通用的查询方法(输入搜索词查询)
+	//查询方法(输入搜索词后的查询)
 	@RequestMapping("/v_list.do")
 	public  String   pagelist(Integer pageSize,Integer pageNo,String username,
 			HttpServletRequest request,HttpServletResponse response,
@@ -138,28 +97,8 @@ public class RmsCompanyInfoAct {
 		model.addAttribute("data2",list2);
 		return "company/companyInfo/list";
 	}
-	
-	
 
-	
-	//修改一条记录
-	@RequestMapping(value=("/update.do"),method={org.springframework.web.bind.annotation.RequestMethod.GET})
-	public void update(HttpServletRequest request,HttpServletResponse response,String cust_id,String param1,String param2,String param3,String param4){
-		System.out.println(cust_id);
-		System.out.println(param1);
-		System.out.println(param2);
-		System.out.println(param3);
-		System.out.println(param4);
-		List list = new ArrayList();		
-		list.add(new Param(Types.VARCHAR,param1));
-		list.add(new Param(Types.VARCHAR,param2));
-		list.add(new Param(Types.VARCHAR,param3));
-		list.add(new Param(Types.VARCHAR,param4));
-		list.add(new Param(Types.BIGINT,Long.parseLong(cust_id)));		
-		service.updateData(list);
-		
-	}
-	
+	//查看某一条数据详细信息的方法
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -169,6 +108,7 @@ public class RmsCompanyInfoAct {
 		return "company/companyInfo/view";
 	}
 	
+	//编辑某一条数据的方法，之后进入编辑页
 	@RequestMapping("/v_edit.do")
 	public  String   editpage(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -178,93 +118,68 @@ public class RmsCompanyInfoAct {
 		return "company/companyInfo/edit";
 	}
 	
+	//编辑某一条数据的方法，提交后将修改数据库信息
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  custid,
-			String  custIndustry1,
+			String  custCfname,
 			String  custIndustry2,
 			Integer dataSource,
 			Integer  state, 
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
+		
 		RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, custid);
-		//String  loginName=SysUtils.getLoginName();
-				if(compInfo!=null){
-		    	compInfo.setChangeTime(new Date());;
-		    	compInfo.setCustIndustry1(custIndustry1);;
-		    	compInfo.setCustIndustry2(custIndustry2);;
-		    	compInfo.setDataSource(dataSource);;
-		    	compInfo.setState(state);
-				service.save(compInfo);
-				}
-		return "redirect:/admin/rmsCompanyInfo/list.do";
+		if(compInfo!=null){
+	    	compInfo.setChangeTime(new Date());
+	    	compInfo.setCustCfname(custCfname);
+	    	compInfo.setCustIndustry2(custIndustry2);
+	    	compInfo.setDataSource(dataSource);
+	    	compInfo.setState(state);
+			service.update(compInfo);
+		}
+		return "redirect:/admin/rmsCompanyInfo/list.do?userId="+publicUserId;
 	}
 	
-	//通用的删除方法(输入搜索词查询)
-		@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
-		public String delete(HttpServletRequest request,HttpServletResponse response,Long custid){
-
-			System.out.println(custid);
-			
-//			Long[] ids = {Long.parseLong(cust_id)};
-//			
-//			service.delete(RmsCompanyInfo.class, ids);
-			
-			RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, custid);
-			//String  loginName=SysUtils.getLoginName();
-					if(compInfo!=null){
-			    	compInfo.setChangeTime(new Date());;			    	
-			    	compInfo.setState(-1);
-					service.save(compInfo);
-					}
-			return "redirect:/admin/rmsCompanyInfo/list.do";
-			
+	//删除方法
+	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
+	public String delete(HttpServletRequest request,HttpServletResponse response,Long custId){
 		
-		}
+		service.deleteRmsCorporateCust(custId,publicUserId);
 	
-	
+		return "redirect:/admin/rmsCompanyInfo/list.do";
+	}
 	
 	//上传文件
 	@RequestMapping(value=("/upload.do"),method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public void filetodb(HttpServletRequest request,HttpServletResponse response,Long userId){
-		System.out.println("上传文件");
+		//System.out.println("准备上传文件");
 		userId=publicUserId;
-		//System.out.println("userId==================="+userId);
 		// 判断form是否为上传表单
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			throw new RuntimeException("该请求不是有效编码方式！");
 		}
-		
-		
 		// 创建文件项工厂
 		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
 		// 创建核心解析器
-		ServletFileUpload fileUpload = new ServletFileUpload(
-				diskFileItemFactory);
+		ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
 		// 处理上传文件名乱码
-		fileUpload.setHeaderEncoding("utf-8");
-		
+		fileUpload.setHeaderEncoding("utf-8");		
 		String uuidname = "";
 		String savepath = "";
 		// 解析请求request
 		try {
 			List<FileItem> fileItems = fileUpload.parseRequest(request);
 			// 遍历每个FileItem
-			for (FileItem fileItem : fileItems) {
-			
+			for (FileItem fileItem : fileItems) {			
 				// 判断fileItem是否为文件上传
 				if (fileItem.isFormField()) {
 					// 不是上传项
-					String name = fileItem.getFieldName();	
-					
+					String name = fileItem.getFieldName();						
 				} else {
 					// 是上传项
 					// 判断用户有没有上传
 					String filename = fileItem.getName();
-					
-					//lm
-					System.out.println("----------"+filename);
-					
 					if (filename == null || filename.trim().length() == 0) {
 						throw new RuntimeException("必须要上传文件！");
 					}
@@ -277,13 +192,9 @@ public class RmsCompanyInfoAct {
 					// 控制文件名唯一
 					uuidname = generateUUIDFilename(filename);
 					// 生成hashcode 分散目录
-					//String randomDir = UploadUtils.generateRandomDir(uuidname);
-					
+					//String randomDir = UploadUtils.generateRandomDir(uuidname);				
 					//lm 按当天日期动态生成目录
-					String path = new SimpleDateFormat("yyyyMMdd").format(new Date());
-					
-					System.out.println("request.getContextPath()---"+request.getContextPath());
-					
+					String path = new SimpleDateFormat("yyyyMMdd").format(new Date());					
 					// 创建随机目录
 					savepath = "/WEB-INF/upload/" + path;
 					System.out.println(request.getServletContext().getRealPath(savepath));
@@ -291,21 +202,18 @@ public class RmsCompanyInfoAct {
 					if(!dirFile.exists()){
 						System.out.println("文件夹不存在，正在创建");
 						dirFile.mkdirs();			
-					}
-					
+					}					
 					// 上传文件内容
 					InputStream in = new BufferedInputStream(fileItem.getInputStream());
 					OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(dirFile, uuidname)));
 					int b;
 					while ((b = in.read()) != -1) {
 						out.write(b);
-					}
-					
+					}					
 					in.close();
 					out.close();
 					// 删除临时文件，默认内存区 10K
-					fileItem.delete();
-					
+					fileItem.delete();					
 				}
 			}
 		} catch (FileUploadException e) {
@@ -314,12 +222,9 @@ public class RmsCompanyInfoAct {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 		
-		
-		boolean status = service.insertFiletoDb(request,savepath,uuidname,userId);
-		
-		if(status==true){
-			
+		} 				
+		boolean status = service.insertFiletoDb(request,savepath,uuidname,userId);		
+		if(status==true){			
 			// 提示用户文件上传成功
 			response.setContentType("text/html;charset=utf-8");
 			try {
@@ -341,7 +246,7 @@ public class RmsCompanyInfoAct {
 
 	}
 	
-	
+
 	
 	
 	/**

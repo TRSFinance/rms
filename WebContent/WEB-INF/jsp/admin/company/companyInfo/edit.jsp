@@ -50,9 +50,11 @@
                     <tbody>
                     <tr>
                         <td>
-                            <span class="label-default label">企业全称</span>
+                            <span class="label-default label label-default">企业全称</span>
                         </td>
-                        <td>　　${compInfo.custCfname }</td>
+                        <td>
+                        	<input type="text"   name="custCfname" value=" ${compInfo.custCfname }" class="form-control">
+                        </td>                       
                     </tr>
                     
                     
@@ -61,7 +63,7 @@
                             <span class="label-success label label-default">企业简称及相关关键词</span>
                         </td>
                         <td>　
-                        <input type="text"   name="custCsname" value=" ${compInfo.custCsname }" class="form-control" datatype="s2-16" errormsg="登录名称至少2个字符,最多16个字符！">
+                        <input type="text"   name="custCsname" value=" ${compInfo.custCsname }" class="form-control">
                        </td>
                     </tr>
                     
