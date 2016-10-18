@@ -50,6 +50,7 @@ public class RmsGroupAct {
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
+		page.setPageNo(1);
 		List list = page.queryObjectsToPages();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
