@@ -88,7 +88,7 @@
 		<div class="ch-container">
 			<div class="row">
 				<!-- left menu starts -->
-			   <%@include file="../../common/left/sysconfigleft.jsp" %>
+			   <%@include file="../../common/left/companyconfigleft.jsp" %>
 				<!--/span-->
 				<!-- left menu ends -->
 				   <div id="content" class="col-lg-10 col-sm-10">

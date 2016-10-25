@@ -1,9 +1,14 @@
 package com.trs.rms.company.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.json.JSONException;
@@ -12,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+
 import com.trs.rms.base.security.encoder.PwdEncoder;
 import com.trs.rms.base.util.ResponseUtils;
 import com.trs.rms.base.util.SysUtils;
@@ -36,7 +44,7 @@ public class RmsCorporateUserAct {
 	private PwdEncoder pwdEncoder;
 
 	//查询方法(首次查询)
-	@RequiresPermissions({"admin:company:query"})
+	@RequiresPermissions({"admin:corporateUser:query"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
@@ -48,7 +56,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//通用的查询方法(输入搜索词查询)
-	@RequiresPermissions({"admin:company:query"})
+	@RequiresPermissions({"admin:corporateUser:query"})
 	@RequestMapping("/v_list.do")
 	public  String   pagelist(Integer pageSize,Integer pageNo,String username,
 			HttpServletRequest request,HttpServletResponse response,
@@ -65,7 +73,7 @@ public class RmsCorporateUserAct {
 	}
 
 	//查看某一条数据详细信息的方法
-	@RequiresPermissions({"admin:company:view"})
+	@RequiresPermissions({"admin:corporateUser:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -86,7 +94,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//编辑某一条数据的方法，提交后将修改数据库信息
-	@RequiresPermissions({"admin:company:edit"})
+	@RequiresPermissions({"admin:corporateUser:edit"})
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  id,
@@ -113,7 +121,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//删除方法
-	@RequiresPermissions({"admin:company:del"})
+	@RequiresPermissions({"admin:corporateUser:del"})
 	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public void delete(HttpServletRequest request,HttpServletResponse response,Long userId) throws JSONException{
 
@@ -152,7 +160,7 @@ public class RmsCorporateUserAct {
 	}
 	
 	//保存企业用户到RmsUser和RmsCorporateUser表中
-	@RequiresPermissions({"admin:company:add"})
+	@RequiresPermissions({"admin:corporateUser:add"})
 	@RequestMapping(value={"/save.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public  String   save(
 			String  username,
@@ -186,4 +194,21 @@ public class RmsCorporateUserAct {
 		return "redirect:/admin/rmsCorporateUser/list.do";
 	}
 	
+	//保存企业用户到RmsUser和RmsCorporateUser表中
+	@RequestMapping(value={"/leftUserList.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
+	public  ModelAndView   leftUserList(HttpServletRequest request,HttpServletResponse response,
+			ModelMap model){
+		
+		List<RmsCorporateUser> list = service.query();
+		Map map = new HashMap();
+		List<Map> list2 = new ArrayList<Map>();		
+		for(int i=0;i<list.size();i++){
+			Map map2 = new HashMap();
+			map2.put("corporateName", list.get(i).getCorporateName());
+			map2.put("userId", list.get(i).getUserId());
+			list2.add(map2);
+		}	
+		map.put("cool", list2);		
+		return new ModelAndView(new MappingJackson2JsonView(),map);
+	}
 }

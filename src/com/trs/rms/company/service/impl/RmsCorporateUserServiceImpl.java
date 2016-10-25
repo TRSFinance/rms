@@ -4,9 +4,11 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.trs.rms.base.dao.IDao;
 import com.trs.rms.base.page.Param;
 import com.trs.rms.base.service.BasicServicveImpl;
@@ -23,6 +25,13 @@ public class RmsCorporateUserServiceImpl extends BasicServicveImpl implements Rm
 		super.setDao(dao);
 	}
 
+	@Override
+	public List<RmsCorporateUser> query(){
+		@SuppressWarnings("unchecked")
+		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from RmsCorporateUser rcu where rcu.rmsUser.userType=2");		
+		return list;		
+	}
+		
 	@Transactional(readOnly=true)
 	public boolean isExist(String username,String corporateUserName) {
 		List<Param>  paramList=new ArrayList<Param>();

@@ -7,8 +7,6 @@ import com.trs.rms.company.bean.RmsCorporateUser;
 
 public interface RmsCompanyInfoService extends BasicService {
 
-	List<RmsCorporateUser> query();
-	
 	boolean insertFiletoDb(HttpServletRequest request,String savepath,String uuidname,Long userId);
 
 	void deleteRmsCorporateCust(Long custId, Long publicUserId);

@@ -38,13 +38,6 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 	public  void  setMyDao(IDao dao){
 		super.setDao(dao);
 	}
-	
-	@Override
-	public List<RmsCorporateUser> query(){
-		@SuppressWarnings("unchecked")
-		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from RmsCorporateUser rcu where rcu.rmsUser.userType=2");		
-		return list;		
-	}
 
 	@Override
 	public boolean insertFiletoDb(HttpServletRequest request, String savepath,
