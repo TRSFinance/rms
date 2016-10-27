@@ -14,12 +14,15 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.trs.rms.test.bean.RmsTest;
 import com.trs.rms.test.page.RmsTestPage;
+import com.trs.rms.test.service.RMSTestONEService;
 import com.trs.rms.test.service.RmsTestService;
 import com.trs.rms.test.service.RmsTestServices;
 @Controller
 public class RmsTestAct extends AbstractController {
 	@Autowired
 	private  RmsTestServices rmsTestService;
+	@Autowired
+	private  RMSTestONEService ckmService;
 	@Autowired
 	private  RmsTestPage     page;
 	@Override
@@ -36,13 +39,14 @@ public class RmsTestAct extends AbstractController {
 public   String    test(){
 	
 	System.out.println("我是控制层！");
-	//rmsTestService.test();
-	RmsTest  rmsTest=new RmsTest();
-	rmsTest.setName("测试");
-	rmsTestService.save(rmsTest);
-	rmsTest.setId(1L);
-	rmsTest.setName("我是修改");
-	rmsTestService.update(rmsTest);
+	try {
+		ckmService.test();
+
+	} catch (Exception e) {
+e.printStackTrace();	}
+	
+	
+	
 
 	List list = page.queryObjectsToPages();
 

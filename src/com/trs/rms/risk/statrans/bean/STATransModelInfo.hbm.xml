@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.trs.rms.risk.statrans.bean.STATransModelInfo" table="statrans_model">
+		<id column="id" name="id">
+			<generator class="native" />
+		</id>
+		<property column="transType" name="transType" length="1024" type="java.lang.String" />
+		<property column="transModelGroupName" name="transModelGroupName" length="1024" type="java.lang.String" />
+		<property column="transModelTag" name="transModelTag" type="java.lang.Integer" />
+		<property column="vmTemplate" name="vmTemplate" type="text" />
+		<property column="initConfig" name="initConfig" type="text" />
+	</class>
+</hibernate-mapping>
