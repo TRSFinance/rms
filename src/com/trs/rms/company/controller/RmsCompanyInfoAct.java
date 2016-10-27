@@ -29,7 +29,7 @@ import com.trs.rms.company.bean.RmsCompanyInfo;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.page.RmsCompanyPage;
 import com.trs.rms.company.service.RmsCompanyInfoService;
-
+ 
 @Controller
 @RequestMapping("/rmsCompanyInfo")
 public class RmsCompanyInfoAct {
