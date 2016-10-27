@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.trs.rms.risk.statrans.bean.STATransInfo" table="statrans">
+		<id column="id" name="id">
+			<generator class="native" />
+		</id>
+		<property column="transId" name="transId" type="java.lang.Integer" />
+		<property column="transCheckCode" name="transCheckCode" length="1024" type="java.lang.String" />
+		<property column="transName" name="transName" length="1024" type="java.lang.String" />
+		<property column="transDefine" name="transDefine" length="1024" type="java.lang.String" />
+		<property column="transType" name="transType" length="1024" type="java.lang.String" />
+		<property column="transDAType" name="transDAType" length="1024" type="java.lang.String" />
+		<property column="transCreator" name="transCreator" length="1024" type="java.lang.String" />
+		<property column="transCreationTime" name="transCreationTime" type="java.util.Date" />
+		<property column="transLatestModifyTime" name="transLatestModifyTime" type="java.util.Date" />
+		<property column="transSubTag" name="transSubTag" type="java.lang.Integer" />
+		<property column="transDelable" name="transDelable" type="java.lang.Integer" />
+		<property column="transGroupTag" name="transGroupTag" type="java.lang.Integer" />
+		<property column="transModelId" name="transModelId" type="java.lang.Integer" />
+		<property column="transSourceDBTag" name="transSourceDBTag" type="java.lang.Integer" />
+		<property column="transStorageDBTag" name="transStorageDBTag" type="java.lang.Integer" />
+		<property column="transPkey" name="transPkey" type="java.lang.String" />
+		<property column="transSTAServerInfo" name="transSTAServerInfo" type="java.lang.String" />
+		<property column="transConfig" name="transConfig" type="text" />
+	</class>
+</hibernate-mapping>
