@@ -9,21 +9,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.trs.rms.base.dao.IDao;
 import com.trs.rms.base.page.Param;
 import com.trs.rms.base.service.BasicServicveImpl;
@@ -33,47 +29,19 @@ import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.service.RmsCompanyInfoService;
 import com.trs.rms.usermgr.bean.RmsUser;
 import com.trs.rms.usermgr.controller.RmsRoleAct;
+
 @Service
 @Transactional
 public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyInfoService{
-
 	
 	@Autowired
 	public  void  setMyDao(IDao dao){
 		super.setDao(dao);
 	}
-	
-	@Override
-	public List<RmsCorporateUser> list(){
-		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from RmsCorporateUser rcu where rcu.rmsUser.userType=2");		
-		return list;		
-	}
-
-	@Override
-	public long getUserId() {		
-		System.out.println("查询用户的id");
-		String username = "";
-		List<RmsUser> list = dao.query("from rms_user where loginName="+username);
-		return list.get(0).getUserId();		
-	}
-
-	@Override
-	public void updateData(List list) {
-		System.out.println("我来了");
-		String sql = "update rms_company_info set CUST_CFNAME=?,CUST_CSNAME=?, "+
-		"CUST_INDUSTRY1=?,CUST_INDUSTRY2=? where CUST_ID=?";	
-		dao.updateSql(sql, list);		
-	}
-
-	@Override
-	public void add(Collection c) {
-		dao.save(c);		
-	}
 
 	@Override
 	public boolean insertFiletoDb(HttpServletRequest request, String savepath,
-			String uuidname,Long userId) {
-		
+			String uuidname,Long userId) {		
 		if(userId==null){
 			return false;
 		}
@@ -107,31 +75,28 @@ public class RmsCompanyInfoImpl extends BasicServicveImpl implements RmsCompanyI
 				}else{
 					list.add("");
 				}					
-			}
-			
+			}			
 			//判断是否已经存在于RmsCorporateCust表中了
 			int z=0;
 			Long custId = null;
-			List<RmsCorporateCust> list3 = dao.query(" from com.trs.rms.company.bean.RmsCorporateCust rcu where rcu.corporateUser.userId="+userId);
-			for(int k=0;k<list3.size();k++){
-				if(list3.get(k).getCompanyInfo().getCustCfname().equals(list.get(0))){	
-					z++;
-					break;
-				}		
-			}	
+			List<Param> Paramlist = new ArrayList<Param>();		
+			Paramlist.add(new Param(Types.BIGINT,userId));
+			Paramlist.add(new Param(Types.VARCHAR,list.get(0).trim()));
+			@SuppressWarnings("unchecked")
+			List<RmsCorporateCust> list3 = dao.query(" from com.trs.rms.company.bean.RmsCorporateCust rcu where rcu.corporateUser.userId=? and rcu.companyInfo.custCfname=?",Paramlist);
 			//已存在RmsCorporateCust表中，结束本次流程，进入下一次循环。
-			if(z>0){
+			if(list3!=null&&list3.size()>0){
 				continue;
-			}				
+			}							
 			//不在RmsCorporateCust表中，判断是否在RmsCompanyInfo表中
-			List<RmsCompanyInfo> list2 = dao.query(" from com.trs.rms.company.bean.RmsCompanyInfo");			
-			for(int j=0;j<list2.size();j++){
-				if(list2.get(j).getCustCfname().equals(list.get(0))){	
-					z++;
-					custId = list2.get(j).getCustId();
-					break;
-				}		
-			}	
+			List<Param> Paramlist2 = new ArrayList<Param>();		
+			Paramlist2.add(new Param(Types.VARCHAR,list.get(0).trim()));
+			@SuppressWarnings("unchecked")
+			List<RmsCompanyInfo> list2 = dao.query(" from com.trs.rms.company.bean.RmsCompanyInfo rci where rci.custCfname=?",Paramlist2);			
+			if(list2!=null&&list2.size()>0){
+				z++;
+				custId = list2.get(0).getCustId();
+			}
 			//不在RmsCorporateCust表中，也不在RmsCompanyInfo表中
 			if(z==0){
 				RmsCompanyInfo rci = new RmsCompanyInfo();						

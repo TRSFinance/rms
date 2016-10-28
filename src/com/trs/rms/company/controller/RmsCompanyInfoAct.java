@@ -3,28 +3,17 @@ package com.trs.rms.company.controller;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Types;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -33,22 +22,14 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.trs.rms.base.page.Param;
-import com.trs.rms.base.util.SysUtils;
 import com.trs.rms.company.bean.RmsCompanyInfo;
-import com.trs.rms.company.bean.RmsCorporateCust;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.page.RmsCompanyPage;
-import com.trs.rms.company.page.RmsCorporateUserPage;
 import com.trs.rms.company.service.RmsCompanyInfoService;
-import com.trs.rms.usermgr.bean.RmsUser;
-
+ 
 @Controller
 @RequestMapping("/rmsCompanyInfo")
 public class RmsCompanyInfoAct {
@@ -65,22 +46,24 @@ public class RmsCompanyInfoAct {
 
 	
 	//查询方法(首次查询)
-	@RequiresPermissions({"admin:role:test2"})
+	@RequiresPermissions({"admin:companyInfo:query"})
 	@RequestMapping("/list.do")
 	public  String   list(HttpServletRequest request,HttpServletResponse response,
 			ModelMap model,Long userId){
 		
 		publicUserId = userId;
 		page.setUserId(userId);	
+		page.setPageNo(1);
 		List list = page.queryObjectsToPages();
-		List<RmsCorporateUser> list2 = service.list();
+//		List<RmsCorporateUser> list2 = service.query();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		model.addAttribute("data2",list2);
+//		model.addAttribute("data2",list2);
 		return "company/companyInfo/list";
 	}
 
 	//查询方法(输入搜索词后的查询)
+	@RequiresPermissions({"admin:companyInfo:query"})
 	@RequestMapping("/v_list.do")
 	public  String   pagelist(Integer pageSize,Integer pageNo,String username,
 			HttpServletRequest request,HttpServletResponse response,
@@ -91,14 +74,15 @@ public class RmsCompanyInfoAct {
 		page.setPageNo(pageNo);
 		page.setSearchword(username);
 		List list = page.queryObjectsToPages();
-		List<RmsCorporateUser> list2 = service.list();
+//		List<RmsCorporateUser> list2 = service.query();
 		model.addAttribute("page", page);
 		model.addAttribute("data", list);
-		model.addAttribute("data2",list2);
+//		model.addAttribute("data2",list2);
 		return "company/companyInfo/list";
 	}
 
 	//查看某一条数据详细信息的方法
+	@RequiresPermissions({"admin:companyInfo:view"})
 	@RequestMapping("/view.do")
 	public  String   view(Long  id,
 			HttpServletRequest request,HttpServletResponse response,
@@ -119,38 +103,44 @@ public class RmsCompanyInfoAct {
 	}
 	
 	//编辑某一条数据的方法，提交后将修改数据库信息
+	@RequiresPermissions({"admin:companyInfo:edit"})
 	@RequestMapping(value={"/edit.do"}, method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public   String   edit(
 			Long  custid,
 			String  custCfname,
-			String  custIndustry2,
+			String  custCsname,
 			Integer dataSource,
 			Integer  state, 
 			HttpServletRequest request,HttpServletResponse response,
 			ModelMap model){
-		
+			
 		RmsCompanyInfo compInfo=(RmsCompanyInfo) service.queryById(RmsCompanyInfo.class, custid);
 		if(compInfo!=null){
 	    	compInfo.setChangeTime(new Date());
 	    	compInfo.setCustCfname(custCfname);
-	    	compInfo.setCustIndustry2(custIndustry2);
+	    	compInfo.setCustCsname(custCsname);
 	    	compInfo.setDataSource(dataSource);
 	    	compInfo.setState(state);
 			service.update(compInfo);
 		}
+		if(publicUserId==null){
+			return "redirect:/admin/rmsCompanyInfo/list.do";		
+		}	
 		return "redirect:/admin/rmsCompanyInfo/list.do?userId="+publicUserId;
 	}
 	
 	//删除方法
+	@RequiresPermissions({"admin:companyInfo:del"})
 	@RequestMapping(value={"/delete.do"}, method={org.springframework.web.bind.annotation.RequestMethod.GET})
 	public String delete(HttpServletRequest request,HttpServletResponse response,Long custId){
+
+		service.deleteRmsCorporateCust(custId,publicUserId);	
 		
-		service.deleteRmsCorporateCust(custId,publicUserId);
-	
 		return "redirect:/admin/rmsCompanyInfo/list.do";
 	}
 	
 	//上传文件
+	@RequiresPermissions({"admin:companyInfo:upload"})
 	@RequestMapping(value=("/upload.do"),method={org.springframework.web.bind.annotation.RequestMethod.POST})
 	public void filetodb(HttpServletRequest request,HttpServletResponse response,Long userId){
 		//System.out.println("准备上传文件");
@@ -169,13 +159,14 @@ public class RmsCompanyInfoAct {
 		String savepath = "";
 		// 解析请求request
 		try {
+			@SuppressWarnings("unchecked")
 			List<FileItem> fileItems = fileUpload.parseRequest(request);
 			// 遍历每个FileItem
 			for (FileItem fileItem : fileItems) {			
 				// 判断fileItem是否为文件上传
 				if (fileItem.isFormField()) {
 					// 不是上传项
-					String name = fileItem.getFieldName();						
+					//String name = fileItem.getFieldName();						
 				} else {
 					// 是上传项
 					// 判断用户有没有上传

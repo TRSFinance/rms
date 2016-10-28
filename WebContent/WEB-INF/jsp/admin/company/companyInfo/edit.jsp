@@ -53,7 +53,7 @@
                             <span class="label-default label label-default">企业全称</span>
                         </td>
                         <td>
-                        	<input type="text"   name="custCfname" value=" ${compInfo.custCfname }" class="form-control">
+                        	<input type="text"   name="custCfname" value="${compInfo.custCfname }" class="form-control">
                         </td>                       
                     </tr>
                     
@@ -63,7 +63,7 @@
                             <span class="label-success label label-default">企业简称及相关关键词</span>
                         </td>
                         <td>　
-                        <input type="text"   name="custCsname" value=" ${compInfo.custCsname }" class="form-control">
+                        <input type="text"   name="custCsname" value="${compInfo.custCsname }" class="form-control">
                        </td>
                     </tr>
                     

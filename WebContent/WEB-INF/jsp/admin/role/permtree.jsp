@@ -30,6 +30,7 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 				  checked:true
 				  </c:if>
 			      },
+			     
 			      {id:"admin:user:query",name:"查询",pId:"admin:user:mgr"
 					  <c:if test="${fn:contains(perms,'admin:user:query')}">,	      
 					  checked:true
@@ -55,8 +56,10 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 					  <c:if test="${fn:contains(perms,'admin:user:del')}">,	      
 					  checked:true
 					  </c:if>
-				      }
-				      ,
+				      },
+				      
+				     
+				      
 				      {id:"admin:role:mgr",name:"角色管理",pId:"admin:system:mgr"
 					  <c:if test="${fn:contains(perms,'admin:role:mgr')}">,	      
 					  checked:true
@@ -127,7 +130,73 @@ var znodes = [{id:"admin:workspace:index,admin:workspace:right",name:"所有权�
 									  <c:if test="${fn:contains(perms,'admin:group:deluser')}">,	      
 									  checked:true
 									  </c:if>
-								      }
+								      },
+								      
+								      {id:"admin:corporate:mgr",name:"企业管理",pId:"admin:workspace:index,admin:workspace:right"
+										  <c:if test="${fn:contains(perms,'admin:corporate:mgr')}">,	      
+										  checked:true
+										  </c:if>
+									      },	
+								      {id:"admin:corporateUser:mgr",name:"企业用户管理",pId:"admin:corporate:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:mgr')}">,	      
+										  checked:true
+										  </c:if>
+								      	},
+								      {id:"admin:corporateUser:query",name:"查询",pId:"admin:corporateUser:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:query')}">,	      
+										  checked:true
+										  </c:if>
+									      },
+								      {id:"admin:corporateUser:add",name:"添加",pId:"admin:corporateUser:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:add')}">,	      
+										  checked:true
+										  </c:if>
+									      },
+								      {id:"admin:corporateUser:view",name:"查看",pId:"admin:corporateUser:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:view')}">,	      
+										  checked:true
+										  </c:if>
+									      },
+								      {id:"admin:corporateUser:edit",name:"修改",pId:"admin:corporateUser:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:edit')}">,	      
+										  checked:true
+										  </c:if>
+									      },
+								      {id:"admin:corporateUser:del",name:"删除",pId:"admin:corporateUser:mgr"
+										  <c:if test="${fn:contains(perms,'admin:corporateUser:del')}">,	      
+										  checked:true
+										  </c:if>
+									      },
+									      {id:"admin:companyInfo:mgr",name:"企业名单管理",pId:"admin:corporate:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:mgr')}">,	      
+											  checked:true
+											  </c:if>
+									      },
+									      {id:"admin:companyInfo:query",name:"查询",pId:"admin:companyInfo:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:query')}">,	      
+											  checked:true
+											  </c:if>
+										      },
+									      {id:"admin:companyInfo:upload",name:"上传",pId:"admin:companyInfo:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:upload')}">,	      
+											  checked:true
+											  </c:if>
+										      },
+									      {id:"admin:companyInfo:view",name:"查看",pId:"admin:companyInfo:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:view')}">,	      
+											  checked:true
+											  </c:if>
+										      },
+									      {id:"admin:companyInfo:edit",name:"修改",pId:"admin:companyInfo:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:edit')}">,	      
+											  checked:true
+											  </c:if>
+										      },
+									      {id:"admin:companyInfo:del",name:"删除",pId:"admin:companyInfo:mgr"
+											  <c:if test="${fn:contains(perms,'admin:companyInfo:del')}">,	      
+											  checked:true
+											  </c:if>
+										      }
 		      
 		      ];
 </script>
