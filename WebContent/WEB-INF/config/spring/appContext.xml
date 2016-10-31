@@ -77,6 +77,15 @@
              <value>com/trs/rms/usermgr/bean/RmsUser.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUserLog.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUserRole.hbm.xml</value>
+               <!-- STA-->
+             <value>com/trs/rms/risk/statrans/bean/STATransConfInfo.hbm.xml</value>
+             <value>com/trs/rms/risk/statrans/bean/STATransInfo.hbm.xml</value>
+             <value>com/trs/rms/risk/statrans/bean/STATransModelInfo.hbm.xml</value>
+               <!-- MAIL-->
+             <value>com/trs/rms/mail/bean/MailBean.hbm.xml</value>
+             <value>com/trs/rms/mail/bean/MailConfigBean.hbm.xml</value>
+                      
+             
                   
             </list>
          </property>

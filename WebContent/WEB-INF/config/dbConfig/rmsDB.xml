@@ -4,7 +4,7 @@
 <!-- DB -->
 <entry key="hibernate.connection.username">root</entry>
 <entry key="hibernate.connection.password">trsadmin</entry>
-<entry key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</entry>
+<entry key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</entry>
 <entry key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</entry>
 <entry key="hibernate.connection.manager.url">jdbc:mysql://127.0.0.1:3308/rms</entry><!-- 管理库的url -->
 <entry key="trsdbcp.testSQL">select 1</entry>

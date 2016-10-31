@@ -3,9 +3,9 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.trs.rms.risk.statrans.bean.STATransInfo" table="statrans">
-		<id column="id" name="id">
+         <id column="id" name="id" type="java.lang.Long">
 			<generator class="native" />
-		</id>
+		</id>		
 		<property column="transId" name="transId" type="java.lang.Integer" />
 		<property column="transCheckCode" name="transCheckCode" length="1024" type="java.lang.String" />
 		<property column="transName" name="transName" length="1024" type="java.lang.String" />

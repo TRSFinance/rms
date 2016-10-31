@@ -6,7 +6,7 @@ import java.util.Date;
  * STA任务信息
  *
  * @author clinzy 2012-3-15
- * @author 邹许红       2016/10/27
+ * @author 邹许红       2016-10-27
  *
  */
 public class STATransInfo {

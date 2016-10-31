@@ -5,6 +5,7 @@ package com.trs.rms.risk.statrans.bean;
  * STA或DAS服务器配置信息
  *
  * @author clinzy 2012-3-28
+ * @author 邹许红      2016-10-28
  *
  */
 public class STATransConfInfo {

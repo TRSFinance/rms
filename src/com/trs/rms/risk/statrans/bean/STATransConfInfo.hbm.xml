@@ -3,7 +3,7 @@
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.trs.rms.risk.statrans.bean.STATransConfInfo" table="statrans_conf">
-		<id column="id" name="id">
+		<id  name="id" column="id" type="java.lang.Long">
 			<generator class="native" />
 		</id>
 		<property column="transConfType" name="transConfType" type="java.lang.String" />

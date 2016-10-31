@@ -4,7 +4,7 @@ package com.trs.rms.risk.statrans.bean;
  * STA任务模板信息
  *
  * @author clinzy 2012-3-20
- * @author 邹许红      2016/10/27
+ * @author 邹许红      2016-10-27
  *
  */
 public class STATransModelInfo {
