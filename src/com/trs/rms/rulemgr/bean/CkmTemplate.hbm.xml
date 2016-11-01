@@ -21,7 +21,7 @@
   <set lazy="false" name="servers"  sort="unsorted" table="ckmtemplate_das">
 <!--      <cache include="all" usage="nonstrict-read-write"/> -->
      <key column="templateId"/>
-     <many-to-many class="com.trs.rms.rulemgr.bean.STATransConfInfo" column="dasId" unique="false"/>
+     <many-to-many class="com.trs.rms.risk.statrans.bean.STATransConfInfo" column="dasId" unique="false"/>
   </set>
  </class>
 </hibernate-mapping>

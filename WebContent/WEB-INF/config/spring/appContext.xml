@@ -92,10 +92,6 @@
              <value>com/trs/rms/rulemgr/bean/CkmRule.hbm.xml</value>
              <value>com/trs/rms/rulemgr/bean/CkmRuleFrequency.hbm.xml</value>
              <value>com/trs/rms/rulemgr/bean/CkmTemplate.hbm.xml</value> 
-             <value>com/trs/rms/rulemgr/bean/STATransConfInfo.hbm.xml</value> 
-<!--              <value>com/trs/rms/rulemgr/bean/CompanyAlarmLevel.hbm.xml</value>  -->
-                  
-
                   
             </list>
          </property>

@@ -36,5 +36,10 @@
 	   <!-- 扫描分页 --> 
 	<context:component-scan base-package="com.trs.rms.rulemgr.page">
 	</context:component-scan>
+	<!-- 扫描Service层 -->
+    <context:component-scan base-package="com.trs.rms.rulemgr.service">
+	</context:component-scan>
+	<context:component-scan base-package="com.trs.rms.rulemgr.service.impl">
+	</context:component-scan>
 	
 </beans>
