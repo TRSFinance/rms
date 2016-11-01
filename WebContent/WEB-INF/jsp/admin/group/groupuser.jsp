@@ -89,6 +89,7 @@
 										<thead>
 											<!--  表头信息开始  -->
 											<tr>
+											
 												<th><input type="checkbox" value="-1">全选</th>
 												<th>用户名称</th>
 												<th>登录用户名</th>
