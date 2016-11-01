@@ -108,7 +108,7 @@
 							<div class="box-inner" id="com-list">
 <!-- 								<div class="com-add"><button class="btn-comlist">添加同级类</button><button class="btn-comlist">添加子类</button><button class="btn-comlist">修改分类名称</button><button>删除分类</button><button>添加规则</button><button>批量删除规则</button><button>返回模板列表</button></div> -->
 								<div class="box-content" >
-									<div class="col-md-3">
+									<div class="col-md-3"  >
 										<ul id="tree" class="ztree"></ul>
 									</div>
 									<div class="col-md-9 rule_con"  style="margin-top:35px">

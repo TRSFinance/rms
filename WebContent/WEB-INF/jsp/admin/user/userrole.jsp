@@ -89,7 +89,7 @@
 										<thead>
 											<!--  表头信息开始  -->
 											<tr>
-												<th>序号</th>
+												<th><input type="checkbox" value="-1">全选</th>
 												<th>角色名称</th>
 												<th>创建时间</th>
 											</tr>
