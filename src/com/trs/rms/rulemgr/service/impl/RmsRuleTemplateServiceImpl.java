@@ -35,26 +35,27 @@ public class RmsRuleTemplateServiceImpl extends BasicServicveImpl implements Rms
 	}
 	
 	//未完待续
-	@Transactional(readOnly=true)
-	public boolean isExist(String username,String corporateUserName) {
-		List<Param>  paramList=new ArrayList<Param>();
-		String  hql="  FROM  com.trs.rms.company.bean.RmsCorporateUser rcu where  rcu.rmsUser.loginName=? or rcu.corporateName=?";
-		paramList.add(new Param(Types.VARCHAR, username.trim()));
-		paramList.add(new Param(Types.VARCHAR, corporateUserName.trim()));
-		@SuppressWarnings("unchecked")
-		List<RmsCorporateUser> list = dao.query(hql, paramList);
-		if(list==null||list.size()==0)
-		return false;
-		return  true;
-	}
+//	@Transactional(readOnly=true)
+//	public boolean isExist(String username,String corporateUserName) {
+//		List<Param>  paramList=new ArrayList<Param>();
+//		String  hql="  FROM  com.trs.rms.company.bean.RmsCorporateUser rcu where  rcu.rmsUser.loginName=? or rcu.corporateName=?";
+//		paramList.add(new Param(Types.VARCHAR, username.trim()));
+//		paramList.add(new Param(Types.VARCHAR, corporateUserName.trim()));
+//		@SuppressWarnings("unchecked")
+//		List<RmsCorporateUser> list = dao.query(hql, paramList);
+//		if(list==null||list.size()==0)
+//		return false;
+//		return  true;
+//	}
+//
+//	@Override
+//	public void saveCorporateUser(RmsUser rmsUser, String corporateUserName,
+//			String tel, String mobile, String email, String _info) {		
+//		dao.save(rmsUser);		
+//		RmsCorporateUser rmsCorporateUser = new RmsCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info,new Date(),new Date());
+//		dao.save(rmsCorporateUser);	
+//	}
 
-	@Override
-	public void saveCorporateUser(RmsUser rmsUser, String corporateUserName,
-			String tel, String mobile, String email, String _info) {		
-		dao.save(rmsUser);		
-		RmsCorporateUser rmsCorporateUser = new RmsCorporateUser(rmsUser,corporateUserName,tel,mobile,email,_info,new Date(),new Date());
-		dao.save(rmsCorporateUser);	
-	}
 
 
 

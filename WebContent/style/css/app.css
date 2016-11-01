@@ -589,8 +589,8 @@ ul.github-buttons li {
 /*网站管理*/
 .com-add button{ margin-right: 7px;}
 
-/*规则分类维护
-/*ul.ztree {margin-top: 30px;width:220px;max-height:550px;overflow-y:auto; overflow-x: auto;}*/
+/*规则分类维护*/
+/* .ruleztree {margin-top: 30px;width:220px;max-height:550px;overflow-y:auto; overflow-x: auto;} */
 .rule_con .dataTables_filter{ visibility: hidden;}
 
 

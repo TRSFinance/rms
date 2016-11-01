@@ -109,9 +109,9 @@
 <!-- 								<div class="com-add"><button class="btn-comlist">添加同级类</button><button class="btn-comlist">添加子类</button><button class="btn-comlist">修改分类名称</button><button>删除分类</button><button>添加规则</button><button>批量删除规则</button><button>返回模板列表</button></div> -->
 								<div class="box-content" >
 									<div class="col-md-3"  >
-										<ul id="tree" class="ztree"></ul>
+										<ul id="tree" class="ztree" style="margin-top: 30px;width:220px;max-height:550px;overflow-y:auto; overflow-x: auto;"></ul>
 									</div>
-									<div class="col-md-9 rule_con"  style="margin-top:35px">
+									<div class="col-md-9 rule_con"  style="margin-top:30px">
 										<table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
 											<thead>
 												<!--  表头信息开始  -->

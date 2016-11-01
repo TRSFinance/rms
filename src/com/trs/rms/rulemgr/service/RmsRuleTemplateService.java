@@ -11,10 +11,10 @@ public interface RmsRuleTemplateService  extends BasicService{
 
 	List<CkmTemplate> query();
 	//未完待续
-	boolean isExist(String username,String corporateUserName);
-
-	 void saveCorporateUser(RmsUser rmsUser, String corporateUserName,
-			String tel, String mobile, String email, String _info);
+//	boolean isExist(String username,String corporateUserName);
+//
+//	 void saveCorporateUser(RmsUser rmsUser, String corporateUserName,
+//			String tel, String mobile, String email, String _info);
 	 
 	
 }

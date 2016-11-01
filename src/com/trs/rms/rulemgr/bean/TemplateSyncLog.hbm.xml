@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.trs.rms.rulemgr.bean.TemplateSyncLog" table="template_sync_log">
+  <id name="id">
+   <generator class="native"/>
+  </id>
+  <property generated="never" lazy="false" name="templateId" type="long" not-null="true"/>
+  <property generated="never" lazy="false" name="dasId" type="long" not-null="true"/>
+  <property generated="never" lazy="false" name="userId" type="long" not-null="true"/>
+  <property generated="never" lazy="false" name="syncTime" type="timestamp" not-null="true"/>
+  <property generated="never" lazy="false" name="successTime" type="timestamp"/>
+  <property generated="never" lazy="false" name="failureTime" type="timestamp"/>
+  <property generated="never" lazy="false" name="failure" type="string"/>
+  <property generated="never" lazy="false" name="ip" type="string"/>
+ </class>
+</hibernate-mapping>

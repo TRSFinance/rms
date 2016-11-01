@@ -5,6 +5,18 @@
 
 <html lang="en">
 
+	<head>
+		<meta charset="utf-8">
+		<title>网站管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- The styles -->
+		 <%@include file="../../../common/jscss.jsp" %>
+		<!-- The fav icon -->
+		<link rel="shortcut icon" href="img/favicon1.ico">
+
 <style type="text/css">
 	.breadcrumb button{ margin-right: 7px;}
 </style>
@@ -12,7 +24,7 @@
 <script type="text/javascript">
 
 	$(document).ready(function(){
-		
+		$("#pageSize").val("${page.pageSize}");
 		
 		 var obj=$("#searchword");  
          obj.keyup(function(event){
@@ -31,20 +43,34 @@ function  query(){
 	   $("#data").submit();
  }
 
+	function  dels(obj){
+	
+		$("#delid").val(obj);
+		$('#warnModal').modal('show');
+
+    }
+
+	 function  del(){
+         $('#warnModal').modal('hide');
+      	 var  delid=$("#delid").val();
+      	 $.ajax({
+   			url:'<%=ctx%>/admin/ruleTemplate/delete.do?random='+Math.random(),
+   			type:"POST",
+   			cache:false,
+   			dataType:"json",
+   			data:{'id':delid},
+   			success:function(data){
+   				if(data.success){
+   					window.location.href="<%=ctx%>/admin/ruleTemplate/list.do";
+   				}
+   			},
+   			error:function(){
+   				alert("ssssss");
+   			}
+   		});
+   	 }
 
 </script>
-
-	<head>
-		<meta charset="utf-8">
-		<title>网站管理</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<!-- The styles -->
-		 <%@include file="../../../common/jscss.jsp" %>
-		<!-- The fav icon -->
-		<link rel="shortcut icon" href="img/favicon1.ico">
 
 	</head>
 
@@ -133,18 +159,15 @@ function  query(){
 														<td>${ ruleTempalate.fieldName}</td>
 														<td>${ ruleTempalate.lastModified}</td>
 														<td>${ ruleTempalate.syncStatus}</td>
-														<td>${ ruleTempalate.lastSyncTime}</td>
-														
-														
-														
+														<td>${ ruleTempalate.lastSyncTime}</td>														
 														<td class="center font-right">
-															<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/rmsCorporateUser/view.do?id=${ RmsCorporateUsers.userId}" target="_blank">
+															<a class="btn btn-success btn-sm" href="<%=ctx%>/admin/ruleTemplate/view.do?id=${ ruleTempalate.id}" target="_blank">
 																<i class="glyphicon glyphicon-zoom-in icon-white"></i>查看
 															</a>
-															<a class="btn btn-info btn-sm btn-setting" href="<%=ctx%>/admin/rmsCorporateUser/v_edit.do?id=${ RmsCorporateUsers.userId}" target="_blank">
+															<a class="btn btn-info btn-sm btn-setting" href="<%=ctx%>/admin/ruleTemplate/v_edit.do?id=${ruleTempalate.id}" target="_blank">
 																<i class="glyphicon glyphicon-edit icon-white"></i>修改
 															</a>
-															<a class="btn btn-danger btn-sm btn-warn" onclick="dels(${ RmsCorporateUsers.userId})">
+															<a class="btn btn-danger btn-sm btn-warn" onclick="dels(${ ruleTempalate.id})">
 																<i class="glyphicon glyphicon-trash icon-white"></i>删除
 															</a>
 														</td>
@@ -226,6 +249,34 @@ function  query(){
 		        </div>
 		    </div>
 		    <!-- 导入企业名单浮层结束-->
+		
+		   <!-- 提示浮层开始-->
+			<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		         aria-hidden="true">
+		
+		        <div class="modal-dialog">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <button type="button" class="close" data-dismiss="modal">×</button>
+		                    <h3>提示信息</h3>
+		                </div>
+		                <div class="modal-body">
+		                <input  type="hidden"  id="delid"  value="">
+		                    <p>你将要删除此用户？</p>
+		                </div>
+		                <div class="modal-footer">
+		                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+		                    <a href="#" class="btn btn-primary"  onclick="del()">确定</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <!-- 提示浮层结束-->    
+		    
+		    
+		    
+		    
+		    
 		    
 			<%@include file="../../../common/foot.jsp" %>
 
