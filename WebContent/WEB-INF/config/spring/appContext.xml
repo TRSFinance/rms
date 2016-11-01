@@ -26,13 +26,12 @@
 	<bean id="hibernateProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
-			<list>
-			    
+			<list>			    
 				<value>WEB-INF/config/dbConfig/hibernateCommon.xml</value>
 				<value>WEB-INF/config/dbConfig/rmsDB.xml</value>
 			</list>
 		</property>
-	</bean>
+	</bean> 
 
  <bean id="dataSourceManager" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
@@ -77,6 +76,7 @@
              <value>com/trs/rms/usermgr/bean/RmsUser.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUserLog.hbm.xml</value>
              <value>com/trs/rms/usermgr/bean/RmsUserRole.hbm.xml</value>
+
                <!-- STA-->
              <value>com/trs/rms/risk/statrans/bean/STATransConfInfo.hbm.xml</value>
              <value>com/trs/rms/risk/statrans/bean/STATransInfo.hbm.xml</value>
@@ -86,6 +86,16 @@
              <value>com/trs/rms/mail/bean/MailConfigBean.hbm.xml</value>
                       
              
+
+             <!-- 规则维护 -->
+             <value>com/trs/rms/rulemgr/bean/CkmCategory.hbm.xml</value>
+             <value>com/trs/rms/rulemgr/bean/CkmRule.hbm.xml</value>
+             <value>com/trs/rms/rulemgr/bean/CkmRuleFrequency.hbm.xml</value>
+             <value>com/trs/rms/rulemgr/bean/CkmTemplate.hbm.xml</value> 
+             <value>com/trs/rms/rulemgr/bean/STATransConfInfo.hbm.xml</value> 
+<!--              <value>com/trs/rms/rulemgr/bean/CompanyAlarmLevel.hbm.xml</value>  -->
+                  
+
                   
             </list>
          </property>
