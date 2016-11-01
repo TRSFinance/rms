@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.trs.rms.rulemgr.bean.CkmRule" table="ckmrule">
+  <id name="id">
+   <generator class="native"/>
+  </id>
+  <property name="content" type="text"/>
+  <many-to-one class="com.trs.rms.rulemgr.bean.CkmCategory" column="categoryId"
+   name="category" not-null="true"/>
+ </class>
+</hibernate-mapping>

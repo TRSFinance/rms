@@ -135,7 +135,7 @@
 											</tr>
 											<!--  表头信息结束 -->
 										</thead>
-										<tbody id="liebiao">
+										<tbody>
 											<!--  任务循环开始  -->
 											 <c:if test="${!empty data}"> 
 										        <c:forEach items="${data}" var="RmsCorporateUsers" varStatus="status">

@@ -35,10 +35,10 @@
    
    <script type="text/javascript">
    
-   $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");     
-   $("#_usermgr").css("display","block");
-   $("#icondown2").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
-   $("#userList").css("display","block");
+//    $("#icondown").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");     
+//    $("#_usermgr").css("display","block");
+//    $("#icondown2").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+//    $("#userList").css("display","block");
    
    $(document).ready(function(){
    		$.ajax({
@@ -47,7 +47,7 @@
    			cache:false,
    			dataType:"json",
    			data:{},
-   			success:function(data){  				
+   			success:function(data){ 
 				for(var i=0;i<data.cool.length;i++){
 					var html = "";
 					html += "<li><a href="+"<%=request.getContextPath()%>"+"/admin/rmsCompanyInfo/list.do?userId="+data.cool[i].userId+">"+data.cool[i].corporateName+"</a></li>";					

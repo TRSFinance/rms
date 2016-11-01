@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="com.trs.rms.rulemgr.bean.CkmTemplate" table="ckmtemplate">
+  <id name="id">
+   <generator class="native"/>
+  </id>
+  <property generated="never" lazy="false" length="128" name="name"
+   not-null="true" type="string"/>
+  <property generated="never" lazy="false" name="classify" type="integer"/>
+  <property generated="never" lazy="false" name="maxRules" type="integer"/>
+  <property generated="never" lazy="false" name="lastModified" type="timestamp"/>
+  <property generated="never" lazy="false" length="64" name="fieldName" type="string"/>
+  <list cascade="all,delete-orphan" lazy="false" name="ruleFrequencys" table="ckmtemplate_ckmrulefrequency">
+   <key column="templateId"/>
+   <index/>
+   <many-to-many class="com.trs.rms.rulemgr.bean.CkmRuleFrequency"
+    column="ruleFrequencyId" lazy="false"/>
+  </list>
+  <set lazy="false" name="servers"  sort="unsorted" table="ckmtemplate_das">
+<!--      <cache include="all" usage="nonstrict-read-write"/> -->
+     <key column="templateId"/>
+     <many-to-many class="com.trs.rms.rulemgr.bean.STATransConfInfo" column="dasId" unique="false"/>
+  </set>
+ </class>
+</hibernate-mapping>

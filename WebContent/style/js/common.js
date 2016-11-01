@@ -15,10 +15,10 @@ $(document).ready(function () {
         $('#addUserModal').modal('show');
     }); 
      //提示浮层弹出
-//    $('.btn-warn').click(function (e) {
-//        e.preventDefault();
-//        $('#warnModal').modal('show');
-//    });
+    $('.btn-warn').click(function (e) {
+        e.preventDefault();
+        $('#warnModal').modal('show');
+    });
     //提示浮层弹出
     $('.btn-system').click(function (e) {
         e.preventDefault();
@@ -26,10 +26,10 @@ $(document).ready(function () {
     });    
     
     //保存浮层弹出
-//    $('.btn-save').click(function (e) {
-//        e.preventDefault();
-//        $('#saveModal').modal('show');
-//    });
+    $('.btn-save').click(function (e) {
+        e.preventDefault();
+        $('#saveModal').modal('show');
+    });
     $('#saveModal').on('show.bs.modal', function () {
 	   $('#addComUserModal,#systemModal,#addUserModal').css("z-index","100");
 	})
@@ -39,6 +39,7 @@ $(document).ready(function () {
     
     //下拉菜单
     $('.accordion > a').click(function (e) {
+    	var index1 = $(this).parent().index();
         e.preventDefault();
         var $ul = $(this).siblings('ul');
         var $li = $(this).parent();
@@ -46,18 +47,37 @@ $(document).ready(function () {
         	$li.removeClass('active');
         	//下拉箭头
         	$(this).children(".pull-right").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
+        	$.cookie("navstation" + index1, null, {path: "/"});
+        	//console.log(navstation)
         }
         else{
         	$li.addClass('active');
         	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
+        	$.cookie("navstation" + index1, $(this).text(), {path: "/"});
         }
         $ul.slideToggle();
+        
+    });
+    
+
+    $(".accordion > a").each(function(){
+    	for(var i=0;i<$('.accordion').length;i++){
+	        if($(this).text() == $.cookie("navstation" + i)){
+	        	$(this).siblings('ul').show();
+	        	$(this).parent().addClass('active');
+	        	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
+	        }	
+       }
+
     });
 
-   // $('.accordion li.active:first').parents('ul').slideDown();
+
+
+    $('.accordion li.active:first').parents('ul').slideDown();
     
     //下拉菜单
     $('.nav > li > .ajax-link').click(function (e) {
+    	var index1 = $(this).parent().index();
         e.preventDefault();
         var $dl = $(this).siblings('dl');
         var $li = $(this).parent();
@@ -67,18 +87,25 @@ $(document).ready(function () {
         
         if ($dl.is(':visible')){
         	$(this).children(".pull-right").removeClass("glyphicon-chevron-up").addClass("glyphicon-chevron-down");
-
-
+        	$.cookie("subnavstation" + index1, null, {path: "/"});
         }
         else{
         	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
         	$(this).addClass("active");
-
+        	$.cookie("subnavstation" + index1, $(this).text(), {path: "/"});
         }
         $dl.slideToggle();
     });
     
-   
+    $(".nav > li > .ajax-link").each(function(){
+    	for(var i=0;i<$('.ajax-link').length;i++){
+	        if($(this).text() == $.cookie("subnavstation" + i)){
+	        	$(this).siblings('dl').show();
+	        	$(this).children(".pull-right").addClass("glyphicon-chevron-up").removeClass("glyphicon-chevron-down");
+        	    $(this).addClass("active");
+	        }	
+       }
+    });
 
     //下拉菜单
     $('.nav > li > dl  a').click(function (e) {
@@ -88,7 +115,16 @@ $(document).ready(function () {
         $a.parent("li").siblings().children("a").removeClass("active");
     });
 
-   // docReady();
+    //全选/反选
+	$("table :checkbox:first").change(function(){
+	    $(this).closest("table")
+	           .find(":checkbox:not(:first)")
+	           .prop("checked", this.checked);
+	});
+
+//    docReady();
+    
+    
         
 });
 
@@ -203,6 +239,3 @@ $.extend($.fn.dataTableExt.oPagination, {
         }
     }
 });
-function closeWin(){
-   window.close();
-}

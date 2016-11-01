@@ -1,4 +1,4 @@
-package com.trs.rms.company.service.impl;
+package com.trs.rms.rulemgr.service.impl;
 
 import java.sql.Types;
 import java.util.ArrayList;
@@ -14,11 +14,13 @@ import com.trs.rms.base.page.Param;
 import com.trs.rms.base.service.BasicServicveImpl;
 import com.trs.rms.company.bean.RmsCorporateUser;
 import com.trs.rms.company.service.RmsCorporateUserService;
+import com.trs.rms.rulemgr.bean.CkmTemplate;
+import com.trs.rms.rulemgr.service.RmsRuleTemplateService;
 import com.trs.rms.usermgr.bean.RmsUser;
 
 @Service
 @Transactional
-public class RmsCorporateUserServiceImpl extends BasicServicveImpl implements RmsCorporateUserService{
+public class RmsRuleTemplateServiceImpl extends BasicServicveImpl implements RmsRuleTemplateService{
 	
 	@Autowired
 	public  void  setMyDao(IDao dao){
@@ -26,12 +28,13 @@ public class RmsCorporateUserServiceImpl extends BasicServicveImpl implements Rm
 	}
 
 	@Override
-	public List<RmsCorporateUser> query(){
+	public List<CkmTemplate> query(){
 		@SuppressWarnings("unchecked")
-		List<RmsCorporateUser> list = (List<RmsCorporateUser>) dao.query("from com.trs.company.bean.RmsCorporateUser rcu where rcu.rmsUser.userType=2");		
+		List<CkmTemplate> list = (List<CkmTemplate>) dao.query("from com.trs.rulemgr.bean.CkmTemplate");		
 		return list;		
 	}
-		
+	
+	//未完待续
 	@Transactional(readOnly=true)
 	public boolean isExist(String username,String corporateUserName) {
 		List<Param>  paramList=new ArrayList<Param>();
